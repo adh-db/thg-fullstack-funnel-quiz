@@ -2478,15 +2478,18 @@ document.getElementById('fq-next-btn').addEventListener('click', function() {
       showMilestone(function() {
         currentQuestion = nextQ;
         renderQuestion(currentQuestion, 'forward');
+        saveProgress();
       });
     } else if (nextQ === PART2_END_INDEX) {
       showMilestone2(function() {
         currentQuestion = nextQ;
         renderQuestion(currentQuestion, 'forward');
+        saveProgress();
       });
     } else {
       currentQuestion = nextQ;
       renderQuestion(currentQuestion, 'forward');
+      saveProgress();
     }
   } else {
     quizResults = calculateResults(userAnswers);
@@ -2553,7 +2556,7 @@ document.getElementById('fq-next-btn').addEventListener('click', function() {
 });
 
 document.getElementById('fq-back-btn').addEventListener('click', function() {
-  if (currentQuestion > 0) { currentQuestion--; renderQuestion(currentQuestion, 'backward'); }
+  if (currentQuestion > 0) { currentQuestion--; renderQuestion(currentQuestion, 'backward'); saveProgress(); }
 });
 
 document.getElementById('fq-gate-form').addEventListener('submit', function(e) {
@@ -2580,14 +2583,71 @@ document.getElementById('fq-gate-form').addEventListener('submit', function(e) {
   if (preview) preview.remove();
   renderResult(quizResults);
   showScreen('result');
+  clearProgress();
 });
 
-// Staggered landing entrance
+// Session storage progress save
+var STORAGE_KEY = 'fq-ai-progress';
+function saveProgress() {
+  try {
+    var data = {
+      currentQuestion: currentQuestion,
+      selectedICP: selectedICP,
+      userAnswers: userAnswers,
+      timestamp: Date.now()
+    };
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch(e) {}
+}
+function clearProgress() {
+  try { sessionStorage.removeItem(STORAGE_KEY); } catch(e) {}
+}
+function loadProgress() {
+  try {
+    var raw = sessionStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    var data = JSON.parse(raw);
+    // Expire after 30 minutes
+    if (Date.now() - data.timestamp > 30 * 60 * 1000) { clearProgress(); return null; }
+    return data;
+  } catch(e) { return null; }
+}
+
+// Check for saved progress and show resume dialog or landing stagger
 (function() {
-  var items = document.querySelectorAll('.fq-screen--landing .fq-stagger-item');
-  items.forEach(function(el, i) {
-    setTimeout(function() { el.classList.add('fq-entered'); }, 150 * i);
-  });
+  var saved = loadProgress();
+  if (saved && saved.currentQuestion > 0 && saved.selectedICP) {
+    // Show resume dialog
+    var overlay = document.getElementById('fq-resume-overlay');
+    overlay.classList.add('fq-visible');
+
+    document.getElementById('fq-resume-continue').addEventListener('click', function() {
+      // Restore state
+      selectedICP = saved.selectedICP;
+      buildQuestions();
+      userAnswers = saved.userAnswers;
+      currentQuestion = saved.currentQuestion;
+      overlay.classList.remove('fq-visible');
+      showScreen('quiz');
+      setTimeout(function() { renderQuestion(currentQuestion, 'init'); }, 160);
+    });
+
+    document.getElementById('fq-resume-restart').addEventListener('click', function() {
+      clearProgress();
+      overlay.classList.remove('fq-visible');
+      // Show landing with stagger
+      var items = document.querySelectorAll('.fq-screen--landing .fq-stagger-item');
+      items.forEach(function(el, i) {
+        setTimeout(function() { el.classList.add('fq-entered'); }, 150 * i);
+      });
+    });
+  } else {
+    // Normal landing stagger
+    var items = document.querySelectorAll('.fq-screen--landing .fq-stagger-item');
+    items.forEach(function(el, i) {
+      setTimeout(function() { el.classList.add('fq-entered'); }, 150 * i);
+    });
+  }
 })();
 
 // Magnetic CTA buttons
