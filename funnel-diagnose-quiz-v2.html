@@ -35,6 +35,7 @@ body { background: #FBFAF2; margin: 0; }
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   position: relative;
+  overflow: hidden;
 }
 #quiz-root *, #quiz-root *::before, #quiz-root *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -42,7 +43,7 @@ body { background: #FBFAF2; margin: 0; }
 #quiz-root::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: -10%; left: -10%; right: -10%; bottom: -10%;
   background:
     radial-gradient(ellipse 600px 600px at 15% 20%, rgba(28, 185, 158, 0.12) 0%, transparent 70%),
     radial-gradient(ellipse 500px 500px at 85% 15%, rgba(25, 63, 59, 0.08) 0%, transparent 70%),
