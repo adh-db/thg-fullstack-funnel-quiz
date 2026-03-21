@@ -1,0 +1,2281 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Funnel-Diagnose Quiz</title>
+<style>
+body { background: #FBFAF2; margin: 0; }
+
+#quiz-root {
+  --fq-bg-primary: #FBFAF2;
+  --fq-bg-secondary: #FFFFFF;
+  --fq-bg-tertiary: #F2EFE8;
+  --fq-accent: #193F3B;
+  --fq-accent-light: #1CB99E;
+  --fq-accent-dark: #0D2320;
+  --fq-accent-transparent: rgba(25, 63, 59, 0.05);
+  --fq-btn-gradient: linear-gradient(105deg, #193F3B 0%, #1CB99E 100%);
+  --fq-text-primary: #0C1615;
+  --fq-text-secondary: #4A6B65;
+  --fq-text-tertiary: #5E837C;
+  --fq-border-subtle: rgba(25, 63, 59, 0.1);
+  --fq-border-default: rgba(25, 63, 59, 0.22);
+  --fq-space-xs: 8px; --fq-space-sm: 16px; --fq-space-md: 24px; --fq-space-lg: 40px; --fq-space-xl: 64px;
+  --fq-radius-sm: 32px; --fq-radius-md: 10px; --fq-radius-lg: 14px;
+  --fq-font: 'Googlesansflex', 'Google Sans', 'Inter', Arial, sans-serif;
+  --fq-font-serif: 'Recklessstandardxl', 'Instrument Serif', Georgia, serif;
+  --fq-max-width: 680px;
+  font-family: var(--fq-font);
+  background: transparent;
+  color: var(--fq-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  position: relative;
+}
+#quiz-root *, #quiz-root *::before, #quiz-root *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Screens */
+#quiz-root .fq-screen { display: none; opacity: 0; transition: opacity 300ms ease-out; }
+#quiz-root .fq-screen.fq-active { display: block; opacity: 1; }
+
+/* Landing */
+#quiz-root .fq-screen--landing { padding: 80px 20px 64px; }
+#quiz-root .fq-landing-inner { max-width: var(--fq-max-width); margin: 0 auto; text-align: center; }
+#quiz-root .fq-badge {
+  display: inline-block; font-size: 12px; font-weight: 500; letter-spacing: 0.02em;
+  color: var(--fq-accent); background: rgba(25, 63, 59, 0.06);
+  border: 1px solid rgba(25, 63, 59, 0.15);
+  padding: 6px 16px; border-radius: var(--fq-radius-sm); margin-bottom: 24px;
+}
+#quiz-root .fq-landing-h1 {
+  font-size: 48px; font-weight: 500; color: var(--fq-text-primary);
+  letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 20px;
+}
+#quiz-root .fq-landing-sub {
+  font-size: 18px; font-weight: 400; color: var(--fq-text-secondary);
+  line-height: 1.6; max-width: 560px; margin: 0 auto 32px;
+}
+#quiz-root .fq-btn-primary {
+  display: inline-block; background: var(--fq-btn-gradient); color: #fff;
+  font-family: var(--fq-font); font-size: 16px; font-weight: 500;
+  padding: 18px 32px; border-radius: var(--fq-radius-md); border: none; cursor: pointer;
+  transition: transform 200ms ease, box-shadow 200ms ease, opacity 200ms ease;
+  text-decoration: none; line-height: 1;
+  animation: fq-glow-pulse 3s ease-in-out infinite;
+}
+#quiz-root .fq-btn-primary:hover { transform: scale(1.02); opacity: 0.92; animation: none; }
+#quiz-root .fq-social-proof { font-size: 13px; color: var(--fq-text-tertiary); margin-top: 24px; line-height: 1.5; }
+
+/* Quiz */
+#quiz-root .fq-screen--quiz { padding: 48px 20px 64px; }
+#quiz-root .fq-quiz-inner { max-width: var(--fq-max-width); margin: 0 auto; }
+#quiz-root .fq-part-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--fq-accent-light); margin-bottom: 10px;
+}
+#quiz-root .fq-progress-wrap { position: relative; margin-bottom: 48px; }
+#quiz-root .fq-progress-track {
+  width: 100%; height: 4px; background: var(--fq-border-subtle);
+  border-radius: 2px; overflow: hidden;
+}
+#quiz-root .fq-progress-fill {
+  height: 100%; background: linear-gradient(90deg, #193F3B, #1CB99E); border-radius: 2px;
+  width: 0%; transition: width 400ms ease-out;
+}
+#quiz-root .fq-progress-marker {
+  position: absolute; top: -6px; left: 40%;
+  width: 2px; height: 16px; background: var(--fq-border-default); border-radius: 1px;
+}
+#quiz-root .fq-question-content { transition: opacity 250ms ease-out, transform 250ms ease-out; }
+#quiz-root .fq-question-indicator { font-size: 13px; font-weight: 400; color: var(--fq-text-tertiary); margin-bottom: 12px; }
+#quiz-root .fq-question-text { font-size: 28px; font-weight: 500; color: var(--fq-text-primary); letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 8px; }
+#quiz-root .fq-question-hint { font-size: 14px; color: var(--fq-text-tertiary); margin-bottom: 24px; min-height: 22px; line-height: 1.4; }
+#quiz-root .fq-options { display: flex; flex-direction: column; gap: 10px; }
+#quiz-root .fq-option {
+  display: flex; align-items: center; background: var(--fq-bg-secondary);
+  border: 1px solid var(--fq-border-subtle); border-radius: var(--fq-radius-lg);
+  padding: 18px 20px; cursor: pointer;
+  transition: border-color 200ms ease, background 150ms ease;
+}
+#quiz-root .fq-option:hover { border-color: var(--fq-border-default); }
+#quiz-root .fq-option.fq-selected { border-color: var(--fq-accent); background: var(--fq-accent-transparent); }
+#quiz-root .fq-option-indicator {
+  flex-shrink: 0; width: 20px; height: 20px; border: 2px solid var(--fq-border-default);
+  border-radius: 50%; margin-right: 14px; position: relative; transition: border-color 150ms ease;
+}
+#quiz-root .fq-option-indicator::after {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 10px; height: 10px; border-radius: 50%; background: var(--fq-accent);
+  transition: transform 150ms ease;
+}
+#quiz-root .fq-option.fq-selected .fq-option-indicator { border-color: var(--fq-accent); }
+#quiz-root .fq-option.fq-selected .fq-option-indicator::after { transform: translate(-50%, -50%) scale(1); }
+#quiz-root .fq-option-checkbox {
+  flex-shrink: 0; width: 20px; height: 20px; border: 2px solid var(--fq-border-default);
+  border-radius: 4px; margin-right: 14px; position: relative;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+#quiz-root .fq-option-checkbox svg {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0); transition: transform 150ms ease;
+}
+#quiz-root .fq-option.fq-selected .fq-option-checkbox { background: var(--fq-accent); border-color: var(--fq-accent); }
+#quiz-root .fq-option.fq-selected .fq-option-checkbox svg { transform: translate(-50%, -50%) scale(1); }
+#quiz-root .fq-option-text { font-size: 15px; font-weight: 500; color: var(--fq-text-primary); line-height: 1.4; }
+
+/* ICP option cards */
+#quiz-root .fq-option.fq-option-icp { flex-direction: column; align-items: flex-start; padding: 20px 24px; gap: 2px; }
+#quiz-root .fq-option-icp-row { display: flex; align-items: center; width: 100%; }
+#quiz-root .fq-option-icp-desc { font-size: 13px; color: var(--fq-text-secondary); line-height: 1.4; padding-left: 34px; }
+
+/* Navigation */
+#quiz-root .fq-quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; }
+#quiz-root .fq-back-link {
+  font-size: 14px; font-weight: 400; color: var(--fq-text-tertiary); cursor: pointer;
+  background: none; border: none; font-family: var(--fq-font);
+  transition: color 200ms ease; padding: 0;
+}
+#quiz-root .fq-back-link:hover { color: var(--fq-text-secondary); }
+#quiz-root .fq-back-link.fq-hidden { visibility: hidden; pointer-events: none; }
+#quiz-root .fq-btn-next {
+  background: var(--fq-btn-gradient); color: #fff; font-family: var(--fq-font);
+  font-size: 15px; font-weight: 500; padding: 14px 28px;
+  border-radius: var(--fq-radius-md); border: none; cursor: pointer;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+#quiz-root .fq-btn-next:hover:not(:disabled) { transform: scale(1.02); opacity: 0.92; }
+#quiz-root .fq-btn-next:disabled { opacity: 0.25; cursor: not-allowed; }
+
+/* Info box */
+#quiz-root .fq-info-box {
+  background: var(--fq-bg-secondary); border: 1px solid var(--fq-border-default);
+  border-radius: var(--fq-radius-lg); margin-bottom: 24px;
+  box-shadow: 0 1px 4px rgba(25, 63, 59, 0.06);
+  overflow: hidden;
+}
+#quiz-root .fq-info-header {
+  display: inline-flex; align-items: center; gap: 10px;
+  width: 100%; padding: 14px 18px; cursor: pointer;
+  background: none; border: none; font-family: var(--fq-font);
+  user-select: none; -webkit-user-select: none;
+  transition: background 150ms ease;
+}
+#quiz-root .fq-info-header:hover { background: rgba(25, 63, 59, 0.03); }
+#quiz-root .fq-info-icon {
+  flex-shrink: 0; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;
+}
+#quiz-root .fq-info-icon svg { display: block; }
+#quiz-root .fq-info-label {
+  font-size: 13px; font-weight: 600; color: var(--fq-accent); line-height: 1.3;
+  flex: 1; text-align: left;
+}
+#quiz-root .fq-info-chevron {
+  flex-shrink: 0; font-size: 11px; color: var(--fq-text-tertiary);
+  transition: transform 250ms ease;
+  line-height: 1;
+}
+#quiz-root .fq-info-box.fq-expanded .fq-info-chevron { transform: rotate(180deg); }
+#quiz-root .fq-info-text {
+  font-size: 13px; color: var(--fq-text-secondary); line-height: 1.7;
+  padding: 0 18px 0 48px; max-height: 0; overflow: hidden;
+  transition: max-height 350ms ease, padding-bottom 350ms ease;
+}
+#quiz-root .fq-info-box.fq-expanded .fq-info-text {
+  max-height: 600px; padding-bottom: 16px;
+}
+#quiz-root .fq-info-text ul { margin: 8px 0 4px; padding-left: 18px; list-style: none; }
+#quiz-root .fq-info-text ul li { position: relative; padding-left: 16px; margin-bottom: 6px; }
+#quiz-root .fq-info-text ul li::before { content: '\2192'; position: absolute; left: 0; color: var(--fq-accent-light); font-weight: 600; }
+#quiz-root .fq-info-text strong { font-weight: 600; color: var(--fq-text-primary); }
+#quiz-root .fq-info-text .fq-info-benchmark { display: inline-block; background: rgba(28, 185, 158, 0.08); border: 1px solid rgba(28, 185, 158, 0.2); border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 600; color: var(--fq-accent-light); margin: 2px 0; }
+
+/* Blurred result preview behind gate */
+#quiz-root .fq-gate-preview {
+  position: absolute; top: 0; left: 0; right: 0;
+  filter: blur(5px); opacity: 0.6; pointer-events: none; z-index: 0;
+  padding: 40px 20px 20px;
+}
+
+/* Gate */
+#quiz-root .fq-screen--gate { padding: 100px 20px 48px; position: relative; }
+#quiz-root .fq-gate-inner {
+  max-width: 480px; margin: 0 auto; background: var(--fq-bg-secondary);
+  border: 1px solid var(--fq-border-subtle); border-radius: var(--fq-radius-lg); padding: 40px;
+  box-shadow: 0 2px 16px rgba(25, 63, 59, 0.08);
+  position: relative; z-index: 2;
+}
+#quiz-root .fq-gate-h2 { font-size: 32px; font-weight: 500; color: var(--fq-text-primary); letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 12px; }
+#quiz-root .fq-gate-sub { font-size: 16px; font-weight: 400; color: var(--fq-text-secondary); line-height: 1.6; margin-bottom: 32px; }
+#quiz-root .fq-field { margin-bottom: 16px; }
+#quiz-root .fq-label { display: block; font-size: 13px; font-weight: 600; color: var(--fq-text-tertiary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.03em; }
+#quiz-root .fq-input {
+  width: 100%; background: var(--fq-bg-tertiary); border: 1px solid var(--fq-border-subtle);
+  border-radius: var(--fq-radius-md); padding: 14px 16px; font-size: 15px;
+  font-family: var(--fq-font); color: var(--fq-text-primary); outline: none;
+  transition: border-color 200ms ease;
+}
+#quiz-root .fq-input::placeholder { color: var(--fq-text-tertiary); }
+#quiz-root .fq-input:focus { border-color: var(--fq-accent); }
+#quiz-root .fq-input.fq-error { border-color: #8B3A3A; }
+#quiz-root .fq-field-hint { font-size: 12px; color: var(--fq-text-tertiary); margin-top: 4px; }
+#quiz-root .fq-field-error { font-size: 12px; color: #8B3A3A; margin-top: 4px; display: none; }
+#quiz-root .fq-field-error.fq-visible { display: block; }
+#quiz-root .fq-btn-submit {
+  width: 100%; background: var(--fq-btn-gradient); color: #fff; font-family: var(--fq-font);
+  font-size: 16px; font-weight: 500; padding: 18px 32px;
+  border-radius: var(--fq-radius-md); border: none; cursor: pointer; margin-top: 24px;
+  transition: transform 200ms ease, opacity 200ms ease;
+  animation: fq-glow-pulse 3s ease-in-out infinite;
+}
+#quiz-root .fq-btn-submit:hover:not(:disabled) { transform: scale(1.02); opacity: 0.92; animation: none; }
+#quiz-root .fq-btn-submit:disabled { opacity: 0.5; cursor: wait; animation: none; }
+#quiz-root .fq-fine-print { font-size: 12px; color: var(--fq-text-tertiary); text-align: center; margin-top: 16px; line-height: 1.5; }
+
+/* Result */
+#quiz-root .fq-screen--result { padding: 64px 20px 0; }
+#quiz-root .fq-result-inner { max-width: 640px; margin: 0 auto; }
+#quiz-root .fq-ring-wrap { display: flex; justify-content: center; margin-bottom: 12px; }
+#quiz-root .fq-ring-svg { width: 160px; height: 160px; }
+#quiz-root .fq-segment-badge { display: flex; justify-content: center; margin-bottom: 40px; }
+#quiz-root .fq-dims { max-width: 520px; margin: 0 auto 48px; }
+#quiz-root .fq-dim-row { margin-bottom: 16px; }
+#quiz-root .fq-dim-row:last-child { margin-bottom: 0; }
+#quiz-root .fq-dim-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+#quiz-root .fq-dim-label { font-size: 14px; font-weight: 500; color: var(--fq-text-secondary); display: flex; align-items: center; gap: 8px; }
+#quiz-root .fq-dim-label.fq-weakest { color: var(--fq-accent); }
+#quiz-root .fq-dim-tag {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--fq-accent-light); background: rgba(28, 185, 158, 0.1);
+  border: 1px solid rgba(28, 185, 158, 0.25);
+  padding: 3px 8px; border-radius: 20px;
+}
+#quiz-root .fq-dim-score { font-size: 14px; color: var(--fq-text-tertiary); }
+#quiz-root .fq-dim-bar-track { width: 100%; height: 6px; background: rgba(25, 63, 59, 0.08); border-radius: 3px; overflow: hidden; }
+#quiz-root .fq-dim-bar-fill { height: 100%; background: linear-gradient(90deg, #193F3B 0%, #1CB99E 100%); border-radius: 3px; width: 0%; transition: width 800ms ease-out; }
+#quiz-root .fq-result-text-block { margin-bottom: 40px; }
+#quiz-root .fq-result-diagnosis-card {
+  background: var(--fq-bg-secondary); border: 1px solid var(--fq-border-subtle);
+  border-radius: var(--fq-radius-lg); padding: 32px; margin-bottom: 32px;
+}
+#quiz-root .fq-result-icp-stat {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: rgba(28, 185, 158, 0.06); border: 1px solid rgba(28, 185, 158, 0.15);
+  border-radius: 10px; padding: 14px 18px; margin-top: 20px;
+}
+#quiz-root .fq-result-icp-stat-icon {
+  flex-shrink: 0; width: 20px; height: 20px; color: var(--fq-accent-light); margin-top: 1px;
+}
+#quiz-root .fq-result-icp-stat-text {
+  font-size: 14px; color: var(--fq-text-secondary); line-height: 1.5;
+}
+#quiz-root .fq-result-h2 { font-size: 28px; font-weight: 500; color: var(--fq-text-primary); letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 20px; }
+#quiz-root .fq-result-p { font-size: 16px; color: var(--fq-text-secondary); line-height: 1.6; margin-bottom: 16px; }
+#quiz-root .fq-lever-block { background: var(--fq-bg-secondary); border: 1px solid var(--fq-border-subtle); border-radius: var(--fq-radius-lg); padding: 24px; margin-top: 24px; }
+#quiz-root .fq-lever-title { font-size: 16px; font-weight: 600; color: var(--fq-text-primary); margin-bottom: 12px; }
+#quiz-root .fq-lever-item { font-size: 15px; color: var(--fq-text-secondary); line-height: 1.5; margin-bottom: 8px; }
+#quiz-root .fq-lever-item:last-child { margin-bottom: 0; }
+#quiz-root .fq-lever-arrow { color: var(--fq-accent); font-weight: 600; }
+#quiz-root .fq-lever-card { background: var(--fq-bg-secondary); border: 1px solid var(--fq-border-subtle); border-radius: var(--fq-radius-lg); padding: 24px; margin-bottom: 16px; }
+#quiz-root .fq-lever-card:last-child { margin-bottom: 0; }
+#quiz-root .fq-lever-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+#quiz-root .fq-lever-card-name { font-size: 17px; font-weight: 600; color: var(--fq-text-primary); }
+#quiz-root .fq-lever-card-diagnosis { font-size: 15px; color: var(--fq-text-secondary); line-height: 1.6; margin-bottom: 16px; }
+#quiz-root .fq-lever-card-actions { display: flex; flex-direction: column; gap: 10px; }
+#quiz-root .fq-lever-card-action { font-size: 14px; color: var(--fq-text-secondary); line-height: 1.55; padding-left: 20px; position: relative; }
+#quiz-root .fq-lever-card-action::before { content: '\2192'; position: absolute; left: 0; color: var(--fq-accent); font-weight: 600; }
+#quiz-root .fq-cta-block { margin-top: 40px; text-align: center; }
+#quiz-root .fq-cta-text { font-size: 16px; color: var(--fq-text-secondary); line-height: 1.6; margin-bottom: 16px; }
+#quiz-root .fq-btn-cta {
+  display: inline-block; background: var(--fq-btn-gradient); color: #fff; font-family: var(--fq-font);
+  font-size: 16px; font-weight: 500; padding: 18px 36px;
+  border-radius: var(--fq-radius-md); border: none; cursor: pointer;
+  transition: transform 200ms ease, opacity 200ms ease; text-decoration: none;
+  animation: fq-glow-pulse 3s ease-in-out infinite;
+}
+#quiz-root .fq-btn-cta:hover { transform: scale(1.02); opacity: 0.92; animation: none; }
+#quiz-root .fq-result-social { font-size: 14px; color: var(--fq-text-tertiary); text-align: center; margin-top: 32px; padding-bottom: 64px; }
+
+/* Milestone overlay */
+#quiz-root .fq-milestone {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(251, 250, 242, 0.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  z-index: 1000; opacity: 0; pointer-events: none;
+  transition: opacity 400ms ease;
+}
+#quiz-root .fq-milestone.fq-visible { opacity: 1; pointer-events: auto; }
+#quiz-root .fq-milestone-inner {
+  text-align: center; transform: scale(0.92); transition: transform 400ms ease;
+}
+#quiz-root .fq-milestone.fq-visible .fq-milestone-inner { transform: scale(1); }
+#quiz-root .fq-milestone-check {
+  width: 56px; height: 56px; border-radius: 50%; background: var(--fq-btn-gradient);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+}
+#quiz-root .fq-milestone-h { font-size: 28px; font-weight: 500; color: var(--fq-text-primary); letter-spacing: -0.03em; margin-bottom: 8px; }
+#quiz-root .fq-milestone-sub { font-size: 16px; color: var(--fq-text-secondary); line-height: 1.5; }
+
+/* Confetti canvas */
+#quiz-root .fq-confetti {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 10; display: none;
+}
+
+@keyframes fq-glow-pulse {
+  0%, 100% { box-shadow: 0 2px 8px rgba(25, 63, 59, 0.15); }
+  50% { box-shadow: 0 4px 22px rgba(25, 63, 59, 0.35); }
+}
+
+/* Pro-Tipp in lever cards */
+#quiz-root .fq-lever-protipp {
+  margin-top: 14px; padding: 14px 16px; border-radius: 8px;
+  background: rgba(28, 185, 158, 0.06); border: 1px solid rgba(28, 185, 158, 0.18);
+}
+#quiz-root .fq-lever-protipp-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--fq-accent-light); margin-bottom: 6px;
+}
+#quiz-root .fq-lever-protipp-text { font-size: 14px; color: var(--fq-text-secondary); line-height: 1.55; }
+/* Next Level section */
+#quiz-root .fq-next-level { margin-top: 48px; margin-bottom: 40px; }
+#quiz-root .fq-next-level-title {
+  font-size: 20px; font-weight: 600; color: var(--fq-text-primary); letter-spacing: -0.02em; margin-bottom: 20px;
+}
+#quiz-root .fq-next-level-card {
+  background: var(--fq-bg-secondary); border: 1px solid var(--fq-border-subtle);
+  border-radius: var(--fq-radius-lg); padding: 20px 24px; margin-bottom: 12px;
+}
+#quiz-root .fq-next-level-card:last-child { margin-bottom: 0; }
+#quiz-root .fq-next-level-card-title { font-size: 16px; font-weight: 600; color: var(--fq-text-primary); margin-bottom: 8px; }
+#quiz-root .fq-next-level-card-text { font-size: 14px; color: var(--fq-text-secondary); line-height: 1.6; }
+
+/* Gate progress bar */
+#quiz-root .fq-gate-progress {
+  margin-bottom: 24px;
+}
+#quiz-root .fq-gate-progress-bar {
+  width: 100%; height: 6px; background: rgba(25, 63, 59, 0.1);
+  border-radius: 3px; overflow: hidden;
+}
+#quiz-root .fq-gate-progress-fill {
+  width: 99%; height: 100%;
+  background: linear-gradient(90deg, #193F3B, #1CB99E);
+  border-radius: 3px;
+  transition: width 800ms ease-out;
+}
+#quiz-root .fq-gate-progress-text {
+  font-size: 13px; font-weight: 500; color: var(--fq-accent-light);
+  text-align: right; margin-top: 6px;
+}
+
+/* Field with icon */
+#quiz-root .fq-field-icon-wrap {
+  position: relative;
+}
+#quiz-root .fq-field-icon-wrap .fq-input {
+  padding-left: 44px;
+}
+#quiz-root .fq-field-icon {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;
+  pointer-events: none; color: var(--fq-text-tertiary);
+}
+
+/* Shimmer animation for gate CTA */
+@keyframes fq-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+#quiz-root .fq-btn-submit {
+  background: linear-gradient(105deg, #193F3B 0%, #1CB99E 40%, #5CFBF5 50%, #1CB99E 60%, #193F3B 100%);
+  background-size: 200% 100%;
+  animation: fq-shimmer 4.5s ease-in-out infinite, fq-glow-pulse 3.5s ease-in-out infinite;
+}
+
+/* Result CTA card */
+#quiz-root .fq-cta-card {
+  background: #193F3B; border-radius: var(--fq-radius-lg);
+  padding: 48px 40px; text-align: center; margin-top: 48px;
+  position: relative; overflow: hidden;
+}
+#quiz-root .fq-cta-card::before {
+  content: ''; position: absolute; top: -50%; left: -50%; right: -50%; bottom: -50%;
+  background: radial-gradient(ellipse at 30% 20%, rgba(28, 185, 158, 0.15) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 80%, rgba(92, 251, 245, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+#quiz-root .fq-cta-card-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 500; color: #1CB99E; letter-spacing: 0.02em;
+  background: rgba(28, 185, 158, 0.12); border: 1px solid rgba(28, 185, 158, 0.25);
+  padding: 6px 14px; border-radius: 20px; margin-bottom: 20px;
+  position: relative;
+}
+#quiz-root .fq-cta-card-badge::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%; background: #1CB99E;
+  animation: fq-badge-pulse 2s ease-in-out infinite;
+}
+@keyframes fq-badge-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.7); }
+}
+#quiz-root .fq-cta-card-headline {
+  font-size: 28px; font-weight: 500; color: #FFFFFF;
+  letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 12px;
+  position: relative;
+}
+#quiz-root .fq-cta-card-headline em {
+  font-style: italic; font-family: var(--fq-font-serif);
+}
+#quiz-root .fq-cta-card-sub {
+  font-size: 16px; color: rgba(255,255,255,0.7); line-height: 1.6;
+  max-width: 480px; margin: 0 auto 28px; position: relative;
+}
+#quiz-root .fq-cta-card .fq-btn-cta {
+  background: #fff; color: #193F3B; font-weight: 600;
+  animation: none; box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  position: relative;
+}
+#quiz-root .fq-cta-card .fq-btn-cta:hover {
+  transform: scale(1.03); box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  opacity: 1;
+}
+#quiz-root .fq-cta-card-date {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 20px;
+  position: relative;
+}
+
+/* Milestone stats preview */
+#quiz-root .fq-milestone-stats {
+  display: flex; gap: 12px; justify-content: center; margin-top: 24px;
+  flex-wrap: wrap;
+}
+#quiz-root .fq-milestone-stat {
+  background: rgba(25, 63, 59, 0.06); border: 1px solid rgba(25, 63, 59, 0.12);
+  border-radius: 10px; padding: 12px 16px; text-align: center;
+  min-width: 80px; opacity: 0; transform: translateY(10px);
+  transition: opacity 400ms ease, transform 400ms ease;
+}
+#quiz-root .fq-milestone-stat.fq-visible { opacity: 1; transform: translateY(0); }
+#quiz-root .fq-milestone-stat-value {
+  font-size: 22px; font-weight: 700; color: var(--fq-accent);
+  letter-spacing: -0.02em; line-height: 1;
+}
+#quiz-root .fq-milestone-stat-label {
+  font-size: 11px; font-weight: 500; color: var(--fq-text-tertiary);
+  margin-top: 4px; text-transform: uppercase; letter-spacing: 0.04em;
+}
+
+/* Milestone check pop animation */
+#quiz-root .fq-milestone.fq-visible .fq-milestone-check {
+  animation: fq-check-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@keyframes fq-check-pop {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Gate peek text */
+#quiz-root .fq-gate-peek {
+  font-size: 13px; font-weight: 500; color: var(--fq-accent-light);
+  text-align: center; margin-bottom: 16px;
+  animation: fq-peek-pulse 2s ease-in-out infinite;
+}
+@keyframes fq-peek-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* Skip link & screen-reader only */
+#quiz-root .fq-sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+#quiz-root .fq-skip-link:focus {
+  position: static; width: auto; height: auto; padding: 8px 16px; margin: 0;
+  overflow: visible; clip: auto; white-space: normal;
+  background: var(--fq-accent); color: #fff; border-radius: 4px;
+  display: inline-block; z-index: 9999;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  #quiz-root .fq-screen--gate { padding: 60px 16px 32px; }
+  #quiz-root .fq-screen--landing { padding: 48px 20px 40px; }
+  #quiz-root .fq-landing-h1 { font-size: 32px; }
+  #quiz-root .fq-landing-sub { font-size: 16px; }
+  #quiz-root .fq-btn-primary { width: 100%; display: block; text-align: center; }
+  #quiz-root .fq-progress-wrap { margin-bottom: 28px; }
+  #quiz-root .fq-question-text { font-size: 22px; margin-bottom: 4px; }
+  #quiz-root .fq-question-hint { margin-bottom: 16px; min-height: 0; }
+  #quiz-root .fq-options { gap: 8px; }
+  #quiz-root .fq-option { padding: 14px 16px; }
+  #quiz-root .fq-quiz-nav { margin-top: 24px; }
+  #quiz-root .fq-part-label { margin-bottom: 6px; }
+  #quiz-root .fq-screen--quiz { padding: 32px 16px 48px; }
+  #quiz-root .fq-gate-inner { padding: 28px 20px; }
+  /* Result page mobile breathing room */
+  #quiz-root .fq-screen--result { padding: 32px 20px 0; }
+  #quiz-root .fq-result-inner { padding: 0; }
+  #quiz-root .fq-result-h2 { font-size: 22px; margin-bottom: 16px; }
+  #quiz-root .fq-result-p { font-size: 15px; }
+  #quiz-root .fq-dims { margin-bottom: 36px; }
+  #quiz-root .fq-dim-header { margin-bottom: 5px; }
+  #quiz-root .fq-dim-label { font-size: 13px; }
+  #quiz-root .fq-dim-score { font-size: 13px; }
+  #quiz-root .fq-dim-tag { font-size: 9px; padding: 2px 6px; }
+  #quiz-root .fq-segment-badge { margin-bottom: 28px; }
+  #quiz-root .fq-result-diagnosis-card { padding: 24px 20px; margin-bottom: 24px; }
+  #quiz-root .fq-result-icp-stat { padding: 12px 14px; gap: 10px; }
+  #quiz-root .fq-lever-card { padding: 20px 18px; margin-bottom: 12px; }
+  #quiz-root .fq-lever-card-name { font-size: 16px; }
+  #quiz-root .fq-lever-card-diagnosis { font-size: 14px; margin-bottom: 12px; }
+  #quiz-root .fq-lever-card-action { font-size: 13px; }
+  #quiz-root .fq-lever-protipp { padding: 12px 14px; margin-top: 12px; }
+  #quiz-root .fq-lever-protipp-text { font-size: 13px; }
+  #quiz-root .fq-next-level { margin-top: 36px; margin-bottom: 32px; }
+  #quiz-root .fq-next-level-title { font-size: 18px; margin-bottom: 16px; }
+  #quiz-root .fq-next-level-card { padding: 18px 18px; margin-bottom: 10px; }
+  #quiz-root .fq-next-level-card-title { font-size: 15px; }
+  #quiz-root .fq-next-level-card-text { font-size: 13px; }
+  #quiz-root .fq-cta-card { padding: 32px 20px; margin-top: 36px; }
+  #quiz-root .fq-cta-card-headline { font-size: 22px; }
+  #quiz-root .fq-cta-card-sub { font-size: 14px; margin-bottom: 24px; }
+  #quiz-root .fq-btn-cta { width: 100%; display: block; text-align: center; }
+  #quiz-root .fq-gate-progress { margin-bottom: 16px; }
+  #quiz-root .fq-cta-card .fq-btn-cta { width: 100%; display: block; }
+  /* Info boxes compact */
+  #quiz-root .fq-info-box { margin-bottom: 16px; }
+  #quiz-root .fq-info-header { padding: 10px 14px; }
+  #quiz-root .fq-info-text { padding: 0 14px 0 38px; font-size: 12px; }
+  /* ICP option cards */
+  #quiz-root .fq-option.fq-option-icp { padding: 14px 16px; }
+  #quiz-root .fq-ring-svg { width: 140px; height: 140px; }
+}
+</style>
+</head>
+<body>
+<div id="quiz-root">
+  <a href="#fq-question-content" class="fq-sr-only fq-skip-link">Zum Quiz-Inhalt springen</a>
+
+  <div class="fq-screen fq-screen--landing fq-active">
+    <div class="fq-landing-inner">
+      <div class="fq-badge">Kostenlose Funnel-Analyse</div>
+      <h1 class="fq-landing-h1">Wo l&auml;sst dein Funnel gerade Umsatz liegen?</h1>
+      <p class="fq-landing-sub">20 Fragen. 5 Minuten. Du bekommst eine personalisierte Diagnose und wei&szlig;t, welcher Hebel bei dir den gr&ouml;&szlig;ten Impact hat.</p>
+      <button class="fq-btn-primary" id="fq-start-btn">Jetzt Funnel analysieren &rarr;</button>
+      <p class="fq-social-proof">Basierend auf Erkenntnissen aus 200+ Kundenprojekten und 65M&euro;+ verwaltetem Werbebudget.</p>
+    </div>
+  </div>
+
+  <div class="fq-screen fq-screen--quiz">
+    <div class="fq-quiz-inner">
+      <div id="fq-part-label" class="fq-part-label">Teil 1: Allgemeine Funnel-Analyse</div>
+      <div class="fq-progress-wrap">
+        <div class="fq-progress-track">
+          <div class="fq-progress-fill" id="fq-progress-fill"></div>
+        </div>
+        <div class="fq-progress-marker"></div>
+        <div class="fq-progress-marker" style="left: 70%;"></div>
+      </div>
+      <div id="fq-question-content" class="fq-question-content"></div>
+      <div class="fq-quiz-nav">
+        <button class="fq-back-link fq-hidden" id="fq-back-btn">&larr; Zur&uuml;ck</button>
+        <button class="fq-btn-next" id="fq-next-btn" disabled>Weiter &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="fq-screen fq-screen--gate">
+    <div class="fq-gate-inner">
+      <div class="fq-gate-progress">
+        <div class="fq-gate-progress-bar">
+          <div class="fq-gate-progress-fill"></div>
+        </div>
+        <div class="fq-gate-progress-text">99% abgeschlossen</div>
+      </div>
+      <h2 class="fq-gate-h2">Deine Analyse ist fertig.</h2>
+      <p class="fq-gate-sub">Trag deine Daten ein. Du bekommst deinen Funnel Health Score und eine detaillierte Auswertung mit konkreten Empfehlungen.</p>
+      <form id="fq-gate-form" novalidate>
+        <div class="fq-field">
+          <label class="fq-label" for="fq-input-name">Vorname</label>
+          <div class="fq-field-icon-wrap">
+            <span class="fq-field-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="5.5" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 16c0-3 2.9-5.5 6.5-5.5s6.5 2.5 6.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            <input class="fq-input" id="fq-input-name" type="text" placeholder="Max" autocomplete="given-name">
+          </div>
+          <div class="fq-field-error" id="fq-error-name">Bitte gib deinen Vornamen ein.</div>
+        </div>
+        <div class="fq-field">
+          <label class="fq-label" for="fq-input-lastname">Nachname</label>
+          <div class="fq-field-icon-wrap">
+            <span class="fq-field-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="5.5" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 16c0-3 2.9-5.5 6.5-5.5s6.5 2.5 6.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            <input class="fq-input" id="fq-input-lastname" type="text" placeholder="Mustermann" autocomplete="family-name">
+          </div>
+          <div class="fq-field-error" id="fq-error-lastname">Bitte gib deinen Nachnamen ein.</div>
+        </div>
+        <div class="fq-field">
+          <label class="fq-label" for="fq-input-email">E-Mail</label>
+          <div class="fq-field-icon-wrap">
+            <span class="fq-field-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 6l7 4.5L16 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <input class="fq-input" id="fq-input-email" type="email" placeholder="max@beispiel.de" autocomplete="email">
+          </div>
+          <div class="fq-field-error" id="fq-error-email">Bitte gib eine g&uuml;ltige E-Mail-Adresse ein.</div>
+        </div>
+        <div class="fq-field">
+          <label class="fq-label" for="fq-input-phone">Telefon <span style="font-weight:400;text-transform:none;">(optional)</span></label>
+          <div class="fq-field-icon-wrap">
+            <span class="fq-field-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5A7.5 7.5 0 001.5 9c0 1.4.38 2.7 1.04 3.82L1.5 16.5l3.68-1.04A7.45 7.45 0 009 16.5 7.5 7.5 0 009 1.5z" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M12.2 10.6l-1.5-.7c-.2-.1-.4 0-.5.1l-.4.5c-.1.1-.3.2-.4.1-.8-.4-1.8-1.2-2.3-1.9-.1-.1-.1-.3 0-.4l.4-.5c.1-.1.1-.3 0-.5l-.7-1.5c-.1-.2-.4-.3-.6-.2-.4.2-.8.6-.8 1 0 .7.3 1.5.8 2.2.7 1 1.8 2 3 2.6.7.3 1.4.5 2 .3.4-.1.8-.5 1-.8.1-.2 0-.5-.2-.6l-.3.1z" fill="currentColor"/></svg></span>
+            <input class="fq-input" id="fq-input-phone" type="tel" placeholder="+49 170 ..." autocomplete="tel">
+          </div>
+          <div class="fq-field-hint">F&uuml;r WhatsApp-Zusammenfassung</div>
+        </div>
+        <button class="fq-btn-submit" id="fq-submit-btn" type="submit">Meine Analyse anfordern &rarr;</button>
+      </form>
+      <p class="fq-fine-print">Kein Spam. Keine Weitergabe. Du bekommst deine Analyse + 2-3 weiterf&uuml;hrende Mails mit konkreten Tipps.</p>
+    </div>
+  </div>
+
+  <div class="fq-screen fq-screen--result">
+    <canvas class="fq-confetti" id="fq-confetti" aria-hidden="true"></canvas>
+    <div class="fq-result-inner" id="fq-result-inner"></div>
+  </div>
+
+  <div class="fq-milestone" id="fq-milestone" role="dialog" aria-label="Teil 1 abgeschlossen">
+    <div class="fq-milestone-inner">
+      <div class="fq-milestone-check">
+        <svg width="28" height="22" viewBox="0 0 28 22" fill="none"><path d="M2 11L10 19L26 3" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="fq-milestone-h">Teil 1 abgeschlossen!</div>
+      <div class="fq-milestone-sub">Jetzt wird's spezifisch.<br>Die n&auml;chsten Fragen sind auf dein Profil zugeschnitten.</div>
+      <div class="fq-milestone-stats" id="fq-milestone-stats-1"></div>
+    </div>
+  </div>
+
+  <div class="fq-milestone" id="fq-milestone-2" role="dialog" aria-label="Teil 2 abgeschlossen">
+    <div class="fq-milestone-inner">
+      <div class="fq-milestone-check">
+        <svg width="28" height="22" viewBox="0 0 28 22" fill="none"><path d="M2 11L10 19L26 3" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="fq-milestone-h">Teil 2 abgeschlossen!</div>
+      <div class="fq-milestone-sub">Fast geschafft.<br>Noch 6 Fragen f&uuml;r deine vollst&auml;ndige Analyse.</div>
+      <div class="fq-milestone-stats" id="fq-milestone-stats-2"></div>
+    </div>
+  </div>
+
+</div>
+<script>
+// ============================================
+// KONFIGURATION
+// ============================================
+var CONFIG = {
+  webhookUrl: "https://DEIN-WEBHOOK-ENDPOINT.com",
+  bookingUrl: "https://DEIN-CALENDLY-LINK.com"
+};
+// ============================================
+
+var DIMENSIONS = {
+  TR: { key: "TR", label: "Traffic & Ads" },
+  LP: { key: "LP", label: "Landing Page & Conversion" },
+  CO: { key: "CO", label: "Content & \u00dcberzeugung" },
+  FU: { key: "FU", label: "Follow-up & Nurturing" },
+  SA: { key: "SA", label: "Sales & Abschluss" }
+};
+
+var LEVER_DETAILS = {
+  TR: {
+    diagnosis: "Du verl\u00e4sst dich zu stark auf einen einzigen Kanal oder auf organische Reichweite. Das macht deinen Leadflow unvorhersehbar und schwer skalierbar.",
+    actions: [
+      "Starte mit einem einzigen Paid-Kanal (Meta oder Google) und teste 3\u20135 verschiedene Anzeigen mit je 10\u201320\u20ac Tagesbudget.",
+      "Baue eine Retargeting-Audience auf: Jeder Website-Besucher der letzten 30 Tage sollte deine Ads sehen.",
+      "Definiere deinen Ziel-CPL (Cost per Lead) und tracke ihn w\u00f6chentlich."
+    ]
+  },
+  LP: {
+    diagnosis: "Deine Landing Page arbeitet nicht hart genug f\u00fcr dich. Besucher kommen, schauen sich um und gehen wieder, ohne eine Aktion auszuf\u00fchren.",
+    actions: [
+      "Fokussiere deine Landing Page auf EINE einzige Handlung. Entferne Navigation, Sidebar und alles, was ablenkt.",
+      "Teste eine neue Headline: Sie muss das konkrete Ergebnis kommunizieren, das dein Besucher bekommt.",
+      "F\u00fcge mindestens 3 Testimonials hinzu. Video-Testimonials konvertieren bis zu 80% besser als Text."
+    ]
+  },
+  CO: {
+    diagnosis: "Deine Leads bekommen nicht genug \u00dcberzeugungsarbeit, bevor sie eine Entscheidung treffen. Es fehlt an Vertrauensaufbau zwischen Erstkontakt und Gespr\u00e4ch.",
+    actions: [
+      "Erstelle ein Conversion-Event (Webinar, Workshop oder Video), das deine Expertise demonstriert und einen klaren Pitch enth\u00e4lt.",
+      "Entwickle 3\u20135 Content-S\u00e4ulen, die direkt auf dein Angebot einzahlen, und poste mindestens 3x pro Woche.",
+      "Sammle systematisch Kundenergebnisse: Frage nach jedem Abschluss nach einem kurzen Video-Testimonial."
+    ]
+  },
+  FU: {
+    diagnosis: "Du verlierst den Gro\u00dfteil deiner Leads nach dem Erstkontakt. Ohne systematisches Follow-up bleiben 80\u201390% deiner Leads ungenutzt.",
+    actions: [
+      "Baue eine 5\u20137-teilige E-Mail-Sequenz auf, die \u00fcber 10\u201314 Tage Vertrauen aufbaut und zum n\u00e4chsten Schritt f\u00fchrt.",
+      "Setze Reminder f\u00fcr No-Shows: Ein automatischer WhatsApp-Reminder 1h vor dem Termin kann die Show-up-Rate um 30% steigern.",
+      "Implementiere Lead-Scoring: Nicht jeder Lead ist gleich. Priorisiere die, die am meisten Engagement zeigen."
+    ]
+  },
+  SA: {
+    diagnosis: "Dein Verkaufsprozess ist nicht systematisiert. Ohne klare Struktur und Einwandbehandlung l\u00e4sst du abschlussbereite Leads auf dem Tisch liegen.",
+    actions: [
+      "Erstelle ein Sales-Skript mit klarer Struktur: Diagnose (70% des Gespr\u00e4chs), Pitch (20%) und Abschluss (10%).",
+      "Dokumentiere die 5 h\u00e4ufigsten Einw\u00e4nde und formuliere f\u00fcr jeden eine souver\u00e4ne Antwort.",
+      "F\u00fchre ein CRM ein und tracke deine Conversion Rate vom Gespr\u00e4ch zum Abschluss. Ziel: mindestens 20\u201330%."
+    ]
+  }
+};
+
+var ICP_LEVER_TIPS = {
+  coach: {
+    TR: "Paid Challenge Funnel: Statt kostenloser Webinare eine bezahlte Challenge (47\u2013197\u20ac) anbieten. Das filtert Freebie-Seeker raus und du gewinnst Leads, die bereit sind zu investieren.",
+    LP: "Quiz-Funnels steigern die Conversion um bis zu 30%, weil die Ergebnisse personalisiert sind. Dein Lead Magnet sollte sich wie eine individuelle Beratung anf\u00fchlen, nicht wie ein generisches PDF.",
+    CO: "Ersetze das einzelne 60-Minuten-Webinar durch eine 5-teilige Serie \u00fcber 3\u20135 Tage. Die Completion Rate steigt deutlich und du baust mehr Vertrauen auf als in einer einzigen Session.",
+    FU: "Speed-to-Lead ist entscheidend: Die Wahrscheinlichkeit einer Qualifizierung sinkt um das 21-fache, wenn deine Reaktionszeit von 5 auf 30 Minuten steigt. Automatisiere die erste Antwort.",
+    SA: "Bewerbungsprozess statt offene Buchung: Lass Leads sich bei dir bewerben statt umgekehrt. Das steigert den wahrgenommenen Wert deines Angebots und filtert unpassende Leads automatisch."
+  },
+  marketer: {
+    TR: "Evergreen-Webinar-Funnels: Automatisierte Webinare mit mehreren t\u00e4glichen Showings erreichen 60\u201370% Teilnahmerate statt 35\u201345% bei Live-Formaten. Skaliert ohne zus\u00e4tzlichen Aufwand.",
+    LP: "De-Anonymisierung einsetzen: Tools wie Leadinfo zeigen dir, welche Firmen deine Seite besuchen, auch ohne Formulareingabe. So identifizierst du warme Leads, die du sonst nie gesehen h\u00e4ttest.",
+    CO: "Generative Engine Optimization (GEO): Strukturiere deinen Content mit eindeutigen Definitionen und belegbaren Aussagen, damit KI-Modelle (ChatGPT, Google AI) dich als Quelle zitieren.",
+    FU: "2-dimensionales Lead Scoring: Bewerte Leads nach Firmografie (Jobtitel, Firmengr\u00f6\u00dfe) UND Verhalten (Pricing-Seite besucht, Webinar angesehen). So priorisierst du die wirklich kaufbereiten Kontakte.",
+    SA: "B2B Visitor Identification: Nutze De-Anonymisierungs-Tools, um zu sehen, welche Firmen deine Pricing-Seite besuchen. Triggere sofortige Alerts an dein Sales-Team, wenn ICP-Firmen aktiv sind."
+  },
+  mittelstand: {
+    TR: "LinkedIn Thought Leadership als messeunabh\u00e4ngigen Lead-Kanal aufbauen. Entscheidungstr\u00e4ger im B2B sind auf LinkedIn aktiv. Regelm\u00e4\u00dfige Fachbeitr\u00e4ge positionieren euch als Branchenexperten.",
+    LP: "Lead Velocity Rate (LVR) als Fr\u00fchindikator tracken: Statt nur abgeschlossene Deals zu z\u00e4hlen, messt die Wachstumsrate eurer qualifizierten Leads. Das gibt euch 3\u20136 Monate Vorwarnung f\u00fcr Pipeline-Probleme.",
+    CO: "Rollenspezifischen Content f\u00fcr das Buying Center erstellen: IT-Leiter brauchen technische Specs, Gesch\u00e4ftsf\u00fchrer wollen ROI-Zahlen, Eink\u00e4ufer wollen Vergleiche. Ein Whitepaper f\u00fcr alle funktioniert nicht.",
+    FU: "Lost-Deal Win-Back Automation: Schickt automatisch 60 Tage nach einem verlorenen Deal eine E-Mail: \u201eWas hat sich bei Ihnen ver\u00e4ndert?\u201c Bis zu 15% der verlorenen Deals lassen sich so reaktivieren.",
+    SA: "Marketing-Sales SLA definieren: Legt exakt fest, wann ein Marketing-Lead (MQL) zum Sales-Lead (SQL) wird. Ohne klare Kriterien sterben Leads im Niemandsland zwischen den Abteilungen."
+  }
+};
+
+var ICP_NEXT_LEVEL = {
+  coach: [
+    { title: "Paid Challenge statt Freebie", text: "Biete eine 5- bis 7-t\u00e4gige Challenge f\u00fcr 47\u2013197\u20ac an. Du filterst Freebie-Seeker raus, lieferst Quick Wins auf WhatsApp oder Discord, und die Challenge selbst wird zum Conversion-Event f\u00fcr dein High-Ticket-Angebot." },
+    { title: "Sell before you build", text: "Bevor du einen automatisierten Funnel baust: Verkaufe dein Angebot erst manuell an 5\u201310 Kunden. So validierst du Messaging, Pricing und Zielgruppe, bevor du in Technik investierst." },
+    { title: "Personalisierte Follow-ups", text: "Personalisierte E-Mail-Sequenzen basierend auf Quiz- oder Webinar-Antworten steigern die Conversion um bis zu 30%. Segmentiere nach Problem, nicht nach Demografie." }
+  ],
+  marketer: [
+    { title: "Evergreen-Webinar-Funnel", text: "Automatisierte Webinare mit mehreren t\u00e4glichen Showings erreichen 60\u201370% Teilnahmerate statt 35\u201345% bei Live-Events. Nutze verhaltensbasierte E-Mails: unterschiedliche Sequenzen f\u00fcr Abbrecher vs. Pitch-Zuschauer." },
+    { title: "First-Party Data Strategie", text: "Mit dem Ende der Third-Party-Cookies wird eigene Datenerhebung (Website, CRM, interaktive Funnels) zum wichtigsten Wettbewerbsvorteil. Investiere jetzt in Server-Side Tracking und Zero-Party Data Collection." },
+    { title: "Full-Stack Konsolidierung", text: "Isolierte Kan\u00e4le verursachen doppelte Kosten. SEO, Paid, CRO und E-Mail unter einem Measurement-Framework zusammenf\u00fchren senkt den CPA drastisch und gibt dir ein echtes Gesamtbild." }
+  ],
+  mittelstand: [
+    { title: "Buying-Center-Strategie", text: "Kaufentscheidungen im Mittelstand involvieren 3 bis 5 Stakeholder \u00fcber 3 bis 6 Monate. Erstellt rollenspezifische Inhalte: technische Specs f\u00fcr die IT, ROI-Berechnungen f\u00fcr die Gesch\u00e4ftsf\u00fchrung, Vergleiche f\u00fcr den Einkauf." },
+    { title: "Marketing-Sales SLA", text: "Definiert einen klaren Service Level Agreement zwischen Marketing und Vertrieb: Wann wird ein Lead zum MQL? Wann zum SQL? Wie schnell muss Sales reagieren? Ohne diese Regeln sterben Leads im Niemandsland." },
+    { title: "Lost-Deal Reaktivierung", text: "Automatisiert eine E-Mail 60 Tage nach jedem verlorenen Deal: \u201eWas hat sich bei Ihnen ver\u00e4ndert?\u201c Bis zu 15% der verlorenen Deals k\u00f6nnen so reaktiviert werden, weil sich Budgets, Priorit\u00e4ten oder Ansprechpartner ge\u00e4ndert haben." }
+  ]
+};
+
+// ============================================
+// FRAGE 1: ICP AUSWAHL
+// ============================================
+var ICP_QUESTION = {
+  id: "icp", type: "icp-select",
+  question: "Was beschreibt dich am besten?",
+  hint: "Wir passen die n\u00e4chsten Fragen an dein Profil an.",
+  options: [
+    { text: "Coach, Consultant oder Trainer", desc: "Du verkaufst Wissen, Beratung oder Begleitung.", value: "coach" },
+    { text: "Marketer oder Agentur", desc: "Du schaltest Ads, optimierst Funnels oder betreust Kunden.", value: "marketer" },
+    { text: "Unternehmen (Mittelstand / B2B)", desc: "Ihr seid ein etabliertes Unternehmen und wollt euren Vertrieb digitaler aufstellen.", value: "mittelstand" }
+  ]
+};
+
+// ============================================
+// TEIL 1: ALLGEMEINE FRAGEN (7)
+// ============================================
+var GENERAL_QUESTIONS = [
+  {
+    id: "g1", type: "single",
+    question: "Wie gewinnst du aktuell neue Leads?",
+    options: [
+      { text: "Haupts\u00e4chlich organisch (Empfehlungen, Social Media, Netzwerk)", scores: { TR: 1 } },
+      { text: "Ich schalte Ads, aber ohne klare Strategie oder regelm\u00e4\u00dfiges Testing", scores: { TR: 2 } },
+      { text: "Ich habe laufende Kampagnen mit regelm\u00e4\u00dfigem Testing und Reporting", scores: { TR: 4 } },
+      { text: "Ich habe ein System mit verschiedenen Kampagnentypen, Retargeting und klaren KPIs", scores: { TR: 6 } }
+    ]
+  },
+  {
+    id: "g2", type: "single",
+    question: "Wie sieht deine Landing Page aktuell aus?",
+    info: { label: "Was ist eine Landing Page?", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="16" height="13" rx="2" stroke="#193F3B" stroke-width="1.5"/><line x1="2" y1="7" x2="18" y2="7" stroke="#193F3B" stroke-width="1.5"/><circle cx="4.5" cy="5" r="0.75" fill="#193F3B"/><circle cx="7" cy="5" r="0.75" fill="#193F3B"/><circle cx="9.5" cy="5" r="0.75" fill="#193F3B"/></svg>', text: "<strong>Eine eigenst\u00e4ndige Seite mit genau einem Ziel:</strong> Opt-in, Buchung oder Kauf.<br><br><strong>Warum das wichtig ist:</strong> Dedizierte Landing Pages konvertieren 3- bis 5-mal besser als eine Homepage.<ul><li>Klare Headline mit konkretem Nutzenversprechen</li><li>Social Proof (Testimonials, Logos, Zahlen)</li><li>Ein einziges Conversion-Ziel, keine Ablenkung</li><li>Starkes visuelles Element above the fold</li><li>Mobile-optimiert mit Ladezeit unter 3 Sekunden</li></ul><span class='fq-info-benchmark'>Benchmark: Gute Landing Pages konvertieren 20\u201340% des Traffics</span>" },
+    options: [
+      { text: "Ich habe keine dedizierte Landing Page, ich leite auf meine Website", scores: { LP: 1 } },
+      { text: "Ich habe eine Landing Page, aber sie wurde seit Monaten nicht optimiert", scores: { LP: 2 } },
+      { text: "Ich habe eine Landing Page mit klarem Aufbau, die regelm\u00e4\u00dfig \u00fcberarbeitet wird", scores: { LP: 4 } },
+      { text: "Ich teste verschiedene Varianten und kenne meine Conversion Rate genau", scores: { LP: 6 } }
+    ]
+  },
+  {
+    id: "g3", type: "multi",
+    question: "Welche dieser Elemente hat deine Landing Page?",
+    hint: "W\u00e4hle alle aus, die zutreffen.",
+    options: [
+      { text: "Klare Headline, die den Nutzen kommuniziert", scores: { LP: 1 } },
+      { text: "Social Proof (Testimonials, Logos, Zahlen)", scores: { LP: 1 } },
+      { text: "Nur EIN klarer Call-to-Action", scores: { LP: 1 } },
+      { text: "Mobile-optimiert", scores: { LP: 1 } },
+      { text: "Video oder visueller Hook", scores: { LP: 1 } },
+      { text: "Konkrete Ergebnis-Versprechen statt vage Aussagen", scores: { LP: 1 } }
+    ]
+  },
+  {
+    id: "g4", type: "single",
+    question: "Wie \u00fcberzeugst du Leads, bevor sie ein Gespr\u00e4ch buchen?",
+    info: { label: "Webinar und VSL erkl\u00e4rt", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="16" height="12" rx="2" stroke="#193F3B" stroke-width="1.5"/><path d="M8.5 7L13 9.5L8.5 12V7Z" fill="#193F3B"/><line x1="7" y1="17" x2="13" y2="17" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round"/></svg>', text: "<strong>Webinar:</strong> Live- oder aufgezeichnetes Online-Seminar, in dem du Expertise zeigst und dann ein Angebot machst.<br><strong>VSL (Video Sales Letter):</strong> K\u00fcrzeres, strukturiertes Verkaufsvideo, das den Zuschauer Schritt f\u00fcr Schritt durch Problem, L\u00f6sung und Angebot f\u00fchrt.<br><br><strong>Wann was einsetzen:</strong><ul><li>Webinare: Ideal f\u00fcr Angebote ab 1.000\u20ac (Vertrauensaufbau)</li><li>VSLs: Besser f\u00fcr Angebote unter 1.000\u20ac oder als Vorqualifizierung</li></ul><strong>Benchmarks:</strong><ul><li>Webinar Show-up-Rate: <span class='fq-info-benchmark'>40\u201356%</span></li><li>Webinar Buchungsrate: <span class='fq-info-benchmark'>10\u201320%</span></li><li>VSL Watch-Through: <span class='fq-info-benchmark'>30\u201350%</span></li><li>VSL Buchungsrate: <span class='fq-info-benchmark'>5\u201315%</span></li></ul>" },
+    options: [
+      { text: "Gar nicht, sie buchen direkt \u00fcber die Landing Page", scores: { CO: 2 } },
+      { text: "Ich habe ein Webinar oder eine Aufzeichnung, aber die Buchungsrate ist niedrig", scores: { CO: 3 } },
+      { text: "Ich habe ein Webinar oder VSL mit klarem Pitch und solider Buchungsrate", scores: { CO: 5 } },
+      { text: "Ich nutze ein mehrstufiges System (Webinar + Replay + Follow-up)", scores: { CO: 6 } }
+    ]
+  },
+  {
+    id: "g5", type: "single",
+    question: "Was passiert, nachdem sich jemand bei dir eingetragen hat?",
+    options: [
+      { text: "Eine Best\u00e4tigungsmail. Das war\u2019s.", scores: { FU: 1 } },
+      { text: "Eine kurze E-Mail-Sequenz (2 bis 3 Mails)", scores: { FU: 3 } },
+      { text: "Eine durchdachte Sequenz mit Reminder, Social Proof und klarem CTA", scores: { FU: 5 } },
+      { text: "Automatisierte Sequenz \u00fcber E-Mail UND WhatsApp mit segmentiertem Follow-up", scores: { FU: 6 } }
+    ]
+  },
+  {
+    id: "g6", type: "single",
+    question: "Kennst du deine wichtigsten Funnel-Zahlen?",
+    info: { label: "Die wichtigsten Funnel-KPIs", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="12" width="3" height="5" rx="0.5" stroke="#193F3B" stroke-width="1.5"/><rect x="8.5" y="8" width="3" height="9" rx="0.5" stroke="#193F3B" stroke-width="1.5"/><rect x="14" y="4" width="3" height="13" rx="0.5" stroke="#193F3B" stroke-width="1.5"/></svg>', text: "<strong>CPL (Cost per Lead):</strong> Was du pro neuem Kontakt bezahlst.<br><span class='fq-info-benchmark'>Benchmark: 5\u201350\u20ac je nach Branche, Coaching 15\u201330\u20ac</span><br><br><strong>Conversion Rate:</strong> Anteil der Besucher, die sich eintragen.<br><span class='fq-info-benchmark'>Benchmark: Gute Landing Pages 20\u201340%, unter 15% = dringend optimieren</span><br><br><strong>Show-up-Rate:</strong> Anteil der Leads, die zum Gespr\u00e4ch erscheinen.<br><span class='fq-info-benchmark'>Benchmark: Zielwert 60\u201380%, unter 50% = Follow-up verbessern</span><br><br><strong>ROAS (Return on Ad Spend):</strong> Umsatz pro investiertem Werbe-Euro.<br><span class='fq-info-benchmark'>Benchmark: 3\u20135x ist gesund, unter 2x = schwer profitabel skalierbar</span>" },
+    options: [
+      { text: "Ehrlich gesagt: nein.", scores: {} },
+      { text: "Ich kenne meine ungef\u00e4hren Kosten pro Lead", scores: { TR: 1 } },
+      { text: "Ich kenne CPL, Conversion Rate und Show-up-Rate", scores: { TR: 1, LP: 1 } },
+      { text: "Ich tracke den gesamten Funnel und kenne meinen ROAS", scores: { TR: 2, LP: 1 } }
+    ]
+  },
+  {
+    id: "g7", type: "single",
+    question: "Wie l\u00e4uft dein Verkaufsgespr\u00e4ch ab?",
+    options: [
+      { text: "Ich mache das spontan, jedes Gespr\u00e4ch ist anders", scores: { SA: 1 } },
+      { text: "Ich habe einen groben Leitfaden, aber keinen festen Prozess", scores: { SA: 3 } },
+      { text: "Ich habe ein Skript und eine klare Struktur f\u00fcr jeden Call", scores: { SA: 5 } },
+      { text: "Systematischer Sales-Prozess mit Einwandbehandlung, Follow-up und CRM", scores: { SA: 6 } }
+    ]
+  }
+];
+
+// ============================================
+// TEIL 2: COACH-SPEZIFISCHE FRAGEN (12)
+// ============================================
+var COACH_QUESTIONS = [
+  {
+    id: "c1", type: "single",
+    question: "Wie klar ist deine Positionierung?",
+    hint: "K\u00f6nntest du einem Fremden in einem Satz sagen, wem du wobei hilfst?",
+    options: [
+      { text: "Ich helfe \u201eigendwie allen\u201c, je nachdem, wer anfragt, passe ich mein Angebot an", scores: { CO: 1 } },
+      { text: "Ich habe eine grobe Zielgruppe, aber mein Messaging wechselt st\u00e4ndig", scores: { CO: 2 } },
+      { text: "Ich habe eine klare Nische und ein konkretes Versprechen, das ich konsistent kommuniziere", scores: { CO: 4 } },
+      { text: "Meine Positionierung ist so spitz, dass Leads sich sofort angesprochen f\u00fchlen", scores: { CO: 6 } }
+    ]
+  },
+  {
+    id: "c2", type: "single",
+    question: "Wie sieht deine Angebotsstruktur aus?",
+    info: { label: "Was ist eine Value Ladder?", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 16H9V13H12V10H16V7" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="4" y1="16" x2="4" y2="13" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="13" x2="9" y2="10" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round"/><line x1="12" y1="10" x2="12" y2="7" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round"/><line x1="16" y1="7" x2="16" y2="4" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round"/></svg>', text: "<strong>Eine Angebotsleiter, die Vertrauen aufbaut und den Kundenwert steigert.</strong><br><br>Ohne Value Ladder versuchst du, kalten Leads direkt dein teuerstes Angebot zu verkaufen.<br><br><strong>Beispiel f\u00fcr ein Coaching-Business:</strong><ul><li><strong>Stufe 1 (kostenlos):</strong> E-Book oder Checkliste als Lead Magnet</li><li><strong>Stufe 2 (47\u201397\u20ac):</strong> Mini-Workshop oder Selbstlernkurs</li><li><strong>Stufe 3 (497\u20131.497\u20ac):</strong> Gruppenprogramm \u00fcber 8\u201312 Wochen</li><li><strong>Stufe 4 (3.000\u201310.000\u20ac):</strong> 1:1 Coaching oder Done-with-you Begleitung</li></ul>Jede Stufe liefert ein konkretes Ergebnis und macht Lust auf die n\u00e4chste.<br><span class='fq-info-benchmark'>Coaches mit Value Ladder verdienen im Schnitt 2\u20133x mehr als Coaches mit nur einem Angebot</span>" },
+    options: [
+      { text: "Ich habe nur ein einziges Angebot (meistens 1:1 Coaching), keine Stufen", scores: { SA: 1 } },
+      { text: "Ich habe zwei Angebote (z.\u00a0B. 1:1 und einen Kurs), aber sie sind nicht strategisch verkn\u00fcpft", scores: { SA: 3 } },
+      { text: "Ich habe eine klare Angebotsleiter mit einem Einstiegsangebot, das zum Hauptangebot f\u00fchrt", scores: { SA: 5 } },
+      { text: "Durchdachte Value Ladder mit Low-Ticket, Mid-Ticket und High-Ticket, jede Stufe verkauft die n\u00e4chste", scores: { SA: 6 } }
+    ]
+  },
+  {
+    id: "c3", type: "single",
+    question: "Wie f\u00fchrst du kalte Leads an ein Erstgespr\u00e4ch heran?",
+    info: { label: "Conversion Event erkl\u00e4rt", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="7.5" stroke="#193F3B" stroke-width="1.5"/><circle cx="10" cy="10" r="4.5" stroke="#193F3B" stroke-width="1.5"/><circle cx="10" cy="10" r="1.5" fill="#193F3B"/></svg>', text: "<strong>Der Moment, in dem ein kalter Lead erstmals echtes Kaufinteresse zeigt.</strong><br><br>Ohne Conversion Event springst du direkt von der Anzeige zum Erstgespr\u00e4ch. Ergebnis: nur 1\u20133% Buchungsrate.<br><br><strong>Der bessere Ablauf:</strong><ul><li>Ad \u2192 Opt-in-Seite <span class='fq-info-benchmark'>Conversion Rate: 20\u201340%</span></li><li>Lead nimmt an Event teil (Webinar, Workshop, Challenge) <span class='fq-info-benchmark'>Teilnahmerate: 40\u201356%</span></li><li>Im Event: Vertrauen aufbauen, dann Angebot <span class='fq-info-benchmark'>Buchungsrate: 10\u201320%</span></li></ul><strong>Ergebnis:</strong> 3- bis 5-fache Gesamtkonversion und deutlich bessere Gespr\u00e4chsqualit\u00e4t." },
+    options: [
+      { text: "Ich habe keinen Lead Magneten, Leute sollen direkt ein Gespr\u00e4ch buchen", scores: { LP: 1 } },
+      { text: "Ich biete ein PDF oder eine Checkliste an, aber wenige laden es runter", scores: { LP: 2 } },
+      { text: "Ich habe ein Webinar, einen Mini-Kurs oder eine Challenge, die Leads aufw\u00e4rmt", scores: { LP: 4 } },
+      { text: "Ich habe ein bew\u00e4hrtes Conversion Event mit guter Opt-in-Rate und klarem Pitch zum Erstgespr\u00e4ch", scores: { LP: 6 } }
+    ]
+  },
+  {
+    id: "c4", type: "single",
+    question: "Wie nutzt du Kundenergebnisse und Testimonials?",
+    options: [
+      { text: "Ich habe kaum Testimonials und frage auch selten danach", scores: { CO: 1 } },
+      { text: "Ich habe ein paar Screenshots oder Texte, die irgendwo auf meiner Seite stehen", scores: { CO: 2 } },
+      { text: "Ich sammle systematisch Video-Testimonials und setze sie gezielt auf der Landing Page und in Ads ein", scores: { CO: 4 } },
+      { text: "Dokumentierte Case Studies mit konkreten Vorher/Nachher-Ergebnissen in jedem Funnel-Schritt", scores: { CO: 6 } }
+    ]
+  },
+  {
+    id: "c5", type: "single",
+    question: "Wie konsistent ist dein Content-Marketing?",
+    options: [
+      { text: "Ich poste, wenn mir etwas einf\u00e4llt, mal mehr, mal wochenlang gar nicht", scores: { TR: 1 } },
+      { text: "Ich poste regelm\u00e4\u00dfig, aber ohne klaren Plan oder roten Faden", scores: { TR: 2 } },
+      { text: "Ich habe einen Content-Plan mit klaren Themen-S\u00e4ulen, der auf mein Angebot einzahlt", scores: { TR: 4 } },
+      { text: "Mein Content ist Teil eines Systems: Er baut Autorit\u00e4t auf und leitet direkt in meinen Funnel", scores: { TR: 6 } }
+    ]
+  },
+  {
+    id: "c6", type: "single",
+    question: "Wie qualifizierst du Leads, bevor sie ins Gespr\u00e4ch kommen?",
+    options: [
+      { text: "Gar nicht, jeder der bucht bekommt einen Termin", scores: { SA: 1, FU: 1 } },
+      { text: "Ich schaue mir das Profil vorher kurz an, aber es gibt keine festen Kriterien", scores: { SA: 2, FU: 2 } },
+      { text: "Ich habe einen Fragebogen oder ein Bewerbungsformular, das Leads vor dem Call ausf\u00fcllen", scores: { SA: 4, FU: 4 } },
+      { text: "Automatisierte Vorqualifizierung mit Scoring, nur passende Leads bekommen einen Terminslot", scores: { SA: 6, FU: 5 } }
+    ]
+  },
+  {
+    id: "c7", type: "single",
+    question: "Was passiert mit Leads, die NICHT sofort buchen?",
+    info: { label: "Speed-to-Lead: Warum Minuten z\u00e4hlen", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="7.5" stroke="#193F3B" stroke-width="1.5"/><path d="M10 5.5V10L13 12.5" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>', text: "<strong>Je schneller du reagierst, desto h\u00f6her die Conversion.</strong><br><br><strong>Die Zahlen sind eindeutig:</strong><ul><li>Reaktion innerhalb von <strong>5 Minuten:</strong> <span class='fq-info-benchmark'>21x h\u00f6here Qualifizierungsrate</span></li><li>Nach 30 Minuten sinkt die Wahrscheinlichkeit drastisch</li><li>Nach 24 Stunden ist der Lead praktisch kalt</li></ul><strong>Was du tun kannst:</strong><ul><li>Automatische Best\u00e4tigung sofort nach Eintragung</li><li>WhatsApp-Nachricht innerhalb von 5 Minuten</li><li>Pers\u00f6nliche Sprachnachricht innerhalb von 1 Stunde</li></ul>" },
+    options: [
+      { text: "Ehrlich gesagt: nichts. Wenn sie nicht buchen, h\u00f6re ich nichts mehr von ihnen.", scores: { FU: 1 } },
+      { text: "Ich poste weiter auf Social Media und hoffe, dass sie irgendwann wieder auftauchen", scores: { FU: 2 } },
+      { text: "Ich habe eine E-Mail-Sequenz, die \u00fcber mehrere Tage Vertrauen aufbaut und zur Buchung f\u00fchrt", scores: { FU: 4 } },
+      { text: "Multi-Channel-System (E-Mail + WhatsApp + Retargeting), das Leads segmentiert nachfasst", scores: { FU: 6 } }
+    ]
+  },
+  {
+    id: "c8", type: "single",
+    question: "Wie gehst du mit deiner Preisgestaltung um?",
+    options: [
+      { text: "Ich nenne meinen Preis ungern und passe ihn je nach Kunde an", scores: { SA: 1, CO: 1 } },
+      { text: "Ich habe feste Preise, bin aber unsicher, ob sie angemessen sind", scores: { SA: 2, CO: 2 } },
+      { text: "Klare Preisstruktur, die ich selbstbewusst kommuniziere", scores: { SA: 4, CO: 3 } },
+      { text: "Wert-basiertes Pricing mit klarer Argumentation, warum der Preis gerechtfertigt ist", scores: { SA: 5, CO: 4 } }
+    ]
+  },
+  {
+    id: "c9", type: "multi",
+    question: "Welche Elemente hat deine Buchungsseite?",
+    hint: "W\u00e4hle alle aus, die zutreffen.",
+    options: [
+      { text: "Klare Headline, die das Ergebnis f\u00fcr den Klienten kommuniziert", scores: { LP: 1 } },
+      { text: "Klienten-Testimonials mit konkreten Ergebnissen", scores: { LP: 1 } },
+      { text: "Nur EIN klarer Call-to-Action (Buchen oder Eintragen)", scores: { LP: 1 } },
+      { text: "Vorher/Nachher-Ergebnisse oder Case Studies", scores: { LP: 1 } },
+      { text: "Video, in dem du pers\u00f6nlich sprichst", scores: { LP: 1 } },
+      { text: "FAQ-Bereich, der typische Einw\u00e4nde vorwegnimmt", scores: { LP: 1 } }
+    ]
+  },
+  {
+    id: "c10", type: "multi",
+    question: "Bei welchen typischen Einw\u00e4nden hast du eine gute Antwort?",
+    hint: "W\u00e4hle alle aus, bei denen du eine klare Antwort hast.",
+    options: [
+      { text: "\u201eDas ist mir zu teuer.\u201c", scores: { SA: 1 } },
+      { text: "\u201eIch muss noch mal dr\u00fcber nachdenken.\u201c", scores: { SA: 1 } },
+      { text: "\u201eIch habe gerade keine Zeit.\u201c", scores: { SA: 1 } },
+      { text: "\u201eIch bin mir nicht sicher, ob das bei mir funktioniert.\u201c", scores: { SA: 1 } },
+      { text: "\u201eMein Partner muss noch zustimmen.\u201c", scores: { SA: 1 } },
+      { text: "\u201eIch habe schon mal ein Coaching gemacht und es hat nicht funktioniert.\u201c", scores: { SA: 1 } }
+    ]
+  },
+  {
+    id: "c11", type: "multi",
+    question: "\u00dcber welche Kan\u00e4le pflegst du den Kontakt zu Leads?",
+    hint: "W\u00e4hle alle aus, die du aktiv nutzt.",
+    options: [
+      { text: "E-Mail-Sequenzen", scores: { FU: 1 } },
+      { text: "WhatsApp oder SMS", scores: { FU: 1 } },
+      { text: "Retargeting Ads", scores: { FU: 1, TR: 1 } },
+      { text: "Community (Facebook-Gruppe, Skool, Circle o.\u00e4.)", scores: { FU: 1 } },
+      { text: "Pers\u00f6nliche DMs oder Voice Messages", scores: { FU: 1 } },
+      { text: "Regelm\u00e4\u00dfiger Newsletter mit Mehrwert", scores: { FU: 1, CO: 1 } }
+    ]
+  },
+  {
+    id: "c12", type: "single",
+    question: "Wie baust du deine pers\u00f6nliche Marke auf?",
+    options: [
+      { text: "Ich habe keine bewusste Personal-Brand-Strategie", scores: { TR: 1, CO: 1 } },
+      { text: "Ich bin auf einer Plattform aktiv, aber es f\u00fchlt sich zuf\u00e4llig an", scores: { TR: 2, CO: 2 } },
+      { text: "Ich habe eine klare Markenidentit\u00e4t und bin auf 2-3 Kan\u00e4len konsistent sichtbar", scores: { TR: 4, CO: 4 } },
+      { text: "Meine Personal Brand generiert organisch Anfragen und \u00f6ffnet T\u00fcren", scores: { TR: 6, CO: 5 } }
+    ]
+  }
+];
+
+// ============================================
+// TEIL 2: MARKETER-SPEZIFISCHE FRAGEN (12)
+// ============================================
+var MARKETER_QUESTIONS = [
+  {
+    id: "m1", type: "single",
+    question: "Wie trackst du die Performance deiner Marketing-Kan\u00e4le?",
+    info: { label: "First-Party Data: Der neue Wettbewerbsvorteil", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="2" width="14" height="16" rx="2" stroke="#193F3B" stroke-width="1.5"/><path d="M7 6h6M7 9h6M7 12h4" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round"/></svg>', text: "<strong>Mit dem Ende der Third-Party-Cookies wird eigene Datenerhebung zum entscheidenden Vorteil.</strong><br><br><strong>Die drei Datentypen:</strong><ul><li><strong>Third-Party (stirbt aus):</strong> Cookies von Drittanbietern, immer unzuverl\u00e4ssiger</li><li><strong>First-Party (Pflicht):</strong> Daten, die du auf deiner eigenen Website sammelst (Analytics, CRM, Formulare)</li><li><strong>Zero-Party (Gold):</strong> Daten, die Nutzer dir freiwillig geben (Quiz-Antworten, Pr\u00e4ferenzen, Umfragen)</li></ul><strong>Was das f\u00fcr dich bedeutet:</strong><ul><li>Server-Side Tracking aufsetzen (Meta CAPI, Google Enhanced Conversions)</li><li>Eigene Audiences aufbauen statt auf Plattform-Targeting zu vertrauen</li><li>Interaktive Formate (Quizzes, Assessments) f\u00fcr Zero-Party Data nutzen</li></ul><span class='fq-info-benchmark'>73% der Marketer haben signifikante Attribution-Probleme seit iOS 14.5</span>" },
+    options: [
+      { text: "Ich schaue haupts\u00e4chlich in die nativen Plattform-Dashboards (Meta, Google etc.)", scores: { TR: 1 } },
+      { text: "Ich nutze GA4, aber mein Tracking hat L\u00fccken", scores: { TR: 2 } },
+      { text: "Sauberes Event-Tracking und UTM-Struktur \u00fcber alle Kan\u00e4le", scores: { TR: 4 } },
+      { text: "Server-Side Tracking, zentrales Attribution-Modell und nachweisbarer ROAS pro Kanal", scores: { TR: 6 } }
+    ]
+  },
+  {
+    id: "m2", type: "single",
+    question: "Wie strukturiert testest du deine Ad Creatives?",
+    info: { label: "Creative Testing Framework", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="7" height="14" rx="1.5" stroke="#193F3B" stroke-width="1.5"/><rect x="11" y="3" width="7" height="14" rx="1.5" stroke="#193F3B" stroke-width="1.5"/><text x="5.5" y="11.5" text-anchor="middle" font-size="7" font-weight="700" fill="#193F3B" font-family="sans-serif">A</text><text x="14.5" y="11.5" text-anchor="middle" font-size="7" font-weight="700" fill="#193F3B" font-family="sans-serif">B</text></svg>', text: "<strong>Ein systematischer Prozess, um herauszufinden, welche Ads wirklich funktionieren.</strong><br><br><strong>Die Testing-Hierarchie</strong> (in dieser Reihenfolge testen):<ul><li><strong>1. Hook:</strong> Die ersten 1\u20133 Sekunden. Entscheiden, ob jemand stoppt.</li><li><strong>2. Angle:</strong> Die Perspektive (Angst vor Verlust vs. Chance auf Gewinn)</li><li><strong>3. Format:</strong> Bild, Video, Karussell oder UGC</li><li><strong>4. CTA:</strong> Welche Handlungsaufforderung konvertiert am besten?</li></ul><strong>Typische Teststruktur:</strong><ul><li>3\u20135 neue Varianten pro Woche, jeweils nur eine Variable \u00e4ndern</li><li>Mindestens 50\u2013100\u20ac Budget pro Variante f\u00fcr Relevanz</li><li>Winner nach 3\u20135 Tagen identifizieren</li></ul><span class='fq-info-benchmark'>Creative Fatigue 2026: Ads verfallen in Tagen statt Wochen, daher ist ein Testing-System \u00fcberlebenswichtig</span>" },
+    options: [
+      { text: "Ich erstelle neue Ads nach Bauchgef\u00fchl, wenn die alten nicht mehr laufen", scores: { TR: 1, CO: 1 } },
+      { text: "Ich teste ab und zu neue Creatives, aber ohne klare Struktur", scores: { TR: 2, CO: 2 } },
+      { text: "Fester Testing-Rhythmus mit isolierten Variablen (Hook, Angle, Format)", scores: { TR: 5, CO: 4 } },
+      { text: "Creative Scorecard-System mit KPI-Benchmarks, systematische Iteration auf Winnern", scores: { TR: 6, CO: 5 } }
+    ]
+  },
+  {
+    id: "m3", type: "single",
+    question: "Wie optimierst du deine Landing Pages?",
+    options: [
+      { text: "Einmal erstellt, seitdem kaum etwas ver\u00e4ndert", scores: { LP: 1 } },
+      { text: "Ich passe Texte und Design gelegentlich an, aber ohne A/B-Tests", scores: { LP: 2 } },
+      { text: "Regelm\u00e4\u00dfige A/B-Tests und bekannte Conversion Rate pro Traffic-Quelle", scores: { LP: 4 } },
+      { text: "CRO-Programm mit Heatmaps, Session Recordings und segmentierten A/B-Tests", scores: { LP: 6 } }
+    ]
+  },
+  {
+    id: "m4", type: "single",
+    question: "Wie sieht deine Retargeting-Strategie aus?",
+    options: [
+      { text: "Ich mache kein gezieltes Retargeting", scores: { TR: 1, FU: 1 } },
+      { text: "Ich retargete alle Website-Besucher mit den gleichen Anzeigen", scores: { TR: 2, FU: 1 } },
+      { text: "Unterschiedliche Audiences basierend auf Funnel-Stufe (Besucher vs. Webinar-Teilnehmer etc.)", scores: { TR: 4, FU: 3 } },
+      { text: "Multi-Touch Retargeting mit dynamischen Creatives, Frequency Caps und Exclusion-Audiences", scores: { TR: 5, FU: 4 } }
+    ]
+  },
+  {
+    id: "m5", type: "single",
+    question: "Wie setzt du Content ein, um kalte Leads aufzuw\u00e4rmen?",
+    options: [
+      { text: "Kein systematischer Content. Leads sehen nur Ads und Landing Page", scores: { CO: 1 } },
+      { text: "Ich poste auf Social Media, aber es gibt keine Verbindung zu meinem Funnel", scores: { CO: 2 } },
+      { text: "Content-Formate (Blog, Video, Podcast), die gezielt in meinen Funnel eingebunden sind", scores: { CO: 4, FU: 1 } },
+      { text: "Content-\u00d6kosystem mit Thought Leadership, \u00fcber Retargeting und Nurturing strategisch ausgespielt", scores: { CO: 6, FU: 2 } }
+    ]
+  },
+  {
+    id: "m6", type: "single",
+    question: "Wie automatisiert ist dein Marketing nach dem Opt-in?",
+    info: { label: "Marketing Automation erkl\u00e4rt", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="2.5" stroke="#193F3B" stroke-width="1.5"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M15.8 4.2l-1.4 1.4M5.6 14.4l-1.4 1.4" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round"/></svg>', text: "<strong>Leads bekommen automatisch die richtigen Nachrichten zur richtigen Zeit, basierend auf ihrem Verhalten.</strong><br><br><strong>Unterschied zu E-Mail-Blasts:</strong> Beim Newsletter bekommt jeder das Gleiche. Bei Automation reagiert das System auf Aktionen.<br><br><strong>Beispiele f\u00fcr verhaltensbasierte Triggers:</strong><ul><li>Lead klickt Link in E-Mail \u2192 sofort Follow-up zum Thema</li><li>Lead besucht Pricing-Seite \u2192 Testimonials + Buchungslink</li><li>Lead \u00f6ffnet 3 Mails, bucht nicht \u2192 pers\u00f6nliche WhatsApp</li><li>Lead erscheint nicht zum Termin \u2192 automatisch neuer Vorschlag</li></ul><span class='fq-info-benchmark'>Ergebnis: 8\u201315% Buchungsrate statt 2\u20133% bei Standard-Mails</span>" },
+    options: [
+      { text: "Nach dem Opt-in passiert wenig, vielleicht eine Best\u00e4tigungsmail", scores: { FU: 1 } },
+      { text: "Standard-E-Mail-Sequenz, die jeder Lead durchl\u00e4uft", scores: { FU: 3 } },
+      { text: "Verhaltensbasierte Automationen, die auf Aktionen der Leads reagieren", scores: { FU: 5 } },
+      { text: "Multichannel-Automation (E-Mail, SMS, WhatsApp) mit Lead Scoring und automatischer \u00dcbergabe an Sales", scores: { FU: 6 } }
+    ]
+  },
+  {
+    id: "m7", type: "single",
+    question: "Was passiert, wenn du dein Werbebudget verdoppeln willst?",
+    options: [
+      { text: "Ich erh\u00f6he das Budget und hoffe, dass die Ergebnisse mitskalieren", scores: { TR: 1, SA: 1 } },
+      { text: "Ich skaliere vertikal (mehr Budget auf das, was l\u00e4uft), aber irgendwann steigen die CPAs", scores: { TR: 2, SA: 2 } },
+      { text: "Horizontale Skalierung (neue Audiences, Plattformen, Creatives) mit klarem Prozess", scores: { TR: 4, SA: 3 } },
+      { text: "Skalierungsframework mit definierten Schwellenwerten und bekanntem marginalem ROAS pro Kanal", scores: { TR: 5, SA: 4 } }
+    ]
+  },
+  {
+    id: "m8", type: "single",
+    question: "Wie misst du den Erfolg deines Funnels?",
+    options: [
+      { text: "Umsatz am Monatsende und Bauchgef\u00fchl", scores: { SA: 1, LP: 1 } },
+      { text: "Einfaches Reporting mit Ad-Metriken (CTR, CPL, CPA)", scores: { SA: 2, LP: 2 } },
+      { text: "Dashboard mit End-to-End Funnel-KPIs von Ad Impression bis Abschluss", scores: { SA: 4, LP: 3 } },
+      { text: "Automatisierte Dashboards mit Cohort-Analysen, LTV-Berechnung und ROI pro Creative", scores: { SA: 6, LP: 4 } }
+    ]
+  },
+  {
+    id: "m9", type: "multi",
+    question: "Welche CRO-Elemente setzt du auf deinen Landing Pages ein?",
+    hint: "W\u00e4hle alle aus, die zutreffen.",
+    options: [
+      { text: "Dynamische Headlines basierend auf Ad-Kampagne oder Zielgruppe", scores: { LP: 1 } },
+      { text: "Social Proof mit konkreten Zahlen (ROI, Ergebnisse, Case Studies)", scores: { LP: 1 } },
+      { text: "Exit-Intent oder Scroll-Trigger Elemente", scores: { LP: 1 } },
+      { text: "Mobile-first Design mit Ladezeit unter 3 Sekunden", scores: { LP: 1 } },
+      { text: "Video-Testimonials oder VSL above the fold", scores: { LP: 1 } },
+      { text: "Segmentierte Varianten f\u00fcr unterschiedliche Audiences", scores: { LP: 1 } }
+    ]
+  },
+  {
+    id: "m10", type: "multi",
+    question: "Welche Tools nutzt du aktiv in deinem Marketing Stack?",
+    hint: "W\u00e4hle alle aus, die du regelm\u00e4\u00dfig nutzt.",
+    options: [
+      { text: "Conversion API / Server-Side Tracking (z.\u00a0B. Meta CAPI)", scores: { TR: 1 } },
+      { text: "Heatmap & Session Recording Tool (z.\u00a0B. Hotjar, Clarity)", scores: { LP: 1 } },
+      { text: "Marketing Automation mit Behavioral Triggers", scores: { FU: 1 } },
+      { text: "CRM mit Pipeline-Tracking und Lead Scoring", scores: { SA: 1 } },
+      { text: "A/B-Testing Tool f\u00fcr Landing Pages", scores: { LP: 1 } },
+      { text: "Attribution- oder BI-Tool (z.\u00a0B. Hyros, TripleWhale, Looker Studio)", scores: { TR: 1 } }
+    ]
+  },
+  {
+    id: "m11", type: "single",
+    question: "Wie verteilst du dein Budget auf verschiedene Kan\u00e4le?",
+    options: [
+      { text: "Alles auf einem Kanal (meistens Meta oder Google)", scores: { TR: 1 } },
+      { text: "Ich teste gelegentlich neue Kan\u00e4le, aber ohne klaren Vergleich", scores: { TR: 2 } },
+      { text: "Budgetverteilung basierend auf Performance-Daten \u00fcber 2-3 Kan\u00e4le", scores: { TR: 4 } },
+      { text: "Dynamische Allokation \u00fcber 3+ Kan\u00e4le basierend auf marginalem ROAS", scores: { TR: 6 } }
+    ]
+  },
+  {
+    id: "m12", type: "single",
+    question: "Wie ist dein Marketing-Team aufgestellt?",
+    options: [
+      { text: "Ich mache alles alleine", scores: { SA: 1, CO: 1 } },
+      { text: "Kleine Unterst\u00fctzung durch Freelancer, aber kein festes Team", scores: { SA: 2, CO: 2 } },
+      { text: "Festes Team mit klaren Rollen (Ads, Content, Design)", scores: { SA: 4, CO: 4 } },
+      { text: "Spezialisiertes Team mit Prozessen, SOPs und regelm\u00e4\u00dfigem Skill-Upgrade", scores: { SA: 5, CO: 5 } }
+    ]
+  }
+];
+
+// ============================================
+// TEIL 2: MITTELSTAND-SPEZIFISCHE FRAGEN (12)
+// ============================================
+var MITTELSTAND_QUESTIONS = [
+  {
+    id: "ms1", type: "single",
+    question: "Welche Rolle spielt eure Website bei der Kundengewinnung?",
+    options: [
+      { text: "Sie ist im Grunde eine digitale Visitenkarte: \u00dcber uns, Leistungen, Kontaktformular", scores: { LP: 1 } },
+      { text: "Guter Content vorhanden, aber keine klare Conversion-Strategie", scores: { LP: 2 } },
+      { text: "Gezielte Landing Pages f\u00fcr bestimmte Angebote oder Kampagnen mit klaren CTAs", scores: { LP: 4 } },
+      { text: "Die Website ist ein Lead-Magnet: A/B-Tests, Conversion-Tracking, verschiedene Funnels f\u00fcr verschiedene Zielgruppen", scores: { LP: 6 } }
+    ]
+  },
+  {
+    id: "ms2", type: "single",
+    question: "Wie verwaltet ihr eure Kontakte und Anfragen?",
+    info: { label: "Was ist ein CRM?", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="7" cy="6" r="2.5" stroke="#193F3B" stroke-width="1.5"/><circle cx="13" cy="6" r="2.5" stroke="#193F3B" stroke-width="1.5"/><path d="M3 15.5C3 13 4.8 11 7 11C8.2 11 9.3 11.6 10 12.5C10.7 11.6 11.8 11 13 11C15.2 11 17 13 17 15.5" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round"/></svg>', text: "<strong>Eine zentrale Software f\u00fcr alle Kundenkontakte, Anfragen und Kommunikation.</strong> Beispiele: HubSpot, Salesforce, Pipedrive.<br><br><strong>Das gr\u00f6\u00dfte Problem ohne CRM:</strong> Kundenwissen steckt im Kopf einzelner Vertriebler. Wenn jemand krank ist oder k\u00fcndigt, ist dieses Wissen weg.<br><br><strong>Was ein CRM konkret bringt:</strong><ul><li>Reaktionszeit auf Anfragen unter 1 Stunde statt 1\u20132 Tage</li><li>Automatische Erinnerungen: kein Lead f\u00e4llt durch</li><li>Transparente Pipeline mit klaren Stages und Forecasting</li><li>Saubere \u00dcbergabe zwischen Marketing und Vertrieb</li></ul><span class='fq-info-benchmark'>Durchschnittlicher ROI: 8,71\u20ac pro investiertem Euro (Nucleus Research)</span><br><span class='fq-info-benchmark'>Ohne CRM gehen bis zu 30% der Leads verloren</span>" },
+    options: [
+      { text: "Excel-Listen, Outlook-Ordner oder im Kopf vom Vertriebler", scores: { FU: 1, SA: 1 } },
+      { text: "Wir haben ein CRM, aber es wird nicht konsequent gepflegt", scores: { FU: 2, SA: 2 } },
+      { text: "CRM ist im Einsatz mit klaren Regeln, wann und wie Kontakte gepflegt werden", scores: { FU: 4, SA: 4 } },
+      { text: "CRM mit Lead-Scoring, automatisierten Workflows und sauberer \u00dcbergabe zwischen Marketing und Vertrieb", scores: { FU: 6, SA: 5 } }
+    ]
+  },
+  {
+    id: "ms3", type: "single",
+    question: "Wie positioniert ihr euch als Experte in eurem Markt?",
+    options: [
+      { text: "Unsere Referenzen sprechen f\u00fcr sich, wir machen kein aktives Content-Marketing", scores: { CO: 1 } },
+      { text: "Wir posten gelegentlich auf LinkedIn oder im Blog, aber ohne festen Plan", scores: { CO: 2 } },
+      { text: "Regelm\u00e4\u00dfig Fachbeitr\u00e4ge, Case Studies oder Whitepaper f\u00fcr unsere Zielgruppe", scores: { CO: 4 } },
+      { text: "Content-Strategie entlang der Customer Journey mit Lead-Magneten, die in Nurturing-Sequenzen f\u00fchren", scores: { CO: 6 } }
+    ]
+  },
+  {
+    id: "ms4", type: "single",
+    question: "Was passiert, wenn eine Anfrage \u00fcber die Website reinkommt?",
+    options: [
+      { text: "Die landet in einem Sammelpostfach, manchmal dauert es Tage, bis jemand antwortet", scores: { FU: 1 } },
+      { text: "Innerhalb von 24 Stunden meldet sich jemand, aber es gibt keinen festen Prozess danach", scores: { FU: 2 } },
+      { text: "Automatische Best\u00e4tigung sofort, pers\u00f6nliche Kontaktaufnahme innerhalb weniger Stunden", scores: { FU: 4 } },
+      { text: "Sofort automatisierte Sequenz (E-Mail + Kalender-Link), Lead wird im CRM qualifiziert und zugewiesen", scores: { FU: 6 } }
+    ]
+  },
+  {
+    id: "ms5", type: "single",
+    question: "Wie strukturiert ist euer Vertriebsprozess vom Erstkontakt bis zum Abschluss?",
+    info: { label: "Buying Center und Account Based Marketing", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="5" r="2.5" stroke="#193F3B" stroke-width="1.5"/><circle cx="4.5" cy="12" r="2" stroke="#193F3B" stroke-width="1.5"/><circle cx="15.5" cy="12" r="2" stroke="#193F3B" stroke-width="1.5"/><path d="M10 7.5v2M6.5 10.5L8.5 9M13.5 10.5L11.5 9" stroke="#193F3B" stroke-width="1.3" stroke-linecap="round"/></svg>', text: "<strong>Im B2B kauft selten eine einzelne Person. Typisch: 3 bis 5 Entscheider \u00fcber 3 bis 6 Monate.</strong><br><br><strong>Das Buying Center besteht aus:</strong><ul><li><strong>Gesch\u00e4ftsf\u00fchrung:</strong> Will ROI und strategischen Nutzen sehen</li><li><strong>IT/Technik:</strong> Braucht technische Specs und Integrations-Details</li><li><strong>Einkauf:</strong> Will Vergleiche, Referenzen und Konditionen</li><li><strong>Fachabteilung:</strong> Will wissen, ob es im Alltag funktioniert</li></ul><strong>Account Based Marketing (ABM) als L\u00f6sung:</strong><br>Statt breit zu streuen, fokussiert ABM eure Marketing-Ressourcen auf die wichtigsten Zielunternehmen mit ma\u00dfgeschneiderten Inhalten f\u00fcr jede Rolle im Buying Center.<br><br><span class='fq-info-benchmark'>Unstrukturierte Prozesse kosten bis zu 67% der potenziellen Kunden</span>" },
+    options: [
+      { text: "Jeder Vertriebler macht es auf seine Art, kein einheitlicher Prozess", scores: { SA: 1 } },
+      { text: "Phasen definiert (Erstgespr\u00e4ch, Angebot, Verhandlung), aber die Umsetzung ist unterschiedlich", scores: { SA: 3 } },
+      { text: "Standardisierter Prozess mit klaren Stages, Gespr\u00e4chsleitf\u00e4den und Pipeline-Review", scores: { SA: 5 } },
+      { text: "Datengetriebener Sales-Prozess: Win/Loss-Analyse, Conversion Rates pro Stage, Forecasting", scores: { SA: 6 } }
+    ]
+  },
+  {
+    id: "ms6", type: "single",
+    question: "Wie verteilt sich euer Marketing-Budget zwischen klassischen und digitalen Ma\u00dfnahmen?",
+    options: [
+      { text: "Fast alles geht in Messen, Printwerbung und Sponsoring, digital kaum Budget", scores: { TR: 1 } },
+      { text: "Etwas in Website und Social Media, aber Messen und Events dominieren", scores: { TR: 2 } },
+      { text: "Ungef\u00e4hr 50/50: Wir testen digitale Kan\u00e4le gezielt und messen die Ergebnisse", scores: { TR: 4 } },
+      { text: "Der Gro\u00dfteil flie\u00dft in digitale Kan\u00e4le mit klarem ROI-Tracking", scores: { TR: 6 } }
+    ]
+  },
+  {
+    id: "ms7", type: "single",
+    question: "Wie messt ihr den Erfolg eurer Marketing- und Vertriebsma\u00dfnahmen?",
+    options: [
+      { text: "Bauchgef\u00fchl und Umsatz am Jahresende, konkrete Kennzahlen tracken wir nicht", scores: {} },
+      { text: "Wir schauen auf Website-Besucher und Anfragen, k\u00f6nnen aber nicht zuordnen, woher sie kommen", scores: { TR: 1, LP: 1 } },
+      { text: "Wir kennen unsere Kosten pro Lead, Conversion Rates und wissen, welche Kan\u00e4le funktionieren", scores: { TR: 2, LP: 2 } },
+      { text: "End-to-End-Tracking: Von der Anzeige \u00fcber den Lead bis zum gewonnenen Kunden, jeder Euro ist zuordenbar", scores: { TR: 3, LP: 3 } }
+    ]
+  },
+  {
+    id: "ms8", type: "single",
+    question: "Wie arbeiten Marketing und Vertrieb bei euch zusammen?",
+    options: [
+      { text: "Marketing und Vertrieb sind getrennte Welten, kaum Austausch", scores: { SA: 1, FU: 1 } },
+      { text: "Gelegentliche Abstimmung, aber keine festen Prozesse oder gemeinsamen Ziele", scores: { SA: 2, FU: 2 } },
+      { text: "Regelm\u00e4\u00dfige Meetings, gemeinsame KPIs und definierte Lead-\u00dcbergabe", scores: { SA: 4, FU: 4 } },
+      { text: "Voll integriert: gemeinsames CRM, Lead Scoring, automatisierte Workflows und Feedback-Loop", scores: { SA: 5, FU: 5 } }
+    ]
+  },
+  {
+    id: "ms9", type: "multi",
+    question: "Welche Tools und Systeme nutzt ihr aktiv?",
+    hint: "W\u00e4hle alle aus, die bei euch im Einsatz sind.",
+    options: [
+      { text: "CRM-System (z.\u00a0B. HubSpot, Salesforce, Pipedrive)", scores: { FU: 1, SA: 1 } },
+      { text: "Marketing-Automation (z.\u00a0B. ActiveCampaign, HubSpot, Mailchimp)", scores: { FU: 1, CO: 1 } },
+      { text: "Analytics & Tracking (z.\u00a0B. Google Analytics, Matomo)", scores: { TR: 1, LP: 1 } },
+      { text: "LinkedIn Sales Navigator oder Social-Selling-Tools", scores: { TR: 1, CO: 1 } },
+      { text: "Kalender- oder Buchungstool (z.\u00a0B. Calendly, HubSpot Meetings)", scores: { SA: 1 } },
+      { text: "Nichts davon, wir arbeiten haupts\u00e4chlich mit E-Mail und Telefon", scores: {} }
+    ]
+  },
+  {
+    id: "ms10", type: "multi",
+    question: "Welche Inhalte erstellt ihr regelm\u00e4\u00dfig f\u00fcr eure Zielgruppe?",
+    hint: "W\u00e4hle alle aus, die ihr mindestens pro Quartal produziert.",
+    options: [
+      { text: "Case Studies oder Referenzberichte", scores: { CO: 1, SA: 1 } },
+      { text: "Fachbeitr\u00e4ge oder Blog-Artikel", scores: { CO: 1, TR: 1 } },
+      { text: "LinkedIn-Posts (Unternehmensseite oder pers\u00f6nlich)", scores: { TR: 1 } },
+      { text: "Webinare oder Online-Pr\u00e4sentationen", scores: { CO: 1, LP: 1 } },
+      { text: "Whitepaper, Leitf\u00e4den oder Checklisten als Download", scores: { LP: 1, FU: 1 } },
+      { text: "Video-Content (Erkl\u00e4rvideos, Testimonials, Behind the Scenes)", scores: { CO: 1 } }
+    ]
+  },
+  {
+    id: "ms11", type: "multi",
+    question: "Wie ist Marketing bei euch organisiert?",
+    hint: "W\u00e4hle alle aus, die zutreffen.",
+    options: [
+      { text: "Dedizierte Marketing-Abteilung (2+ Personen)", scores: { CO: 1, TR: 1 } },
+      { text: "Eine Person k\u00fcmmert sich um \u201ealles Marketing\u201c neben anderen Aufgaben", scores: { CO: 1 } },
+      { text: "Zusammenarbeit mit einer externen Agentur", scores: { TR: 1 } },
+      { text: "Festes monatliches Marketing-Budget definiert", scores: { TR: 1 } },
+      { text: "Marketing und Vertrieb haben regelm\u00e4\u00dfige gemeinsame Meetings", scores: { SA: 1, FU: 1 } },
+      { text: "Klare Marketing-Strategie mit dokumentierten Zielen und KPIs", scores: { CO: 1, TR: 1 } }
+    ]
+  },
+  {
+    id: "ms12", type: "single",
+    question: "Wie digital ist euer gesamter Vertriebsprozess?",
+    options: [
+      { text: "Fast alles l\u00e4uft \u00fcber pers\u00f6nliche Kontakte, Messen und Telefon", scores: { TR: 1, LP: 1 } },
+      { text: "Website und E-Mail sind dabei, aber der Kern ist immer noch pers\u00f6nlicher Vertrieb", scores: { TR: 2, LP: 2 } },
+      { text: "Digitale Touchpoints an jedem Schritt: Website, Ads, E-Mail-Automation, Online-Demos", scores: { TR: 4, LP: 4 } },
+      { text: "Vollst\u00e4ndig digitaler Funnel mit Self-Service-Elementen und pers\u00f6nlichem Vertrieb nur f\u00fcr High-Value-Deals", scores: { TR: 6, LP: 5 } }
+    ]
+  }
+];
+
+var ICP_MAP = { coach: COACH_QUESTIONS, marketer: MARKETER_QUESTIONS, mittelstand: MITTELSTAND_QUESTIONS };
+
+// ============================================
+// STATE
+// ============================================
+var selectedICP = null;
+var allQuestions = [];
+var currentQuestion = 0;
+var userAnswers = [];
+var quizResults = null;
+var TOTAL_QUESTIONS = 20;
+var GENERAL_END_INDEX = 8; // Q0 (ICP) + Q1-Q7 (general) = index 8 is first ICP-specific
+var PART2_END_INDEX = 14; // GENERAL_END_INDEX (8) + 6 = first 6 ICP questions
+
+function buildQuestions() {
+  allQuestions = [ICP_QUESTION].concat(GENERAL_QUESTIONS);
+  if (selectedICP) {
+    allQuestions = allQuestions.concat(ICP_MAP[selectedICP]);
+  }
+  TOTAL_QUESTIONS = allQuestions.length;
+  userAnswers = allQuestions.map(function(q) {
+    return q.type === "multi" ? [] : null;
+  });
+}
+
+function calculateDimensionMaxes(questions) {
+  var maxes = { TR: 0, LP: 0, CO: 0, FU: 0, SA: 0 };
+  questions.forEach(function(q) {
+    if (q.type === "icp-select") return;
+    if (q.type === "single") {
+      var qMax = {};
+      q.options.forEach(function(opt) {
+        if (!opt.scores) return;
+        Object.keys(opt.scores).forEach(function(dim) {
+          if (!qMax[dim] || opt.scores[dim] > qMax[dim]) qMax[dim] = opt.scores[dim];
+        });
+      });
+      Object.keys(qMax).forEach(function(dim) { maxes[dim] += qMax[dim]; });
+    } else if (q.type === "multi") {
+      q.options.forEach(function(opt) {
+        if (!opt.scores) return;
+        Object.keys(opt.scores).forEach(function(dim) { maxes[dim] += opt.scores[dim]; });
+      });
+    }
+  });
+  return maxes;
+}
+
+function calculateResults(answers) {
+  var scores = { TR: 0, LP: 0, CO: 0, FU: 0, SA: 0 };
+  answers.forEach(function(answer, qi) {
+    var q = allQuestions[qi];
+    if (q.type === "icp-select") return;
+    if (q.type === "single" && answer !== null) {
+      var opt = q.options[answer];
+      if (opt.scores) Object.keys(opt.scores).forEach(function(dim) { scores[dim] += opt.scores[dim]; });
+    } else if (q.type === "multi" && Array.isArray(answer)) {
+      answer.forEach(function(oi) {
+        var opt = q.options[oi];
+        if (opt.scores) Object.keys(opt.scores).forEach(function(dim) { scores[dim] += opt.scores[dim]; });
+      });
+    }
+  });
+  var maxes = calculateDimensionMaxes(allQuestions);
+  var totalScore = Object.values(scores).reduce(function(a,b){ return a+b; }, 0);
+  var maxScore = Object.values(maxes).reduce(function(a,b){ return a+b; }, 0);
+  var pct = maxScore > 0 ? totalScore / maxScore : 0;
+  var segment, segmentLabel;
+  if (pct <= 0.35) { segment = "A"; segmentLabel = "Funnel-Baustelle"; }
+  else if (pct <= 0.70) { segment = "B"; segmentLabel = "Funnel mit Potenzial"; }
+  else { segment = "C"; segmentLabel = "Funnel-Ready"; }
+  var dimArr = Object.keys(scores).map(function(key) {
+    var val = scores[key]; var max = maxes[key] || 1;
+    return { key: key, label: DIMENSIONS[key].label, score: val, max: max, percentage: val/max };
+  }).sort(function(a,b){ return a.percentage - b.percentage; });
+  return { scores: scores, totalScore: totalScore, maxScore: maxScore,
+    segment: segment, segmentLabel: segmentLabel,
+    weakest: dimArr[0], secondWeakest: dimArr[1], dimPercentages: dimArr };
+}
+
+// ============================================
+// SCREEN MANAGEMENT
+// ============================================
+function showScreen(name) {
+  var screens = document.querySelectorAll('#quiz-root .fq-screen');
+  var target = null;
+  screens.forEach(function(s) { if (s.classList.contains('fq-screen--' + name)) target = s; });
+  if (!target) return;
+  var current = document.querySelector('#quiz-root .fq-screen.fq-active');
+  if (current === target) return;
+  if (current) {
+    current.style.opacity = '0';
+    setTimeout(function() {
+      current.classList.remove('fq-active'); current.style.display = ''; current.style.opacity = '';
+      target.style.opacity = '0'; target.style.display = 'block'; target.classList.add('fq-active');
+      playWhoosh();
+      requestAnimationFrame(function() { requestAnimationFrame(function() { target.style.opacity = '1'; }); });
+      document.getElementById('quiz-root').scrollIntoView({ behavior: 'smooth' });
+    }, 150);
+  } else { target.classList.add('fq-active'); target.style.opacity = '1'; }
+}
+
+function showMilestone(cb) {
+  var el = document.getElementById('fq-milestone');
+  // Calculate interim stats from Teil 1 answers
+  var statsContainer = document.getElementById('fq-milestone-stats-1');
+  while (statsContainer.firstChild) statsContainer.removeChild(statsContainer.firstChild);
+  var answeredCount = 0;
+  var interimScores = { TR: 0, LP: 0, CO: 0, FU: 0, SA: 0 };
+  for (var i = 0; i < GENERAL_END_INDEX; i++) {
+    if (userAnswers[i] !== null && userAnswers[i] !== undefined) {
+      answeredCount++;
+      var q = allQuestions[i];
+      if (q.type === 'single' && typeof userAnswers[i] === 'number') {
+        var opt = q.options[userAnswers[i]];
+        if (opt && opt.scores) { Object.keys(opt.scores).forEach(function(k) { interimScores[k] = (interimScores[k] || 0) + opt.scores[k]; }); }
+      } else if (q.type === 'multi' && Array.isArray(userAnswers[i])) {
+        userAnswers[i].forEach(function(oi) {
+          var opt = q.options[oi];
+          if (opt && opt.scores) { Object.keys(opt.scores).forEach(function(k) { interimScores[k] = (interimScores[k] || 0) + opt.scores[k]; }); }
+        });
+      }
+    }
+  }
+  var totalInterim = Object.values(interimScores).reduce(function(a,b){ return a+b; }, 0);
+  // Find strongest dimension so far
+  var strongest = Object.keys(interimScores).reduce(function(a,b){ return interimScores[a] >= interimScores[b] ? a : b; });
+  var stats = [
+    { value: answeredCount, label: 'Fragen' },
+    { value: totalInterim, label: 'Punkte' }
+  ];
+  stats.forEach(function(s, i) {
+    var card = document.createElement('div'); card.className = 'fq-milestone-stat';
+    var val = document.createElement('div'); val.className = 'fq-milestone-stat-value'; val.textContent = s.value;
+    var label = document.createElement('div'); label.className = 'fq-milestone-stat-label'; label.textContent = s.label;
+    card.appendChild(val); card.appendChild(label);
+    statsContainer.appendChild(card);
+    setTimeout(function() { card.classList.add('fq-visible'); }, 300 + i * 150);
+  });
+
+  el.classList.add('fq-visible');
+  playSuccess();
+  setTimeout(function() {
+    el.classList.remove('fq-visible');
+    if (cb) setTimeout(cb, 300);
+  }, 3200);
+}
+
+function showMilestone2(cb) {
+  var el = document.getElementById('fq-milestone-2');
+  var statsContainer = document.getElementById('fq-milestone-stats-2');
+  while (statsContainer.firstChild) statsContainer.removeChild(statsContainer.firstChild);
+  // Calculate interim stats from Teil 1 + first half of Teil 2
+  var interimScores = { TR: 0, LP: 0, CO: 0, FU: 0, SA: 0 };
+  var answeredCount = 0;
+  for (var i = 0; i < PART2_END_INDEX; i++) {
+    if (userAnswers[i] !== null && userAnswers[i] !== undefined) {
+      answeredCount++;
+      var q = allQuestions[i];
+      if (q.type === 'single' && typeof userAnswers[i] === 'number') {
+        var opt = q.options[userAnswers[i]];
+        if (opt && opt.scores) { Object.keys(opt.scores).forEach(function(k) { interimScores[k] = (interimScores[k] || 0) + opt.scores[k]; }); }
+      } else if (q.type === 'multi' && Array.isArray(userAnswers[i])) {
+        userAnswers[i].forEach(function(oi) {
+          var opt = q.options[oi];
+          if (opt && opt.scores) { Object.keys(opt.scores).forEach(function(k) { interimScores[k] = (interimScores[k] || 0) + opt.scores[k]; }); }
+        });
+      }
+    }
+  }
+  var totalInterim = Object.values(interimScores).reduce(function(a,b){ return a+b; }, 0);
+  // Find weakest dimension so far (this is what they'll optimize in Teil 3)
+  var weakest = Object.keys(interimScores).reduce(function(a,b){ return interimScores[a] <= interimScores[b] ? a : b; });
+  var pct = Math.round((answeredCount / TOTAL_QUESTIONS) * 100);
+  var stats = [
+    { value: pct + '%', label: 'Komplett' },
+    { value: totalInterim, label: 'Punkte' }
+  ];
+  stats.forEach(function(s, i) {
+    var card = document.createElement('div'); card.className = 'fq-milestone-stat';
+    var val = document.createElement('div'); val.className = 'fq-milestone-stat-value'; val.textContent = s.value;
+    var label = document.createElement('div'); label.className = 'fq-milestone-stat-label'; label.textContent = s.label;
+    card.appendChild(val); card.appendChild(label);
+    statsContainer.appendChild(card);
+    setTimeout(function() { card.classList.add('fq-visible'); }, 300 + i * 150);
+  });
+
+  el.classList.add('fq-visible');
+  playSuccess();
+  setTimeout(function() {
+    el.classList.remove('fq-visible');
+    if (cb) setTimeout(cb, 300);
+  }, 3200);
+}
+
+function hasAnswer(qi) {
+  var q = allQuestions[qi];
+  if (q.type === "multi") return userAnswers[qi].length > 0;
+  if (q.type === "icp-select") return userAnswers[qi] !== null;
+  return userAnswers[qi] !== null;
+}
+
+// ============================================
+// QUESTION RENDERING
+// ============================================
+function buildOptionEl(qi, oi, q) {
+  var opt = q.options[oi];
+  var isICP = q.type === "icp-select";
+  var isMulti = q.type === "multi";
+  var isSelected;
+  if (isICP || q.type === "single") isSelected = userAnswers[qi] === oi;
+  else isSelected = userAnswers[qi].indexOf(oi) !== -1;
+
+  var el = document.createElement('div');
+  el.className = 'fq-option' + (isSelected ? ' fq-selected' : '') + (isICP ? ' fq-option-icp' : '');
+  el.setAttribute('role', q.type === 'multi' ? 'checkbox' : 'radio');
+  el.setAttribute('aria-checked', String(isSelected));
+  el.setAttribute('tabindex', '0');
+  el.dataset.qi = qi; el.dataset.oi = oi;
+
+  if (isICP) {
+    var row = document.createElement('div'); row.className = 'fq-option-icp-row';
+    var indicator = document.createElement('span'); indicator.className = 'fq-option-indicator';
+    var textEl = document.createElement('span'); textEl.className = 'fq-option-text'; textEl.textContent = opt.text;
+    row.appendChild(indicator); row.appendChild(textEl);
+    el.appendChild(row);
+    if (opt.desc) {
+      var descEl = document.createElement('div'); descEl.className = 'fq-option-icp-desc'; descEl.textContent = opt.desc;
+      el.appendChild(descEl);
+    }
+  } else {
+    var indicator2 = document.createElement('span');
+    if (isMulti) {
+      indicator2.className = 'fq-option-checkbox';
+      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width','12'); svg.setAttribute('height','10'); svg.setAttribute('viewBox','0 0 12 10'); svg.setAttribute('fill','none');
+      var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d','M1 5L4.5 8.5L11 1.5'); path.setAttribute('stroke','white'); path.setAttribute('stroke-width','2');
+      path.setAttribute('stroke-linecap','round'); path.setAttribute('stroke-linejoin','round');
+      svg.appendChild(path); indicator2.appendChild(svg);
+    } else {
+      indicator2.className = 'fq-option-indicator';
+    }
+    var textEl2 = document.createElement('span'); textEl2.className = 'fq-option-text'; textEl2.textContent = opt.text;
+    el.appendChild(indicator2); el.appendChild(textEl2);
+  }
+
+  function onSelect() { selectOption(qi, oi); }
+  el.addEventListener('click', onSelect);
+  el.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(); } });
+  return el;
+}
+
+function renderQuestion(qi, direction) {
+  var q = allQuestions[qi];
+  var content = document.getElementById('fq-question-content');
+
+  // Update part label
+  var partLabel = document.getElementById('fq-part-label');
+  if (qi < GENERAL_END_INDEX) {
+    partLabel.textContent = 'Teil 1: Allgemeine Funnel-Analyse';
+  } else if (qi < PART2_END_INDEX) {
+    var icpNames = { coach: 'Coach & Consulting', marketer: 'Marketing & Agentur', mittelstand: 'Unternehmen & B2B' };
+    partLabel.textContent = 'Teil 2: ' + (icpNames[selectedICP] || 'Dein Bereich');
+  } else {
+    partLabel.textContent = 'Teil 3: Feintuning & Abschluss';
+  }
+
+  function doRender() {
+    while (content.firstChild) content.removeChild(content.firstChild);
+
+    var indic = document.createElement('div'); indic.className = 'fq-question-indicator';
+    indic.textContent = 'Frage ' + (qi + 1) + ' von ' + TOTAL_QUESTIONS;
+
+    var qText = document.createElement('div'); qText.className = 'fq-question-text';
+    qText.textContent = q.question;
+
+    var hint = document.createElement('div'); hint.className = 'fq-question-hint';
+    if (q.hint) hint.textContent = q.hint;
+
+    var opts = document.createElement('div'); opts.className = 'fq-options';
+    opts.setAttribute('role', q.type === 'multi' ? 'group' : 'radiogroup');
+    opts.setAttribute('aria-label', q.question);
+    q.options.forEach(function(_, oi) { opts.appendChild(buildOptionEl(qi, oi, q)); });
+
+    content.appendChild(indic);
+    content.appendChild(qText);
+    content.appendChild(hint);
+
+    if (q.info) {
+      var infoBox = document.createElement('div'); infoBox.className = 'fq-info-box';
+      var infoHeader = document.createElement('button'); infoHeader.className = 'fq-info-header';
+      infoHeader.setAttribute('type', 'button'); infoHeader.setAttribute('aria-expanded', 'false');
+      var infoIcon = document.createElement('span'); infoIcon.className = 'fq-info-icon';
+      if (q.info.icon) infoIcon.innerHTML = q.info.icon;
+      var infoLabel = document.createElement('span'); infoLabel.className = 'fq-info-label'; infoLabel.textContent = q.info.label;
+      var infoChevron = document.createElement('span'); infoChevron.className = 'fq-info-chevron'; infoChevron.textContent = '\u25BC';
+      infoHeader.appendChild(infoIcon); infoHeader.appendChild(infoLabel); infoHeader.appendChild(infoChevron);
+      var infoText = document.createElement('div'); infoText.className = 'fq-info-text'; infoText.innerHTML = q.info.text;
+      infoHeader.addEventListener('click', function() {
+        var expanded = infoBox.classList.toggle('fq-expanded');
+        infoHeader.setAttribute('aria-expanded', String(expanded));
+      });
+      infoBox.appendChild(infoHeader); infoBox.appendChild(infoText);
+      content.appendChild(infoBox);
+    }
+
+    content.appendChild(opts);
+
+    // Progress
+    document.getElementById('fq-progress-fill').style.width = (((qi + 1) / TOTAL_QUESTIONS) * 100) + '%';
+    var progressTrack = document.querySelector('#quiz-root .fq-progress-track');
+    if (progressTrack) {
+      progressTrack.setAttribute('role', 'progressbar');
+      progressTrack.setAttribute('aria-valuenow', qi + 1);
+      progressTrack.setAttribute('aria-valuemin', 1);
+      progressTrack.setAttribute('aria-valuemax', TOTAL_QUESTIONS);
+      progressTrack.setAttribute('aria-label', 'Fortschritt: Frage ' + (qi + 1) + ' von ' + TOTAL_QUESTIONS);
+    }
+
+    // Nav
+    var backBtn = document.getElementById('fq-back-btn');
+    var nextBtn = document.getElementById('fq-next-btn');
+    if (qi === 0) backBtn.classList.add('fq-hidden'); else backBtn.classList.remove('fq-hidden');
+    nextBtn.textContent = qi === TOTAL_QUESTIONS - 1 ? 'Ergebnis anzeigen \u2192' : 'Weiter \u2192';
+    nextBtn.disabled = !hasAnswer(qi);
+
+    // Animate in
+    if (direction !== 'init') {
+      var inX = direction === 'forward' ? '15px' : '-15px';
+      content.style.transition = 'none'; content.style.opacity = '0'; content.style.transform = 'translateX(' + inX + ')';
+      requestAnimationFrame(function() { requestAnimationFrame(function() {
+        content.style.transition = 'opacity 250ms ease-out, transform 250ms ease-out';
+        content.style.opacity = '1'; content.style.transform = 'translateX(0)';
+      }); });
+    } else {
+      content.style.transition = ''; content.style.opacity = '1'; content.style.transform = 'translateX(0)';
+    }
+  }
+
+  if (direction === 'init') { doRender(); }
+  else {
+    var outX = direction === 'forward' ? '-15px' : '15px';
+    content.style.transition = 'opacity 150ms ease-out, transform 150ms ease-out';
+    content.style.opacity = '0'; content.style.transform = 'translateX(' + outX + ')';
+    setTimeout(doRender, 155);
+  }
+}
+
+function selectOption(qi, oi) {
+  var q = allQuestions[qi];
+  if (q.type === "icp-select") {
+    userAnswers[qi] = oi;
+    selectedICP = q.options[oi].value;
+    buildQuestions();
+    // Restore the ICP answer
+    userAnswers[0] = oi;
+  } else if (q.type === "single") {
+    userAnswers[qi] = oi;
+  } else {
+    var arr = userAnswers[qi];
+    var idx = arr.indexOf(oi);
+    if (idx === -1) arr.push(oi); else arr.splice(idx, 1);
+  }
+  var options = document.querySelectorAll('#fq-question-content .fq-option');
+  options.forEach(function(el) {
+    var elOi = parseInt(el.dataset.oi);
+    var sel;
+    if (q.type === "multi") sel = userAnswers[qi].indexOf(elOi) !== -1;
+    else sel = userAnswers[qi] === elOi;
+    el.classList.toggle('fq-selected', sel);
+    el.setAttribute('aria-checked', String(sel));
+  });
+  playTick();
+  document.getElementById('fq-next-btn').disabled = !hasAnswer(qi);
+}
+
+// ============================================
+// CONFETTI
+// ============================================
+function launchConfetti() {
+  var canvas = document.getElementById('fq-confetti');
+  var resultScreen = canvas.parentElement;
+  var W = resultScreen.offsetWidth;
+  var H = Math.min(resultScreen.offsetHeight, 800);
+  canvas.width = W; canvas.height = H;
+  canvas.style.display = 'block';
+  var ctx = canvas.getContext('2d');
+
+  var palette = [
+    {r:25,g:63,b:59}, {r:28,g:185,b:158}, {r:161,g:207,b:21},
+    {r:92,g:251,b:245}, {r:212,g:175,b:55}, {r:201,g:196,b:181},
+    {r:45,g:107,b:99}, {r:139,g:191,b:182}
+  ];
+
+  var particles = [];
+  var originX = W * 0.5;
+  var originY = H * 0.7;
+  var totalCount = Math.max(80, Math.min(200, Math.floor(W / 5)));
+
+  // 5 bursts mimicking canvas-confetti "Realistic Look"
+  var bursts = [
+    { ratio: 0.25, spread: 26, startVelocity: 55, decay: 0.93, scalar: 1.0 },
+    { ratio: 0.20, spread: 60, startVelocity: 45, decay: 0.93, scalar: 1.0 },
+    { ratio: 0.35, spread: 100, startVelocity: 45, decay: 0.91, scalar: 0.8 },
+    { ratio: 0.10, spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 },
+    { ratio: 0.10, spread: 120, startVelocity: 45, decay: 0.93, scalar: 1.0 }
+  ];
+
+  bursts.forEach(function(b) {
+    var n = Math.floor(totalCount * b.ratio);
+    for (var i = 0; i < n; i++) {
+      var angle = (90 * Math.PI / 180); // upward
+      var spreadRad = (b.spread * Math.PI / 180);
+      var angle2D = -angle + ((0.5 * spreadRad) - (Math.random() * spreadRad));
+      var vel = (b.startVelocity * 0.5) + (Math.random() * b.startVelocity);
+      var col = palette[Math.floor(Math.random() * palette.length)];
+      var sc = b.scalar;
+      particles.push({
+        x: originX,
+        y: originY,
+        wobble: Math.random() * 10,
+        wobbleSpeed: Math.min(0.11, Math.random() * 0.1 + 0.05),
+        velocity: vel,
+        angle2D: angle2D,
+        tiltAngle: (Math.random() * 0.5 + 0.25) * Math.PI,
+        color: col,
+        tick: 0,
+        totalTicks: 200 + Math.floor(Math.random() * 100),
+        decay: b.decay,
+        drift: (Math.random() - 0.5) * 0.5,
+        gravity: 3,
+        scalar: sc,
+        ovalScalar: 0.6 + Math.random() * 0.4
+      });
+    }
+  });
+
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    var alive = false;
+    particles.forEach(function(p) {
+      if (p.tick >= p.totalTicks) return;
+      alive = true;
+
+      p.x += Math.cos(p.angle2D) * p.velocity + p.drift;
+      p.y += Math.sin(p.angle2D) * p.velocity + p.gravity;
+      p.velocity *= p.decay;
+      p.wobble += p.wobbleSpeed;
+      p.tiltAngle += 0.1;
+
+      var wobbleX = p.x + ((10 * p.scalar) * Math.cos(p.wobble));
+      var wobbleY = p.y + ((10 * p.scalar) * Math.sin(p.wobble));
+      var tiltSin = Math.sin(p.tiltAngle);
+      var tiltCos = Math.cos(p.tiltAngle);
+      var progress = p.tick / p.totalTicks;
+      var alpha = 1 - progress;
+
+      // Random is seeded by wobble for consistent shape
+      var x1 = p.x + (p.scalar * tiltCos * 0.5);
+      var y1 = p.y + (p.scalar * tiltSin * 0.5);
+      var x2 = wobbleX + (p.scalar * tiltCos * -0.5);
+      var y2 = wobbleY + (p.scalar * tiltSin * -0.5);
+
+      ctx.fillStyle = 'rgba(' + p.color.r + ',' + p.color.g + ',' + p.color.b + ',' + alpha + ')';
+      ctx.beginPath();
+
+      // Draw as ellipse (like canvas-confetti default)
+      var rx = Math.abs(x2 - x1) * 0.5 * p.ovalScalar;
+      var ry = Math.abs(y2 - y1) * 0.5 * p.ovalScalar;
+      rx = Math.max(rx, 1); ry = Math.max(ry, 1);
+      var cx = (x1 + x2) * 0.5;
+      var cy = (y1 + y2) * 0.5;
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(Math.PI / 10 * p.wobble);
+      ctx.scale(1, ry / Math.max(rx, 0.01));
+      ctx.beginPath();
+      ctx.arc(0, 0, rx, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      p.tick++;
+    });
+    if (alive) {
+      requestAnimationFrame(frame);
+    } else {
+      canvas.style.display = 'none';
+    }
+  }
+  frame();
+}
+
+// ============================================
+// SOUND EFFECTS (subtle, organic)
+// ============================================
+var audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+  }
+  return audioCtx;
+}
+
+function playTick() {
+  var ctx = getAudioCtx(); if (!ctx) return;
+  // Soft, woody click — like a gentle tap on wood
+  var osc = ctx.createOscillator();
+  var gain = ctx.createGain();
+  var filter = ctx.createBiquadFilter();
+  osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+  osc.frequency.value = 380;
+  osc.type = 'sine';
+  filter.type = 'lowpass';
+  filter.frequency.value = 600;
+  gain.gain.setValueAtTime(0.035, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + 0.06);
+}
+
+function playSuccess() {
+  var ctx = getAudioCtx(); if (!ctx) return;
+  // Gentle chime — two soft tones like a xylophone
+  var notes = [
+    { freq: 880, delay: 0, dur: 0.35, vol: 0.04 },
+    { freq: 1320, delay: 0.12, dur: 0.4, vol: 0.03 }
+  ];
+  notes.forEach(function(n) {
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    var filter = ctx.createBiquadFilter();
+    osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = n.freq;
+    osc.type = 'sine';
+    filter.type = 'lowpass';
+    filter.frequency.value = 2000;
+    filter.Q.value = 0.5;
+    var t = ctx.currentTime + n.delay;
+    gain.gain.setValueAtTime(0, t);
+    gain.gain.linearRampToValueAtTime(n.vol, t + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + n.dur);
+    osc.start(t);
+    osc.stop(t + n.dur + 0.05);
+  });
+}
+
+function playWhoosh() {
+  var ctx = getAudioCtx(); if (!ctx) return;
+  // Very soft air movement
+  var bufferSize = Math.floor(ctx.sampleRate * 0.12);
+  var buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  var data = buffer.getChannelData(0);
+  for (var i = 0; i < bufferSize; i++) {
+    var env = Math.sin(Math.PI * i / bufferSize);
+    data[i] = (Math.random() * 2 - 1) * env;
+  }
+  var source = ctx.createBufferSource();
+  source.buffer = buffer;
+  var filter = ctx.createBiquadFilter();
+  filter.type = 'bandpass'; filter.frequency.value = 500; filter.Q.value = 0.3;
+  var gain = ctx.createGain();
+  source.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+  gain.gain.setValueAtTime(0.02, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+  source.start(ctx.currentTime);
+}
+
+function playConfettiPop() {
+  var ctx = getAudioCtx(); if (!ctx) return;
+  // Soft celebration — warm rising tone with gentle shimmer
+  var osc1 = ctx.createOscillator();
+  var osc2 = ctx.createOscillator();
+  var gain1 = ctx.createGain();
+  var gain2 = ctx.createGain();
+  var filter = ctx.createBiquadFilter();
+  filter.type = 'lowpass'; filter.frequency.value = 1500;
+  osc1.connect(filter); osc2.connect(filter);
+  filter.connect(gain1); gain1.connect(ctx.destination);
+  osc1.type = 'sine'; osc2.type = 'sine';
+  osc1.frequency.setValueAtTime(440, ctx.currentTime);
+  osc1.frequency.linearRampToValueAtTime(880, ctx.currentTime + 0.3);
+  osc2.frequency.setValueAtTime(554, ctx.currentTime);
+  osc2.frequency.linearRampToValueAtTime(1108, ctx.currentTime + 0.3);
+  gain1.gain.setValueAtTime(0, ctx.currentTime);
+  gain1.gain.linearRampToValueAtTime(0.04, ctx.currentTime + 0.05);
+  gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+  osc1.start(ctx.currentTime); osc1.stop(ctx.currentTime + 0.5);
+  osc2.start(ctx.currentTime); osc2.stop(ctx.currentTime + 0.5);
+}
+
+function animateCounter(el, target, duration) {
+  var startTime = null;
+  function step(ts) {
+    if (!startTime) startTime = ts;
+    var p = Math.min((ts - startTime) / duration, 1);
+    var eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = String(Math.round(eased * target));
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ============================================
+// RESULT RENDERING
+// ============================================
+function renderResult(results) {
+  var totalScore = results.totalScore;
+  var maxScore = results.maxScore;
+  var segment = results.segment;
+  var segmentLabel = results.segmentLabel;
+  var weakest = results.weakest;
+  var secondWeakest = results.secondWeakest;
+  var dimPercentages = results.dimPercentages;
+  var circumference = 2 * Math.PI * 70;
+
+  var CONTENT = {
+    A: {
+      headline: "Dein Funnel hat Fundament-Probleme. Aber genau das ist die Chance.",
+      p1: "Dein Ergebnis zeigt: Die Grundlagen deines Funnels fehlen oder sind nicht aufeinander abgestimmt. Das ist keine Seltenheit. Die meisten starten mit Einzelma\u00dfnahmen statt mit einem System.",
+      p2: "Das Problem ist nicht, dass du zu wenig machst. Das Problem ist, dass die Teile nicht ineinandergreifen.",
+      leverTitle: "Deine gr\u00f6\u00dften Hebel:",
+      ctaP: "Was w\u00e4re, wenn du in 60 Minuten einen klaren Fahrplan h\u00e4ttest: welche Baustellen du in welcher Reihenfolge angehst?\n\nGenau das machen wir im kostenlosen Erstgespr\u00e4ch. Kein Pitch, sondern eine echte Analyse deiner Situation mit konkreten n\u00e4chsten Schritten.",
+      ctaBtn: "Kostenloses Erstgespr\u00e4ch sichern \u2192",
+      hebelTag: "GR\u00d6SSTER HEBEL"
+    },
+    B: {
+      headline: "Dein Funnel funktioniert, aber er l\u00e4sst Umsatz liegen.",
+      p1: "Du hast bereits ein funktionierendes System. Ads laufen, eine Landing Page steht, Gespr\u00e4che kommen rein. Aber dein Funnel hat L\u00fccken, die dich jeden Monat bares Geld kosten.",
+      p2: "Ein Beispiel: Ein 4% Uplift in der Conversion Rate kann fast 10.000\u20ac mehr Gewinn bedeuten. Die Hebel liegen oft in den Details.",
+      leverTitle: "Deine gr\u00f6\u00dften Hebel:",
+      ctaP: "Du brauchst keinen komplett neuen Funnel. Du brauchst jemanden, der mit dir dr\u00fcberschaut und die 2 bis 3 Stellschrauben findet, die den gr\u00f6\u00dften Unterschied machen.",
+      ctaBtn: "Erstgespr\u00e4ch vereinbaren \u2192",
+      hebelTag: "GR\u00d6SSTER HEBEL"
+    },
+    C: {
+      headline: "Dein Funnel ist stark. Jetzt geht es um Skalierung.",
+      p1: "Du geh\u00f6rst zu den wenigen, die ihr Marketing ernst nehmen und ein solides System aufgebaut haben.",
+      p2: "Die Frage ist nicht mehr, ob dein Funnel funktioniert, sondern wie du von hier aus skalierst, ohne dass die Kosten proportional mitsteigen.",
+      leverTitle: "Optimierungs-Potenzial:",
+      ctaP: "Du bist an einem Punkt, an dem generische Tipps nicht mehr weiterhelfen. Was du brauchst, ist ein Sparring auf Augenh\u00f6he mit jemandem, der selbst bei 65M\u20ac+ Ad Spend operiert hat.",
+      ctaBtn: "Sparring-Gespr\u00e4ch buchen \u2192",
+      hebelTag: "OPTIMIERUNGS-POTENZIAL"
+    }
+  };
+  var sc = CONTENT[segment];
+
+  var ICP_STATS = {
+    A: {
+      coach: "82% der Coaching-Businesses scheitern in den ersten zwei Jahren. Der h\u00e4ufigste Grund: kein systematischer Funnel.",
+      marketer: "73% der Marketer haben signifikante Tracking-Probleme seit iOS 14.5. Du bist nicht allein.",
+      mittelstand: "53% der deutschen B2B-Unternehmen haben noch keine Digitalisierungsstrategie. Du hast mit diesem Quiz bereits den ersten Schritt gemacht."
+    },
+    B: {
+      coach: "Coaches mit optimiertem Funnel verdienen im Schnitt 2,4x mehr als Coaches mit dem gleichen Angebot, aber ohne System.",
+      marketer: "Marketer, die systematisch testen, senken ihren CPL im Durchschnitt um 37% innerhalb von 90 Tagen.",
+      mittelstand: "B2B-Unternehmen mit digitalem Vertriebsfunnel generieren 67% mehr qualifizierte Leads als Unternehmen ohne."
+    },
+    C: {
+      coach: "Nur 4% der Coaches erreichen sechsstellige Jahresums\u00e4tze. Dein Funnel-Score zeigt: Du geh\u00f6rst dazu oder bist auf dem besten Weg.",
+      marketer: "Top-Performer im Marketing optimieren w\u00f6chentlich. Der Unterschied zwischen gut und exzellent liegt oft bei 15\u201320% mehr Marge.",
+      mittelstand: "Deutsche Mittelst\u00e4ndler mit datengetriebenem Vertrieb wachsen 2,3x schneller als der Branchendurchschnitt."
+    }
+  };
+
+  var root = document.getElementById('fq-result-inner');
+  while (root.firstChild) root.removeChild(root.firstChild);
+
+  // Ring
+  var ringWrap = document.createElement('div'); ringWrap.className = 'fq-ring-wrap';
+  var svgNS = 'http://www.w3.org/2000/svg';
+  var svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('class','fq-ring-svg'); svg.setAttribute('viewBox','0 0 160 160');
+  var track = document.createElementNS(svgNS, 'circle');
+  track.setAttribute('cx','80'); track.setAttribute('cy','80'); track.setAttribute('r','70');
+  track.setAttribute('fill','none'); track.setAttribute('stroke','var(--fq-border-subtle)'); track.setAttribute('stroke-width','8');
+  var prog = document.createElementNS(svgNS, 'circle');
+  prog.setAttribute('id','fq-ring-progress'); prog.setAttribute('cx','80'); prog.setAttribute('cy','80'); prog.setAttribute('r','70');
+  prog.setAttribute('fill','none'); prog.setAttribute('stroke','var(--fq-accent)'); prog.setAttribute('stroke-width','8');
+  prog.setAttribute('stroke-linecap','round');
+  prog.setAttribute('stroke-dasharray', circumference.toFixed(2));
+  prog.setAttribute('stroke-dashoffset', circumference.toFixed(2));
+  prog.setAttribute('transform','rotate(-90 80 80)');
+  prog.style.transition = 'stroke-dashoffset 1200ms ease-out';
+  var scoreText = document.createElementNS(svgNS, 'text');
+  scoreText.setAttribute('id','fq-score-counter');
+  scoreText.setAttribute('x','80'); scoreText.setAttribute('y','76'); scoreText.setAttribute('text-anchor','middle');
+  scoreText.setAttribute('dominant-baseline','middle'); scoreText.setAttribute('font-family','var(--fq-font)');
+  scoreText.setAttribute('font-size','40'); scoreText.setAttribute('font-weight','700'); scoreText.setAttribute('fill','var(--fq-text-primary)');
+  scoreText.textContent = '0';
+  var maxText = document.createElementNS(svgNS, 'text');
+  maxText.setAttribute('x','80'); maxText.setAttribute('y','100'); maxText.setAttribute('text-anchor','middle');
+  maxText.setAttribute('dominant-baseline','middle'); maxText.setAttribute('font-family','var(--fq-font)');
+  maxText.setAttribute('font-size','16'); maxText.setAttribute('fill','var(--fq-text-tertiary)');
+  maxText.textContent = '/' + maxScore;
+  svg.appendChild(track); svg.appendChild(prog); svg.appendChild(scoreText); svg.appendChild(maxText);
+  ringWrap.appendChild(svg); root.appendChild(ringWrap);
+
+  // Segment badge
+  var badgeWrap = document.createElement('div'); badgeWrap.className = 'fq-segment-badge';
+  var badge = document.createElement('span'); badge.className = 'fq-badge'; badge.textContent = segmentLabel;
+  badgeWrap.appendChild(badge); root.appendChild(badgeWrap);
+
+  // Dims
+  var dims = document.createElement('div'); dims.className = 'fq-dims';
+  var dimOrder = ['TR','LP','CO','FU','SA'];
+  dimOrder.forEach(function(key, idx) {
+    var dim = null;
+    dimPercentages.forEach(function(d){ if (d.key === key) dim = d; });
+    var isWeakest = dim.key === weakest.key;
+    var row = document.createElement('div'); row.className = 'fq-dim-row';
+    var header = document.createElement('div'); header.className = 'fq-dim-header';
+    var labelEl = document.createElement('span'); labelEl.className = 'fq-dim-label' + (isWeakest ? ' fq-weakest' : '');
+    labelEl.textContent = dim.label;
+    if (isWeakest) {
+      var tag = document.createElement('span'); tag.className = 'fq-dim-tag'; tag.textContent = sc.hebelTag;
+      labelEl.appendChild(tag);
+    }
+    var scoreEl = document.createElement('span'); scoreEl.className = 'fq-dim-score'; scoreEl.textContent = dim.score + '/' + dim.max;
+    header.appendChild(labelEl); header.appendChild(scoreEl);
+    var barTrack = document.createElement('div'); barTrack.className = 'fq-dim-bar-track';
+    var barFill = document.createElement('div'); barFill.className = 'fq-dim-bar-fill';
+    barFill.dataset.target = (dim.percentage * 100).toFixed(1);
+    barFill.dataset.idx = idx;
+    barTrack.appendChild(barFill);
+    row.appendChild(header); row.appendChild(barTrack);
+    dims.appendChild(row);
+  });
+  root.appendChild(dims);
+
+  // Text — wrapped in diagnosis card
+  var textBlock = document.createElement('div'); textBlock.className = 'fq-result-text-block';
+  var diagCard = document.createElement('div'); diagCard.className = 'fq-result-diagnosis-card';
+  var h2 = document.createElement('h2'); h2.className = 'fq-result-h2'; h2.textContent = sc.headline;
+  var p1 = document.createElement('p'); p1.className = 'fq-result-p'; p1.textContent = sc.p1;
+  var p2 = document.createElement('p'); p2.className = 'fq-result-p'; p2.textContent = sc.p2;
+  diagCard.appendChild(h2); diagCard.appendChild(p1); diagCard.appendChild(p2);
+  var icpStatText = ICP_STATS[segment] && ICP_STATS[segment][selectedICP];
+  if (icpStatText) {
+    var statWrap = document.createElement('div'); statWrap.className = 'fq-result-icp-stat';
+    var statIcon = document.createElement('div'); statIcon.className = 'fq-result-icp-stat-icon';
+    statIcon.innerHTML = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L12.5 7.5L18 8.5L14 12.5L15 18L10 15.5L5 18L6 12.5L2 8.5L7.5 7.5L10 2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>';
+    var statText = document.createElement('div'); statText.className = 'fq-result-icp-stat-text'; statText.textContent = icpStatText;
+    statWrap.appendChild(statIcon); statWrap.appendChild(statText);
+    diagCard.appendChild(statWrap);
+  }
+  textBlock.appendChild(diagCard);
+  var leverWrap = document.createElement('div'); leverWrap.style.marginTop = '24px';
+  var leverTitle = document.createElement('div'); leverTitle.className = 'fq-lever-title'; leverTitle.style.marginBottom = '16px'; leverTitle.textContent = sc.leverTitle;
+  leverWrap.appendChild(leverTitle);
+  [weakest, secondWeakest].forEach(function(dim, idx) {
+    var detail = LEVER_DETAILS[dim.key];
+    if (!detail) return;
+    var card = document.createElement('div'); card.className = 'fq-lever-card';
+    var cardHeader = document.createElement('div'); cardHeader.className = 'fq-lever-card-header';
+    var cardName = document.createElement('span'); cardName.className = 'fq-lever-card-name'; cardName.textContent = dim.label;
+    cardHeader.appendChild(cardName);
+    if (idx === 0) {
+      var tag = document.createElement('span'); tag.className = 'fq-dim-tag'; tag.textContent = sc.hebelTag;
+      cardHeader.appendChild(tag);
+    }
+    card.appendChild(cardHeader);
+    var diagEl = document.createElement('p'); diagEl.className = 'fq-lever-card-diagnosis'; diagEl.textContent = detail.diagnosis;
+    card.appendChild(diagEl);
+    var actionsWrap = document.createElement('div'); actionsWrap.className = 'fq-lever-card-actions';
+    detail.actions.forEach(function(actionText) {
+      var actionEl = document.createElement('div'); actionEl.className = 'fq-lever-card-action'; actionEl.textContent = actionText;
+      actionsWrap.appendChild(actionEl);
+    });
+    card.appendChild(actionsWrap);
+    var icpTip = ICP_LEVER_TIPS[selectedICP] && ICP_LEVER_TIPS[selectedICP][dim.key];
+    if (icpTip) {
+      var tipWrap = document.createElement('div'); tipWrap.className = 'fq-lever-protipp';
+      var tipLabel = document.createElement('div'); tipLabel.className = 'fq-lever-protipp-label'; tipLabel.textContent = 'Pro-Tipp';
+      var tipText = document.createElement('div'); tipText.className = 'fq-lever-protipp-text'; tipText.textContent = icpTip;
+      tipWrap.appendChild(tipLabel); tipWrap.appendChild(tipText);
+      card.appendChild(tipWrap);
+    }
+    leverWrap.appendChild(card);
+  });
+  textBlock.appendChild(leverWrap);
+  // Next Level section
+  var nextLevelData = ICP_NEXT_LEVEL[selectedICP];
+  if (nextLevelData) {
+    var nlSection = document.createElement('div'); nlSection.className = 'fq-next-level';
+    var nlTitle = document.createElement('div'); nlTitle.className = 'fq-next-level-title'; nlTitle.textContent = 'N\u00e4chstes Level: Fortgeschrittene Strategien';
+    nlSection.appendChild(nlTitle);
+    nextLevelData.forEach(function(item) {
+      var card = document.createElement('div'); card.className = 'fq-next-level-card';
+      var cardTitle = document.createElement('div'); cardTitle.className = 'fq-next-level-card-title'; cardTitle.textContent = item.title;
+      var cardText = document.createElement('div'); cardText.className = 'fq-next-level-card-text'; cardText.textContent = item.text;
+      card.appendChild(cardTitle); card.appendChild(cardText);
+      nlSection.appendChild(card);
+    });
+    textBlock.appendChild(nlSection);
+  }
+  root.appendChild(textBlock);
+
+  // CTA Card
+  var ctaCard = document.createElement('div'); ctaCard.className = 'fq-cta-card';
+
+  var ctaBadge = document.createElement('div'); ctaBadge.className = 'fq-cta-card-badge';
+  ctaBadge.innerHTML = 'Limitierte Pl\u00e4tze';
+  ctaCard.appendChild(ctaBadge);
+
+  var ctaHeadline = document.createElement('div'); ctaHeadline.className = 'fq-cta-card-headline';
+  ctaHeadline.innerHTML = 'Dein <em>pers\u00f6nlicher</em> Funnel-Fahrplan';
+  ctaCard.appendChild(ctaHeadline);
+
+  var ctaSub = document.createElement('div'); ctaSub.className = 'fq-cta-card-sub';
+  ctaSub.textContent = sc.ctaP.replace(/\n\n/g, ' ');
+  ctaCard.appendChild(ctaSub);
+
+  var ctaBtn = document.createElement('button'); ctaBtn.className = 'fq-btn-cta';
+  ctaBtn.textContent = sc.ctaBtn;
+  ctaBtn.addEventListener('click', function() { window.open(CONFIG.bookingUrl, '_blank'); });
+  ctaCard.appendChild(ctaBtn);
+
+  root.appendChild(ctaCard);
+
+  // Spacer at bottom
+  var spacer = document.createElement('div'); spacer.style.height = '64px';
+  root.appendChild(spacer);
+
+  // Animate ring + counter
+  setTimeout(function() {
+    var ring = document.getElementById('fq-ring-progress');
+    if (ring) { ring.style.strokeDashoffset = (circumference * (1 - totalScore / maxScore)).toFixed(2); }
+    var counter = document.getElementById('fq-score-counter');
+    if (counter) animateCounter(counter, totalScore, 1400);
+  }, 120);
+
+  // Animate bars
+  var bars = root.querySelectorAll('.fq-dim-bar-fill');
+  bars.forEach(function(bar, i) {
+    setTimeout(function() { bar.style.width = bar.dataset.target + '%'; }, 200 + i * 150);
+  });
+
+  // Confetti
+  setTimeout(function() { launchConfetti(); playConfettiPop(); }, 600);
+  setTimeout(playSuccess, 200);
+}
+
+// ============================================
+// WEBHOOK
+// ============================================
+function sendWebhook(formData) {
+  if (!quizResults) return;
+  var payload = {
+    firstName: formData.firstName, lastName: formData.lastName, email: formData.email, phone: formData.phone || null,
+    icp: selectedICP,
+    quiz: {
+      totalScore: quizResults.totalScore, maxScore: quizResults.maxScore,
+      segment: quizResults.segment, segmentLabel: quizResults.segmentLabel,
+      scores: quizResults.scores, weakestDimension: quizResults.weakest.key,
+      weakestDimensionLabel: quizResults.weakest.label,
+      secondWeakestDimension: quizResults.secondWeakest.key,
+      answers: userAnswers
+    },
+    submittedAt: new Date().toISOString(), source: "funnel-diagnose-quiz"
+  };
+  fetch(CONFIG.webhookUrl, {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  }).catch(function(err) { console.error("Webhook Error:", err); });
+}
+
+// ============================================
+// EVENT LISTENERS
+// ============================================
+buildQuestions();
+
+document.getElementById('fq-start-btn').addEventListener('click', function() {
+  showScreen('quiz');
+  setTimeout(function() { renderQuestion(0, 'init'); }, 160);
+});
+
+document.getElementById('fq-next-btn').addEventListener('click', function() {
+  if (!hasAnswer(currentQuestion)) return;
+  if (currentQuestion < TOTAL_QUESTIONS - 1) {
+    var nextQ = currentQuestion + 1;
+    // Show milestone when transitioning from Teil 1 to Teil 2
+    if (nextQ === GENERAL_END_INDEX && selectedICP) {
+      showMilestone(function() {
+        currentQuestion = nextQ;
+        renderQuestion(currentQuestion, 'forward');
+      });
+    } else if (nextQ === PART2_END_INDEX) {
+      showMilestone2(function() {
+        currentQuestion = nextQ;
+        renderQuestion(currentQuestion, 'forward');
+      });
+    } else {
+      currentQuestion = nextQ;
+      renderQuestion(currentQuestion, 'forward');
+    }
+  } else {
+    quizResults = calculateResults(userAnswers);
+    // Create blurred preview
+    var gateScreen = document.querySelector('.fq-screen--gate');
+    var existingPreview = gateScreen.querySelector('.fq-gate-preview');
+    if (existingPreview) existingPreview.remove();
+    var preview = document.createElement('div');
+    preview.className = 'fq-gate-preview';
+    var pHTML = '<div style="max-width:640px;margin:0 auto;text-align:center;">';
+    // Large score ring
+    pHTML += '<div style="display:flex;justify-content:center;margin-bottom:16px;">';
+    pHTML += '<svg width="200" height="200" viewBox="0 0 200 200">';
+    var pCirc = 2 * Math.PI * 85;
+    var pOffset = pCirc * (1 - quizResults.totalScore / quizResults.maxScore);
+    pHTML += '<circle cx="100" cy="100" r="85" fill="none" stroke="rgba(25,63,59,0.12)" stroke-width="10"/>';
+    pHTML += '<circle cx="100" cy="100" r="85" fill="none" stroke="var(--fq-accent)" stroke-width="10" stroke-dasharray="' + pCirc.toFixed(2) + '" stroke-dashoffset="' + pOffset.toFixed(2) + '" transform="rotate(-90 100 100)" stroke-linecap="round"/>';
+    pHTML += '<text x="100" y="90" text-anchor="middle" dominant-baseline="middle" font-family="var(--fq-font)" font-size="52" font-weight="700" fill="var(--fq-text-primary)">' + quizResults.totalScore + '</text>';
+    pHTML += '<text x="100" y="118" text-anchor="middle" dominant-baseline="middle" font-family="var(--fq-font)" font-size="18" fill="var(--fq-text-tertiary)">/' + quizResults.maxScore + ' Punkte</text>';
+    pHTML += '</svg></div>';
+    // Segment badge
+    pHTML += '<div style="display:flex;justify-content:center;margin-bottom:28px;"><span class="fq-badge" style="font-size:14px;padding:8px 20px;">' + quizResults.segmentLabel + '</span></div>';
+    // Dimension bars — full width, clearly visible
+    pHTML += '<div style="max-width:520px;margin:0 auto;">';
+    var dimOrder = ['TR','LP','CO','FU','SA'];
+    dimOrder.forEach(function(key) {
+      var dim = null;
+      quizResults.dimPercentages.forEach(function(d) { if (d.key === key) dim = d; });
+      pHTML += '<div style="margin-bottom:20px;">';
+      pHTML += '<div style="display:flex;justify-content:space-between;margin-bottom:6px;">';
+      pHTML += '<span style="font-size:15px;font-weight:500;color:var(--fq-text-primary);">' + dim.label + '</span>';
+      pHTML += '<span style="font-size:15px;font-weight:600;color:var(--fq-accent);">' + dim.score + '/' + dim.max + '</span>';
+      pHTML += '</div>';
+      pHTML += '<div style="width:100%;height:8px;background:rgba(25,63,59,0.1);border-radius:4px;overflow:hidden;">';
+      pHTML += '<div style="height:100%;width:' + (dim.percentage * 100).toFixed(1) + '%;background:linear-gradient(90deg,#193F3B,#1CB99E);border-radius:4px;"></div>';
+      pHTML += '</div></div>';
+    });
+    pHTML += '</div>';
+    // Fake text blocks to fill more space
+    pHTML += '<div style="max-width:520px;margin:24px auto 0;">';
+    pHTML += '<div style="height:24px;background:rgba(25,63,59,0.08);border-radius:6px;margin-bottom:12px;width:75%;"></div>';
+    pHTML += '<div style="height:16px;background:rgba(25,63,59,0.05);border-radius:4px;margin-bottom:8px;width:100%;"></div>';
+    pHTML += '<div style="height:16px;background:rgba(25,63,59,0.05);border-radius:4px;margin-bottom:8px;width:90%;"></div>';
+    pHTML += '<div style="height:16px;background:rgba(25,63,59,0.05);border-radius:4px;width:60%;"></div>';
+    pHTML += '</div>';
+    pHTML += '</div>';
+    preview.innerHTML = pHTML;
+    gateScreen.insertBefore(preview, gateScreen.firstChild);
+    // Add peek text if not already present
+    if (!gateScreen.querySelector('.fq-gate-peek')) {
+      var peek = document.createElement('div');
+      peek.className = 'fq-gate-peek';
+      peek.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="vertical-align:-2px;margin-right:4px;"><path d="M8 3C4.4 3 1.4 5.4.5 8c.9 2.6 3.9 5 7.5 5s6.6-2.4 7.5-5c-.9-2.6-3.9-5-7.5-5z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>Deine Ergebnisse warten';
+      var gateInner = gateScreen.querySelector('.fq-gate-inner');
+      var progressBar = gateInner.querySelector('.fq-gate-progress');
+      if (progressBar && progressBar.nextSibling) {
+        gateInner.insertBefore(peek, progressBar.nextSibling);
+      } else {
+        gateInner.insertBefore(peek, gateInner.firstChild);
+      }
+    }
+    showScreen('gate');
+  }
+});
+
+document.getElementById('fq-back-btn').addEventListener('click', function() {
+  if (currentQuestion > 0) { currentQuestion--; renderQuestion(currentQuestion, 'backward'); }
+});
+
+document.getElementById('fq-gate-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var nameEl = document.getElementById('fq-input-name');
+  var lastnameEl = document.getElementById('fq-input-lastname');
+  var emailEl = document.getElementById('fq-input-email');
+  var phoneEl = document.getElementById('fq-input-phone');
+  var nameErr = document.getElementById('fq-error-name');
+  var lastnameErr = document.getElementById('fq-error-lastname');
+  var emailErr = document.getElementById('fq-error-email');
+  var valid = true;
+  nameEl.classList.remove('fq-error'); lastnameEl.classList.remove('fq-error'); emailEl.classList.remove('fq-error');
+  nameErr.classList.remove('fq-visible'); lastnameErr.classList.remove('fq-visible'); emailErr.classList.remove('fq-visible');
+  if (!nameEl.value.trim()) { nameEl.classList.add('fq-error'); nameErr.classList.add('fq-visible'); valid = false; }
+  if (!lastnameEl.value.trim()) { lastnameEl.classList.add('fq-error'); lastnameErr.classList.add('fq-visible'); valid = false; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) { emailEl.classList.add('fq-error'); emailErr.classList.add('fq-visible'); valid = false; }
+  if (!valid) return;
+  var submitBtn = document.getElementById('fq-submit-btn');
+  submitBtn.textContent = 'Wird ausgewertet\u2026'; submitBtn.disabled = true;
+  sendWebhook({ firstName: nameEl.value.trim(), lastName: lastnameEl.value.trim(), email: emailEl.value.trim(), phone: phoneEl.value.trim() });
+  // Remove blurred preview
+  var preview = document.querySelector('.fq-gate-preview');
+  if (preview) preview.remove();
+  renderResult(quizResults);
+  showScreen('result');
+});
+
+// iFrame height reporting
+function reportHeight() {
+  var height = document.getElementById('quiz-root').offsetHeight;
+  window.parent.postMessage({ type: 'quiz-resize', height: height }, '*');
+}
+var ro = new ResizeObserver(function() { reportHeight(); });
+ro.observe(document.getElementById('quiz-root'));
+</script>
+</body>
+</html>
