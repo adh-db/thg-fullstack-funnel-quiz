@@ -1,0 +1,2574 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KI-Marketing Assessment</title>
+<style>
+body { background: #FBFAF2; margin: 0; }
+
+#quiz-root {
+  --fq-bg-primary: #FBFAF2;
+  --fq-bg-secondary: #FFFFFF;
+  --fq-bg-tertiary: #F2EFE8;
+  --fq-accent: #193F3B;
+  --fq-accent-light: #1CB99E;
+  --fq-accent-dark: #0D2320;
+  --fq-accent-transparent: rgba(25, 63, 59, 0.05);
+  --fq-btn-gradient: linear-gradient(105deg, #193F3B 0%, #1CB99E 100%);
+  --fq-text-primary: #0C1615;
+  --fq-text-secondary: #4A6B65;
+  --fq-text-tertiary: #5E837C;
+  --fq-border-subtle: rgba(25, 63, 59, 0.1);
+  --fq-border-default: rgba(25, 63, 59, 0.22);
+  --fq-space-xs: 8px; --fq-space-sm: 16px; --fq-space-md: 24px; --fq-space-lg: 40px; --fq-space-xl: 64px;
+  --fq-radius-sm: 32px; --fq-radius-md: 10px; --fq-radius-lg: 14px;
+  --fq-font: 'Googlesansflex', 'Google Sans', 'Inter', Arial, sans-serif;
+  --fq-font-serif: 'Recklessstandardxl', 'Instrument Serif', Georgia, serif;
+  --fq-max-width: 680px;
+  --fq-spring: cubic-bezier(0.22, 1.3, 0.36, 1);
+  --fq-spring-gentle: cubic-bezier(0.16, 1.1, 0.3, 1);
+  font-family: var(--fq-font);
+  background: transparent;
+  color: var(--fq-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  position: relative;
+}
+#quiz-root *, #quiz-root *::before, #quiz-root *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Background gradient blobs for glassmorphism visibility */
+#quiz-root::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse 600px 600px at 15% 20%, rgba(28, 185, 158, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 85% 15%, rgba(25, 63, 59, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 400px at 70% 70%, rgba(92, 251, 245, 0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 550px 550px at 25% 80%, rgba(28, 185, 158, 0.09) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: fq-blobs-drift 20s ease-in-out infinite alternate;
+}
+@keyframes fq-blobs-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 15px) scale(0.97); }
+  100% { transform: translate(15px, -10px) scale(1.02); }
+}
+#quiz-root > .fq-screen,
+#quiz-root > .fq-milestone {
+  position: relative;
+  z-index: 1;
+}
+
+/* Screens */
+#quiz-root .fq-screen { display: none; opacity: 0; transition: opacity 300ms ease-out; }
+#quiz-root .fq-screen.fq-active { display: block; opacity: 1; }
+
+/* Landing */
+#quiz-root .fq-screen--landing { padding: 80px 20px 64px; }
+#quiz-root .fq-landing-inner { max-width: var(--fq-max-width); margin: 0 auto; text-align: center; }
+#quiz-root .fq-badge {
+  display: inline-block; font-size: 12px; font-weight: 500; letter-spacing: 0.02em;
+  color: var(--fq-accent);
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.4);
+  padding: 6px 16px; border-radius: var(--fq-radius-sm); margin-bottom: 24px;
+  box-shadow: 0 2px 8px -2px rgba(25,63,59,0.06), inset 0 1px 0 rgba(255,255,255,0.15);
+}
+#quiz-root .fq-landing-h1 {
+  font-size: 48px; font-weight: 500; color: var(--fq-text-primary);
+  letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 20px;
+}
+#quiz-root .fq-landing-sub {
+  font-size: 18px; font-weight: 400; color: var(--fq-text-secondary);
+  line-height: 1.6; max-width: 560px; margin: 0 auto 32px;
+}
+#quiz-root .fq-btn-primary {
+  display: inline-block; background: var(--fq-btn-gradient); color: #fff;
+  font-family: var(--fq-font); font-size: 16px; font-weight: 500;
+  padding: 18px 32px; border-radius: var(--fq-radius-md); border: none; cursor: pointer;
+  transition: transform 250ms var(--fq-spring), box-shadow 250ms ease, opacity 200ms ease;
+  text-decoration: none; line-height: 1;
+  animation: fq-glow-pulse 4s ease-in-out infinite;
+}
+#quiz-root .fq-btn-primary:hover { transform: translateY(-1px) scale(1.02); opacity: 0.92; animation: none; }
+#quiz-root .fq-btn-primary:active { transform: scale(0.98); opacity: 0.88; }
+#quiz-root .fq-social-proof { font-size: 13px; color: var(--fq-text-tertiary); margin-top: 24px; line-height: 1.5; }
+
+/* Quiz */
+#quiz-root .fq-screen--quiz { padding: 48px 20px 64px; }
+#quiz-root .fq-quiz-inner { max-width: var(--fq-max-width); margin: 0 auto; }
+#quiz-root .fq-part-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--fq-accent-light); margin-bottom: 10px;
+}
+#quiz-root .fq-progress-wrap { position: relative; margin-bottom: 48px; }
+#quiz-root .fq-progress-track {
+  width: 100%; height: 4px; background: var(--fq-border-subtle);
+  border-radius: 2px; overflow: hidden;
+}
+#quiz-root .fq-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #193F3B 0%, #1CB99E 40%, rgba(255,255,255,0.3) 50%, #1CB99E 60%, #193F3B 100%);
+  background-size: 200% 100%;
+  border-radius: 2px;
+  width: 0%; transition: width 500ms var(--fq-spring);
+  animation: fq-shimmer-bar 3s ease-in-out infinite;
+}
+#quiz-root .fq-progress-marker {
+  position: absolute; top: -6px; left: 40%;
+  width: 2px; height: 16px; background: var(--fq-border-default); border-radius: 1px;
+}
+#quiz-root .fq-question-content { transition: opacity 250ms ease-out, transform 250ms ease-out; }
+#quiz-root .fq-question-indicator { font-size: 13px; font-weight: 400; color: var(--fq-text-tertiary); margin-bottom: 12px; }
+#quiz-root .fq-question-text { font-size: 28px; font-weight: 500; color: var(--fq-text-primary); letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 8px; }
+#quiz-root .fq-question-hint { font-size: 14px; color: var(--fq-text-tertiary); margin-bottom: 24px; min-height: 22px; line-height: 1.4; }
+#quiz-root .fq-options { display: flex; flex-direction: column; gap: 10px; }
+#quiz-root .fq-option {
+  display: flex; align-items: center;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: var(--fq-radius-lg);
+  padding: 18px 20px; cursor: pointer;
+  box-shadow: 0 4px 16px -4px rgba(25,63,59,0.06), inset 0 1px 0 rgba(255,255,255,0.15);
+  transition: transform 250ms var(--fq-spring), border-color 200ms ease, background 200ms ease, box-shadow 250ms ease;
+}
+#quiz-root .fq-option:hover {
+  border-color: rgba(25,63,59,0.18);
+  background: rgba(255,255,255,0.85);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px -6px rgba(25,63,59,0.1), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+#quiz-root .fq-option:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 8px -2px rgba(25,63,59,0.06), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+#quiz-root .fq-option.fq-selected {
+  border-color: var(--fq-accent);
+  background: rgba(25,63,59,0.05);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px -4px rgba(25,63,59,0.1), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+#quiz-root .fq-option-indicator {
+  flex-shrink: 0; width: 20px; height: 20px; border: 2px solid var(--fq-border-default);
+  border-radius: 50%; margin-right: 14px; position: relative; transition: border-color 150ms ease;
+}
+#quiz-root .fq-option-indicator::after {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 10px; height: 10px; border-radius: 50%; background: var(--fq-accent);
+  transition: transform 150ms ease;
+}
+#quiz-root .fq-option.fq-selected .fq-option-indicator { border-color: var(--fq-accent); }
+#quiz-root .fq-option.fq-selected .fq-option-indicator::after { transform: translate(-50%, -50%) scale(1); }
+#quiz-root .fq-option-checkbox {
+  flex-shrink: 0; width: 20px; height: 20px; border: 2px solid var(--fq-border-default);
+  border-radius: 4px; margin-right: 14px; position: relative;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+#quiz-root .fq-option-checkbox svg {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0); transition: transform 150ms ease;
+}
+#quiz-root .fq-option.fq-selected .fq-option-checkbox { background: var(--fq-accent); border-color: var(--fq-accent); }
+#quiz-root .fq-option.fq-selected .fq-option-checkbox svg { transform: translate(-50%, -50%) scale(1); }
+#quiz-root .fq-option-text { font-size: 15px; font-weight: 500; color: var(--fq-text-primary); line-height: 1.4; }
+
+/* ICP option cards */
+#quiz-root .fq-option.fq-option-icp { flex-direction: column; align-items: flex-start; padding: 20px 24px; gap: 2px; }
+#quiz-root .fq-option-icp-row { display: flex; align-items: center; width: 100%; }
+#quiz-root .fq-option-icp-desc { font-size: 13px; color: var(--fq-text-secondary); line-height: 1.4; padding-left: 34px; }
+
+/* Navigation */
+#quiz-root .fq-quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; }
+#quiz-root .fq-back-link {
+  font-size: 14px; font-weight: 400; color: var(--fq-text-tertiary); cursor: pointer;
+  background: none; border: none; font-family: var(--fq-font);
+  transition: color 200ms ease; padding: 0;
+}
+#quiz-root .fq-back-link:hover { color: var(--fq-text-secondary); }
+#quiz-root .fq-back-link.fq-hidden { visibility: hidden; pointer-events: none; }
+#quiz-root .fq-btn-next {
+  background: var(--fq-btn-gradient); color: #fff; font-family: var(--fq-font);
+  font-size: 15px; font-weight: 500; padding: 14px 28px;
+  border-radius: var(--fq-radius-md); border: none; cursor: pointer;
+  transition: transform 250ms var(--fq-spring), opacity 200ms ease;
+}
+#quiz-root .fq-btn-next:hover:not(:disabled) { transform: translateY(-1px) scale(1.02); opacity: 0.92; }
+#quiz-root .fq-btn-next:active:not(:disabled) { transform: scale(0.98); }
+#quiz-root .fq-btn-next:disabled { opacity: 0.25; cursor: not-allowed; }
+
+/* Info box */
+#quiz-root .fq-info-box {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: var(--fq-radius-lg); margin-bottom: 24px;
+  box-shadow: 0 4px 16px -4px rgba(25,63,59,0.06), inset 0 1px 0 rgba(255,255,255,0.15);
+  overflow: hidden;
+}
+#quiz-root .fq-info-header {
+  display: inline-flex; align-items: center; gap: 10px;
+  width: 100%; padding: 14px 18px; cursor: pointer;
+  background: none; border: none; font-family: var(--fq-font);
+  user-select: none; -webkit-user-select: none;
+  transition: background 150ms ease;
+}
+#quiz-root .fq-info-header:hover { background: rgba(25, 63, 59, 0.03); }
+#quiz-root .fq-info-icon {
+  flex-shrink: 0; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;
+}
+#quiz-root .fq-info-icon svg { display: block; }
+#quiz-root .fq-info-label {
+  font-size: 13px; font-weight: 600; color: var(--fq-accent); line-height: 1.3;
+  flex: 1; text-align: left;
+}
+#quiz-root .fq-info-chevron {
+  flex-shrink: 0; font-size: 11px; color: var(--fq-text-tertiary);
+  transition: transform 350ms var(--fq-spring);
+  line-height: 1;
+}
+#quiz-root .fq-info-box.fq-expanded .fq-info-chevron { transform: rotate(180deg); }
+#quiz-root .fq-info-text {
+  font-size: 13px; color: var(--fq-text-secondary); line-height: 1.7;
+  padding: 0 18px 0 48px; max-height: 0; overflow: hidden;
+  transition: max-height 400ms var(--fq-spring-gentle), padding-bottom 400ms var(--fq-spring-gentle);
+}
+#quiz-root .fq-info-box.fq-expanded .fq-info-text {
+  max-height: 600px; padding-bottom: 16px;
+}
+#quiz-root .fq-info-text ul { margin: 8px 0 4px; padding-left: 18px; list-style: none; }
+#quiz-root .fq-info-text ul li { position: relative; padding-left: 16px; margin-bottom: 6px; }
+#quiz-root .fq-info-text ul li::before { content: '\2192'; position: absolute; left: 0; color: var(--fq-accent-light); font-weight: 600; }
+#quiz-root .fq-info-text strong { font-weight: 600; color: var(--fq-text-primary); }
+#quiz-root .fq-info-text .fq-info-benchmark { display: inline-block; background: rgba(28, 185, 158, 0.08); border: 1px solid rgba(28, 185, 158, 0.2); border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 600; color: var(--fq-accent-light); margin: 2px 0; }
+
+/* Blurred result preview behind gate */
+#quiz-root .fq-gate-preview {
+  position: absolute; top: 0; left: 0; right: 0;
+  filter: blur(5px); opacity: 0.6; pointer-events: none; z-index: 0;
+  padding: 40px 20px 20px;
+}
+
+/* Gate */
+#quiz-root .fq-screen--gate { padding: 100px 20px 48px; position: relative; }
+#quiz-root .fq-gate-inner {
+  max-width: 480px; margin: 0 auto;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: var(--fq-radius-lg); padding: 40px;
+  box-shadow: 0 20px 40px -15px rgba(25,63,59,0.1), inset 0 1px 0 rgba(255,255,255,0.2);
+  position: relative; z-index: 2;
+}
+#quiz-root .fq-gate-h2 { font-size: 32px; font-weight: 500; color: var(--fq-text-primary); letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 12px; }
+#quiz-root .fq-gate-sub { font-size: 16px; font-weight: 400; color: var(--fq-text-secondary); line-height: 1.6; margin-bottom: 32px; }
+#quiz-root .fq-field { margin-bottom: 16px; }
+#quiz-root .fq-label { display: block; font-size: 13px; font-weight: 600; color: var(--fq-text-tertiary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.03em; }
+#quiz-root .fq-input {
+  width: 100%; background: var(--fq-bg-tertiary); border: 1px solid var(--fq-border-subtle);
+  border-radius: var(--fq-radius-md); padding: 14px 16px; font-size: 15px;
+  font-family: var(--fq-font); color: var(--fq-text-primary); outline: none;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+#quiz-root .fq-input::placeholder { color: var(--fq-text-tertiary); }
+#quiz-root .fq-input:focus {
+  border-color: var(--fq-accent);
+  box-shadow: 0 0 0 3px rgba(25,63,59,0.1);
+}
+#quiz-root .fq-input.fq-error { border-color: #8B3A3A; }
+#quiz-root .fq-field-hint { font-size: 12px; color: var(--fq-text-tertiary); margin-top: 4px; }
+#quiz-root .fq-field-error { font-size: 12px; color: #8B3A3A; margin-top: 4px; display: none; }
+#quiz-root .fq-field-error.fq-visible { display: block; }
+#quiz-root .fq-btn-submit {
+  width: 100%; background: var(--fq-btn-gradient); color: #fff; font-family: var(--fq-font);
+  font-size: 16px; font-weight: 500; padding: 18px 32px;
+  border-radius: var(--fq-radius-md); border: none; cursor: pointer; margin-top: 24px;
+  transition: transform 350ms var(--fq-spring), opacity 200ms ease;
+}
+#quiz-root .fq-btn-submit:disabled { opacity: 0.5; cursor: wait; animation: none; }
+#quiz-root .fq-fine-print { font-size: 12px; color: var(--fq-text-tertiary); text-align: center; margin-top: 16px; line-height: 1.5; }
+
+/* Result */
+#quiz-root .fq-screen--result { padding: 64px 20px 0; }
+#quiz-root .fq-result-inner { max-width: 640px; margin: 0 auto; }
+#quiz-root .fq-ring-wrap { display: flex; justify-content: center; margin-bottom: 12px; }
+#quiz-root .fq-ring-svg { width: 160px; height: 160px; }
+#quiz-root .fq-segment-badge { display: flex; justify-content: center; margin-bottom: 40px; }
+#quiz-root .fq-dims { max-width: 520px; margin: 0 auto 48px; }
+#quiz-root .fq-dim-row { margin-bottom: 16px; }
+#quiz-root .fq-dim-row:last-child { margin-bottom: 0; }
+#quiz-root .fq-dim-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+#quiz-root .fq-dim-label { font-size: 14px; font-weight: 500; color: var(--fq-text-secondary); display: flex; align-items: center; gap: 8px; }
+#quiz-root .fq-dim-label.fq-weakest { color: var(--fq-accent); }
+#quiz-root .fq-dim-tag {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--fq-accent-light); background: rgba(28, 185, 158, 0.1);
+  border: 1px solid rgba(28, 185, 158, 0.25);
+  padding: 3px 8px; border-radius: 20px;
+}
+#quiz-root .fq-dim-score { font-size: 14px; color: var(--fq-text-tertiary); }
+#quiz-root .fq-dim-bar-track { width: 100%; height: 6px; background: rgba(25, 63, 59, 0.08); border-radius: 3px; overflow: hidden; }
+#quiz-root .fq-dim-bar-fill { height: 100%; background: linear-gradient(90deg, #193F3B 0%, #1CB99E 100%); border-radius: 3px; width: 0%; transition: width 800ms ease-out; }
+#quiz-root .fq-result-text-block { margin-bottom: 40px; }
+#quiz-root .fq-result-diagnosis-card {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: var(--fq-radius-lg); padding: 32px; margin-bottom: 32px;
+  box-shadow: 0 8px 24px -8px rgba(25,63,59,0.06), inset 0 1px 0 rgba(255,255,255,0.15);
+}
+#quiz-root .fq-result-icp-stat {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: rgba(28, 185, 158, 0.06); border: 1px solid rgba(28, 185, 158, 0.15);
+  border-radius: 10px; padding: 14px 18px; margin-top: 20px;
+}
+#quiz-root .fq-result-icp-stat-icon {
+  flex-shrink: 0; width: 20px; height: 20px; color: var(--fq-accent-light); margin-top: 1px;
+}
+#quiz-root .fq-result-icp-stat-text {
+  font-size: 14px; color: var(--fq-text-secondary); line-height: 1.5;
+}
+#quiz-root .fq-result-h2 { font-size: 28px; font-weight: 500; color: var(--fq-text-primary); letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 20px; }
+#quiz-root .fq-result-p { font-size: 16px; color: var(--fq-text-secondary); line-height: 1.6; margin-bottom: 16px; }
+#quiz-root .fq-lever-block { background: var(--fq-bg-secondary); border: 1px solid var(--fq-border-subtle); border-radius: var(--fq-radius-lg); padding: 24px; margin-top: 24px; }
+#quiz-root .fq-lever-title { font-size: 16px; font-weight: 600; color: var(--fq-text-primary); margin-bottom: 12px; }
+#quiz-root .fq-lever-item { font-size: 15px; color: var(--fq-text-secondary); line-height: 1.5; margin-bottom: 8px; }
+#quiz-root .fq-lever-item:last-child { margin-bottom: 0; }
+#quiz-root .fq-lever-arrow { color: var(--fq-accent); font-weight: 600; }
+#quiz-root .fq-lever-card {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: var(--fq-radius-lg); padding: 24px; margin-bottom: 16px;
+  box-shadow: 0 4px 16px -4px rgba(25,63,59,0.06), inset 0 1px 0 rgba(255,255,255,0.15);
+  transition: transform 250ms var(--fq-spring), box-shadow 250ms ease;
+}
+#quiz-root .fq-lever-card:last-child { margin-bottom: 0; }
+#quiz-root .fq-lever-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -8px rgba(25,63,59,0.1), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+#quiz-root .fq-lever-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+#quiz-root .fq-lever-card-name { font-size: 17px; font-weight: 600; color: var(--fq-text-primary); }
+#quiz-root .fq-lever-card-diagnosis { font-size: 15px; color: var(--fq-text-secondary); line-height: 1.6; margin-bottom: 16px; }
+#quiz-root .fq-lever-card-actions { display: flex; flex-direction: column; gap: 10px; }
+#quiz-root .fq-lever-card-action { font-size: 14px; color: var(--fq-text-secondary); line-height: 1.55; padding-left: 20px; position: relative; }
+#quiz-root .fq-lever-card-action::before { content: '\2192'; position: absolute; left: 0; color: var(--fq-accent); font-weight: 600; }
+#quiz-root .fq-cta-block { margin-top: 40px; text-align: center; }
+#quiz-root .fq-cta-text { font-size: 16px; color: var(--fq-text-secondary); line-height: 1.6; margin-bottom: 16px; }
+#quiz-root .fq-btn-cta {
+  display: inline-block; background: var(--fq-btn-gradient); color: #fff; font-family: var(--fq-font);
+  font-size: 16px; font-weight: 500; padding: 18px 36px;
+  border-radius: var(--fq-radius-md); border: none; cursor: pointer;
+  transition: transform 250ms var(--fq-spring), opacity 200ms ease; text-decoration: none;
+  animation: fq-glow-pulse 3s ease-in-out infinite;
+}
+#quiz-root .fq-btn-cta:hover { transform: translateY(-1px) scale(1.02); opacity: 0.92; animation: none; }
+#quiz-root .fq-btn-cta:active { transform: scale(0.98); }
+#quiz-root .fq-result-social { font-size: 14px; color: var(--fq-text-tertiary); text-align: center; margin-top: 32px; padding-bottom: 64px; }
+
+/* Milestone overlay */
+#quiz-root .fq-milestone {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(251, 250, 242, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  z-index: 1000; opacity: 0; pointer-events: none;
+  transition: opacity 400ms ease;
+}
+#quiz-root .fq-milestone.fq-visible { opacity: 1; pointer-events: auto; }
+#quiz-root .fq-milestone-inner {
+  text-align: center; transform: scale(0.92); transition: transform 400ms var(--fq-spring);
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 24px; padding: 48px 40px;
+  box-shadow: 0 20px 40px -15px rgba(25,63,59,0.08), inset 0 1px 0 rgba(255,255,255,0.15);
+}
+#quiz-root .fq-milestone.fq-visible .fq-milestone-inner { transform: scale(1); }
+#quiz-root .fq-milestone-check {
+  width: 56px; height: 56px; border-radius: 50%; background: var(--fq-btn-gradient);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+}
+#quiz-root .fq-milestone-h { font-size: 28px; font-weight: 500; color: var(--fq-text-primary); letter-spacing: -0.03em; margin-bottom: 8px; }
+#quiz-root .fq-milestone-sub { font-size: 16px; color: var(--fq-text-secondary); line-height: 1.5; }
+
+/* Confetti canvas */
+#quiz-root .fq-confetti {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 10; display: none;
+}
+
+@keyframes fq-glow-pulse {
+  0%, 100% { box-shadow: 0 2px 12px rgba(25, 63, 59, 0.12); }
+  50% { box-shadow: 0 4px 24px rgba(25, 63, 59, 0.28); }
+}
+
+/* Pro-Tipp in lever cards */
+#quiz-root .fq-lever-protipp {
+  margin-top: 14px; padding: 14px 16px; border-radius: 8px;
+  background: rgba(28, 185, 158, 0.06); border: 1px solid rgba(28, 185, 158, 0.18);
+  box-shadow: inset 0 1px 0 rgba(28, 185, 158, 0.06);
+}
+#quiz-root .fq-lever-protipp-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--fq-accent-light); margin-bottom: 6px;
+}
+#quiz-root .fq-lever-protipp-text { font-size: 14px; color: var(--fq-text-secondary); line-height: 1.55; }
+/* Next Level section */
+#quiz-root .fq-next-level { margin-top: 48px; margin-bottom: 40px; }
+#quiz-root .fq-next-level-title {
+  font-size: 20px; font-weight: 600; color: var(--fq-text-primary); letter-spacing: -0.02em; margin-bottom: 20px;
+}
+#quiz-root .fq-next-level-card {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: var(--fq-radius-lg); padding: 20px 24px; margin-bottom: 12px;
+  box-shadow: 0 4px 16px -4px rgba(25,63,59,0.06), inset 0 1px 0 rgba(255,255,255,0.15);
+  transition: transform 250ms var(--fq-spring), box-shadow 250ms ease;
+}
+#quiz-root .fq-next-level-card:last-child { margin-bottom: 0; }
+#quiz-root .fq-next-level-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -8px rgba(25,63,59,0.1), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+#quiz-root .fq-next-level-card-title { font-size: 16px; font-weight: 600; color: var(--fq-text-primary); margin-bottom: 8px; }
+#quiz-root .fq-next-level-card-text { font-size: 14px; color: var(--fq-text-secondary); line-height: 1.6; }
+
+/* Gate progress bar */
+#quiz-root .fq-gate-status {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 500; color: var(--fq-accent-light);
+  background: rgba(28, 185, 158, 0.08);
+  border: 1px solid rgba(28, 185, 158, 0.18);
+  padding: 8px 16px; border-radius: 20px; margin: 0 auto 20px;
+}
+#quiz-root .fq-gate-inner {
+  text-align: center;
+}
+#quiz-root .fq-gate-inner form,
+#quiz-root .fq-gate-inner .fq-field,
+#quiz-root .fq-gate-inner .fq-label {
+  text-align: left;
+}
+#quiz-root .fq-gate-status-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--fq-accent-light);
+  animation: fq-status-breathe 2.5s ease-in-out infinite;
+}
+@keyframes fq-status-breathe {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+#quiz-root .fq-gate-status-text {
+  letter-spacing: 0.02em;
+}
+
+/* Field with icon */
+#quiz-root .fq-field-icon-wrap {
+  position: relative;
+}
+#quiz-root .fq-field-icon-wrap .fq-input {
+  padding-left: 44px;
+}
+#quiz-root .fq-field-icon {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;
+  pointer-events: none; color: var(--fq-text-tertiary);
+  transition: color 250ms var(--fq-spring);
+}
+#quiz-root .fq-field-icon-wrap:focus-within .fq-field-icon {
+  color: var(--fq-accent);
+}
+
+@keyframes fq-shimmer-bar {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+/* Shimmer animation for gate CTA */
+@keyframes fq-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+#quiz-root .fq-btn-submit {
+  background: linear-gradient(105deg, #193F3B 0%, #1CB99E 40%, rgba(255,255,255,0.12) 50%, #1CB99E 60%, #193F3B 100%);
+  background-size: 200% 100%;
+  animation: fq-shimmer 8s ease-in-out infinite;
+}
+#quiz-root .fq-btn-submit:hover:not(:disabled) {
+  animation-play-state: paused;
+  transform: translateY(-1px) scale(1.02); opacity: 0.92;
+}
+#quiz-root .fq-btn-submit:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Result CTA card */
+#quiz-root .fq-cta-card {
+  background: #193F3B; border-radius: var(--fq-radius-lg);
+  padding: 48px 40px; text-align: center; margin-top: 48px;
+  position: relative; overflow: hidden;
+}
+@keyframes fq-gradient-drift {
+  0%, 100% { background-position: 0% 0%; }
+  25% { background-position: 50% 30%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 30% 80%; }
+}
+#quiz-root .fq-cta-card::before {
+  content: ''; position: absolute; top: -50%; left: -50%; right: -50%; bottom: -50%;
+  background: radial-gradient(ellipse at 30% 20%, rgba(28, 185, 158, 0.15) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 80%, rgba(92, 251, 245, 0.08) 0%, transparent 50%);
+  background-size: 200% 200%;
+  animation: fq-gradient-drift 8s ease-in-out infinite;
+  pointer-events: none;
+}
+#quiz-root .fq-cta-card-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 500; color: #1CB99E; letter-spacing: 0.02em;
+  background: rgba(28, 185, 158, 0.12); border: 1px solid rgba(28, 185, 158, 0.25);
+  padding: 6px 14px; border-radius: 20px; margin-bottom: 20px;
+  position: relative;
+}
+#quiz-root .fq-cta-card-badge::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%; background: #1CB99E;
+  animation: fq-badge-pulse 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+@keyframes fq-badge-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.75); }
+}
+#quiz-root .fq-cta-card-headline {
+  font-size: 28px; font-weight: 500; color: #FFFFFF;
+  letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 12px;
+  position: relative;
+}
+#quiz-root .fq-cta-card-headline em {
+  font-style: italic; font-family: var(--fq-font-serif);
+}
+#quiz-root .fq-cta-card-sub {
+  font-size: 16px; color: rgba(255,255,255,0.7); line-height: 1.6;
+  max-width: 480px; margin: 0 auto 28px; position: relative;
+}
+#quiz-root .fq-cta-card .fq-btn-cta {
+  background: #fff; color: #193F3B; font-weight: 600;
+  animation: none; box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  position: relative;
+}
+#quiz-root .fq-cta-card .fq-btn-cta:hover {
+  transform: translateY(-1px) scale(1.03); box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  opacity: 1;
+}
+#quiz-root .fq-cta-card-date {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 20px;
+  position: relative;
+}
+
+/* Milestone stats preview */
+#quiz-root .fq-milestone-stats {
+  display: flex; gap: 12px; justify-content: center; margin-top: 24px;
+  flex-wrap: wrap;
+}
+#quiz-root .fq-milestone-stat {
+  background: rgba(25, 63, 59, 0.06); border: 1px solid rgba(25, 63, 59, 0.12);
+  border-radius: 10px; padding: 12px 16px; text-align: center;
+  min-width: 80px; opacity: 0; transform: translateY(10px);
+  transition: opacity 400ms ease, transform 500ms var(--fq-spring);
+}
+#quiz-root .fq-milestone-stat.fq-visible { opacity: 1; transform: translateY(0); }
+#quiz-root .fq-milestone-stat-value {
+  font-size: 22px; font-weight: 700; color: var(--fq-accent);
+  letter-spacing: -0.02em; line-height: 1;
+}
+#quiz-root .fq-milestone-stat-label {
+  font-size: 11px; font-weight: 500; color: var(--fq-text-tertiary);
+  margin-top: 4px; text-transform: uppercase; letter-spacing: 0.04em;
+}
+
+@keyframes fq-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+/* Milestone check pop animation */
+#quiz-root .fq-milestone.fq-visible .fq-milestone-check {
+  animation: fq-check-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+             fq-float 3s ease-in-out 0.6s infinite;
+}
+@keyframes fq-check-pop {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Gate peek text */
+#quiz-root .fq-gate-peek {
+  font-size: 13px; font-weight: 500; color: var(--fq-accent-light);
+  text-align: center; margin-bottom: 16px;
+  animation: fq-peek-pulse 2s ease-in-out infinite;
+}
+@keyframes fq-peek-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* Skip link & screen-reader only */
+#quiz-root .fq-sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+#quiz-root .fq-skip-link:focus {
+  position: static; width: auto; height: auto; padding: 8px 16px; margin: 0;
+  overflow: visible; clip: auto; white-space: normal;
+  background: var(--fq-accent); color: #fff; border-radius: 4px;
+  display: inline-block; z-index: 9999;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  #quiz-root .fq-screen--gate { padding: 60px 16px 32px; }
+  #quiz-root .fq-screen--landing { padding: 48px 20px 40px; }
+  #quiz-root .fq-landing-h1 { font-size: 32px; }
+  #quiz-root .fq-landing-sub { font-size: 16px; }
+  #quiz-root .fq-btn-primary { width: 100%; display: block; text-align: center; }
+  #quiz-root .fq-progress-wrap { margin-bottom: 28px; }
+  #quiz-root .fq-question-text { font-size: 22px; margin-bottom: 4px; }
+  #quiz-root .fq-question-hint { margin-bottom: 16px; min-height: 0; }
+  #quiz-root .fq-options { gap: 8px; }
+  #quiz-root .fq-option { padding: 14px 16px; }
+  #quiz-root .fq-quiz-nav { margin-top: 24px; }
+  #quiz-root .fq-part-label { margin-bottom: 6px; }
+  #quiz-root .fq-screen--quiz { padding: 32px 16px 48px; }
+  #quiz-root .fq-gate-inner { padding: 28px 20px; }
+  /* Result page mobile breathing room */
+  #quiz-root .fq-screen--result { padding: 32px 20px 0; }
+  #quiz-root .fq-result-inner { padding: 0; }
+  #quiz-root .fq-result-h2 { font-size: 22px; margin-bottom: 16px; }
+  #quiz-root .fq-result-p { font-size: 15px; }
+  #quiz-root .fq-dims { margin-bottom: 36px; }
+  #quiz-root .fq-dim-header { margin-bottom: 5px; }
+  #quiz-root .fq-dim-label { font-size: 13px; }
+  #quiz-root .fq-dim-score { font-size: 13px; }
+  #quiz-root .fq-dim-tag { font-size: 9px; padding: 2px 6px; }
+  #quiz-root .fq-segment-badge { margin-bottom: 28px; }
+  #quiz-root .fq-result-diagnosis-card { padding: 24px 20px; margin-bottom: 24px; }
+  #quiz-root .fq-result-icp-stat { padding: 12px 14px; gap: 10px; }
+  #quiz-root .fq-lever-card { padding: 20px 18px; margin-bottom: 12px; }
+  #quiz-root .fq-lever-card-name { font-size: 16px; }
+  #quiz-root .fq-lever-card-diagnosis { font-size: 14px; margin-bottom: 12px; }
+  #quiz-root .fq-lever-card-action { font-size: 13px; }
+  #quiz-root .fq-lever-protipp { padding: 12px 14px; margin-top: 12px; }
+  #quiz-root .fq-lever-protipp-text { font-size: 13px; }
+  #quiz-root .fq-next-level { margin-top: 36px; margin-bottom: 32px; }
+  #quiz-root .fq-next-level-title { font-size: 18px; margin-bottom: 16px; }
+  #quiz-root .fq-next-level-card { padding: 18px 18px; margin-bottom: 10px; }
+  #quiz-root .fq-next-level-card-title { font-size: 15px; }
+  #quiz-root .fq-next-level-card-text { font-size: 13px; }
+  #quiz-root .fq-cta-card { padding: 32px 20px; margin-top: 36px; }
+  #quiz-root .fq-cta-card-headline { font-size: 22px; }
+  #quiz-root .fq-cta-card-sub { font-size: 14px; margin-bottom: 24px; }
+  #quiz-root .fq-btn-cta { width: 100%; display: block; text-align: center; }
+  #quiz-root .fq-gate-status { margin-bottom: 14px; font-size: 12px; padding: 6px 14px; }
+  #quiz-root .fq-cta-card .fq-btn-cta { width: 100%; display: block; }
+  /* Info boxes compact */
+  #quiz-root .fq-info-box { margin-bottom: 16px; }
+  #quiz-root .fq-info-header { padding: 10px 14px; }
+  #quiz-root .fq-info-text { padding: 0 14px 0 38px; font-size: 12px; }
+  /* ICP option cards */
+  #quiz-root .fq-option.fq-option-icp { padding: 14px 16px; }
+  #quiz-root .fq-ring-svg { width: 140px; height: 140px; }
+  /* Mobile: disable card hover transforms (no hover on touch) */
+  #quiz-root .fq-lever-card:hover,
+  #quiz-root .fq-next-level-card:hover { transform: none; }
+  #quiz-root .fq-gate-sub { margin-bottom: 20px; }
+}
+/* Stagger entrance animations */
+#quiz-root .fq-stagger-item {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 700ms ease-out, transform 800ms var(--fq-spring);
+}
+#quiz-root .fq-stagger-item.fq-entered {
+  opacity: 1;
+  transform: translateY(0);
+}
+#quiz-root .fq-stagger-item.fq-scale-in {
+  opacity: 0;
+  transform: translateY(16px) scale(0.95);
+}
+#quiz-root .fq-stagger-item.fq-scale-in.fq-entered {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Scroll-triggered reveals */
+#quiz-root .fq-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 800ms ease-out, transform 1000ms var(--fq-spring);
+}
+#quiz-root .fq-reveal.fq-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+#quiz-root .fq-reveal-scale {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 800ms ease-out, transform 1000ms var(--fq-spring);
+}
+#quiz-root .fq-reveal-scale.fq-revealed {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #quiz-root *, #quiz-root *::before, #quiz-root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  #quiz-root .fq-stagger-item,
+  #quiz-root .fq-stagger-item.fq-scale-in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  #quiz-root .fq-reveal,
+  #quiz-root .fq-reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+</style>
+</head>
+<body>
+<div id="quiz-root">
+  <a href="#fq-question-content" class="fq-sr-only fq-skip-link">Zum Quiz-Inhalt springen</a>
+
+  <div class="fq-screen fq-screen--landing fq-active">
+    <div class="fq-landing-inner">
+      <div class="fq-badge fq-stagger-item">Kostenloses KI-Marketing Assessment</div>
+      <h1 class="fq-landing-h1 fq-stagger-item">Wie gut nutzt du KI in deinem Marketing?</h1>
+      <p class="fq-landing-sub fq-stagger-item">20 Fragen. 5 Minuten. Du bekommst eine personalisierte Analyse deines KI-Reifegrads und wei&szlig;t, welcher KI-Hebel bei dir den gr&ouml;&szlig;ten Impact hat.</p>
+      <button class="fq-btn-primary fq-stagger-item fq-scale-in" id="fq-start-btn">Jetzt KI-Assessment starten &rarr;</button>
+      <p class="fq-social-proof fq-stagger-item">Basierend auf aktuellen Forschungsergebnissen und Best Practices aus 200+ KI-Marketing-Implementierungen.</p>
+    </div>
+  </div>
+
+  <div class="fq-screen fq-screen--quiz">
+    <div class="fq-quiz-inner">
+      <div id="fq-part-label" class="fq-part-label">Teil 1: Allgemeine KI-Marketing-Analyse</div>
+      <div class="fq-progress-wrap">
+        <div class="fq-progress-track">
+          <div class="fq-progress-fill" id="fq-progress-fill"></div>
+        </div>
+        <div class="fq-progress-marker"></div>
+        <div class="fq-progress-marker" style="left: 70%;"></div>
+      </div>
+      <div id="fq-question-content" class="fq-question-content"></div>
+      <div class="fq-quiz-nav">
+        <button class="fq-back-link fq-hidden" id="fq-back-btn">&larr; Zur&uuml;ck</button>
+        <button class="fq-btn-next" id="fq-next-btn" disabled>Weiter &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="fq-screen fq-screen--gate">
+    <div class="fq-gate-inner">
+      <div class="fq-gate-status fq-stagger-item">
+        <span class="fq-gate-status-dot"></span>
+        <span class="fq-gate-status-text">Analyse bereit</span>
+      </div>
+      <h2 class="fq-gate-h2 fq-stagger-item">Deine KI-Analyse ist fertig.</h2>
+      <p class="fq-gate-sub fq-stagger-item">Trag deine Daten ein. Du bekommst deinen KI-Marketing Score und eine detaillierte Auswertung mit konkreten Empfehlungen.</p>
+      <form id="fq-gate-form" novalidate>
+        <div class="fq-field fq-stagger-item">
+          <label class="fq-label" for="fq-input-name">Vorname</label>
+          <div class="fq-field-icon-wrap">
+            <span class="fq-field-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="5.5" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 16c0-3 2.9-5.5 6.5-5.5s6.5 2.5 6.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            <input class="fq-input" id="fq-input-name" type="text" placeholder="Max" autocomplete="given-name">
+          </div>
+          <div class="fq-field-error" id="fq-error-name">Bitte gib deinen Vornamen ein.</div>
+        </div>
+        <div class="fq-field fq-stagger-item">
+          <label class="fq-label" for="fq-input-lastname">Nachname</label>
+          <div class="fq-field-icon-wrap">
+            <span class="fq-field-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="5.5" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 16c0-3 2.9-5.5 6.5-5.5s6.5 2.5 6.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            <input class="fq-input" id="fq-input-lastname" type="text" placeholder="Mustermann" autocomplete="family-name">
+          </div>
+          <div class="fq-field-error" id="fq-error-lastname">Bitte gib deinen Nachnamen ein.</div>
+        </div>
+        <div class="fq-field fq-stagger-item">
+          <label class="fq-label" for="fq-input-email">E-Mail</label>
+          <div class="fq-field-icon-wrap">
+            <span class="fq-field-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 6l7 4.5L16 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <input class="fq-input" id="fq-input-email" type="email" placeholder="max@beispiel.de" autocomplete="email">
+          </div>
+          <div class="fq-field-error" id="fq-error-email">Bitte gib eine g&uuml;ltige E-Mail-Adresse ein.</div>
+        </div>
+        <div class="fq-field fq-stagger-item">
+          <label class="fq-label" for="fq-input-phone">Handynummer <span style="font-weight:400;text-transform:none;">(optional)</span></label>
+          <div class="fq-field-icon-wrap">
+            <span class="fq-field-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="4" y="1.5" width="10" height="15" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="7.5" y1="13.5" x2="10.5" y2="13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            <input class="fq-input" id="fq-input-phone" type="tel" placeholder="+49 170 ..." autocomplete="tel">
+          </div>
+          <div class="fq-field-hint">F&uuml;r WhatsApp-Zusammenfassung</div>
+        </div>
+        <button class="fq-btn-submit fq-stagger-item fq-scale-in" id="fq-submit-btn" type="submit">Meine KI-Analyse anfordern &rarr;</button>
+      </form>
+      <p class="fq-fine-print">Kein Spam. Keine Weitergabe. Du bekommst deine Analyse + 2-3 weiterf&uuml;hrende Mails mit konkreten Tipps.</p>
+    </div>
+  </div>
+
+  <div class="fq-screen fq-screen--result">
+    <canvas class="fq-confetti" id="fq-confetti" aria-hidden="true"></canvas>
+    <div class="fq-result-inner" id="fq-result-inner"></div>
+  </div>
+
+  <div class="fq-milestone" id="fq-milestone" role="dialog" aria-label="Teil 1 abgeschlossen">
+    <div class="fq-milestone-inner">
+      <div class="fq-milestone-check">
+        <svg width="28" height="22" viewBox="0 0 28 22" fill="none"><path d="M2 11L10 19L26 3" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="fq-milestone-h">Teil 1 abgeschlossen!</div>
+      <div class="fq-milestone-sub">Jetzt wird&rsquo;s spezifisch.<br>Die n&auml;chsten Fragen sind auf dein KI-Profil zugeschnitten.</div>
+      <div class="fq-milestone-stats" id="fq-milestone-stats-1"></div>
+    </div>
+  </div>
+
+  <div class="fq-milestone" id="fq-milestone-2" role="dialog" aria-label="Teil 2 abgeschlossen">
+    <div class="fq-milestone-inner">
+      <div class="fq-milestone-check">
+        <svg width="28" height="22" viewBox="0 0 28 22" fill="none"><path d="M2 11L10 19L26 3" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="fq-milestone-h">Teil 2 abgeschlossen!</div>
+      <div class="fq-milestone-sub">Fast geschafft.<br>Noch 6 Fragen f&uuml;r deine vollst&auml;ndige KI-Analyse.</div>
+      <div class="fq-milestone-stats" id="fq-milestone-stats-2"></div>
+    </div>
+  </div>
+
+</div>
+<script>
+// ============================================
+// KONFIGURATION
+// ============================================
+var CONFIG = {
+  webhookUrl: "https://DEIN-WEBHOOK-ENDPOINT.com",
+  bookingUrl: "https://DEIN-CALENDLY-LINK.com"
+};
+// ============================================
+
+var DIMENSIONS = {
+  SV: { key: "SV", label: "KI-Strategie & Vision" },
+  CK: { key: "CK", label: "KI-Content & Kreation" },
+  LQ: { key: "LQ", label: "KI-Leadgen & Qualifizierung" },
+  AW: { key: "AW", label: "KI-Automatisierung & Workflows" },
+  DP: { key: "DP", label: "KI-Daten & Personalisierung" }
+};
+
+var LEVER_DETAILS = {
+  SV: {
+    diagnosis: "Du setzt KI punktuell ein, aber ohne \u00fcbergeordnete Strategie. Einzelne Tools l\u00f6sen Einzelprobleme \u2014 aber ohne Plan fehlt der Hebel.",
+    actions: [
+      "Mache ein KI-Audit: Liste alle wiederkehrenden Marketing-Aufgaben auf und bewerte jede nach Zeitaufwand und Automatisierungspotenzial. Starte mit den Top 3.",
+      "Erstelle eine Prompt-Bibliothek mit getesteten Prompts f\u00fcr deine h\u00e4ufigsten Aufgaben. Dokumentiere, was funktioniert.",
+      "Definiere eine 90-Tage-KI-Roadmap: In welcher Reihenfolge f\u00fchrst du welche KI-Workflows ein? Setze klare Meilensteine."
+    ]
+  },
+  CK: {
+    diagnosis: "Deine Content-Erstellung ist zu zeitaufw\u00e4ndig und nicht skalierbar. Du erstellst jedes St\u00fcck Content von Null, statt vorhandenes Material systematisch mit KI wiederzuverwerten.",
+    actions: [
+      "Richte eine Repurposing-Pipeline ein: Nimm jedes Gespr\u00e4ch oder Webinar auf und nutze KI, um daraus 8\u201312 Content-Pieces zu erstellen.",
+      "Erstelle Custom Instructions mit deinem Tonfall und deinen Content-S\u00e4ulen. So klingt KI-Content nach dir.",
+      "Baue einen Content-Kalender, bei dem KI die Entw\u00fcrfe liefert und du nur noch redigierst. Ziel: 5 Posts pro Woche in maximal 2 Stunden."
+    ]
+  },
+  LQ: {
+    diagnosis: "Du qualifizierst Leads nicht systematisch mit KI. Ohne automatisiertes Scoring verschwendest du Zeit mit unpassenden Interessenten und l\u00e4sst hei\u00dfe Leads warten.",
+    actions: [
+      "Setze einen KI-Chatbot ein, der diagnostische Fragen stellt und Leads scored \u2014 bevor sie einen Termin buchen.",
+      "Nutze KI-Discovery-Prep: Paste alle Prospect-Daten in KI und bekomme eine Gespr\u00e4chsvorbereitung mit Einw\u00e4nden und personalisierten Fragen.",
+      "Implementiere Lead-Scoring: Vergib Punkte basierend auf Engagement und priorisiere Leads mit dem h\u00f6chsten Score."
+    ]
+  },
+  AW: {
+    diagnosis: "Du erledigst zu viel manuell, was KI \u00fcbernehmen k\u00f6nnte. Ohne Automatisierung bist du der Flaschenhals \u2014 jede neue Anfrage bedeutet mehr Arbeit statt mehr Umsatz.",
+    actions: [
+      "Automatisiere dein Onboarding: KI generiert personalisierte Willkommenspakete basierend auf den Zielen des Kontakts.",
+      "Verkn\u00fcpfe deine Tools: Lead-Eintragung \u2192 CRM-Update \u2192 personalisierte E-Mail \u2192 Kalender-Buchung \u2014 alles ohne manuelles Eingreifen.",
+      "Setze KI-Trigger ein: Wenn ein Lead deine Pricing-Seite besucht, bekommt er automatisch eine andere Sequenz als ein Blog-Leser."
+    ]
+  },
+  DP: {
+    diagnosis: "Du nutzt die Daten, die du bereits hast, nicht f\u00fcr Personalisierung. Jeder Lead bekommt die gleiche Kommunikation \u2014 egal ob Anf\u00e4nger oder Fortgeschrittener.",
+    actions: [
+      "Segmentiere Leads anhand von Quiz-Ergebnissen oder Formularantworten. Erstelle f\u00fcr jedes Segment eine eigene KI-personalisierte Sequenz.",
+      "Nutze verhaltensbasierte Personalisierung: Welche Seiten besucht, welche E-Mails ge\u00f6ffnet? Lass KI die n\u00e4chste Nachricht individuell generieren.",
+      "Baue einen First-Party-Data-Vorteil auf: Nutze interaktive Formate um freiwillige Daten zu sammeln, die du f\u00fcr KI-Modelle nutzt."
+    ]
+  }
+};
+
+var ICP_LEVER_TIPS = {
+  coach: {
+    SV: "Erstelle ein \u2018KI-Playbook\u2019: Dokumentiere f\u00fcr jeden Bereich exakt, welche KI-Tools du nutzt, welche Prompts funktionieren und wie der Workflow aussieht. So wird KI vom Experiment zum System.",
+    CK: "Trainiere ein Custom GPT oder nutze Claude Projects mit deinen besten Inhalten. Damit generierst du Content, der nach dir klingt \u2014 inklusive deiner Metaphern und Frameworks.",
+    LQ: "Baue einen 2-Wege-KI-Qualifizierungsagenten: Die KI stellt nicht nur Fragen, sondern macht diagnostische Aussagen. Coaches berichten von 3x h\u00f6herer Buchungsrate.",
+    AW: "Implementiere eine \u2018Zero-Wait\u2019-Kette: Best\u00e4tigung \u2192 WhatsApp \u2192 KI-Cheat-Sheet \u2192 Kalender-Link. Jede Minute Wartezeit senkt die Conversion.",
+    DP: "Nutze Sentiment-Analyse auf Session-Transkripten um Klienten-Zufriedenheit zu messen. Wenn der Score f\u00e4llt, triggert das System automatisch einen Check-in."
+  },
+  marketer: {
+    SV: "F\u00fchre ein \u2018KI-Audit\u2019 f\u00fcr jeden neuen Kunden durch: Analysiere in den ersten 2 Wochen, welche 3 Workflows am meisten von KI profitieren. So positionierst du dich als zukunftsorientierter Partner.",
+    CK: "Baue pro Kunde ein \u2018Brand AI Kit\u2019: Tonalit\u00e4t, Wording-Regeln, Beispiele und No-Gos als System-Prompt. Das spart 60% der Revisionsschleifen.",
+    LQ: "Setze einen KI-Chatbot mit \u2018Pricing Anxiety Detection\u2019 ein: Bei 2x Pricing-Page-Besuch ohne Conversion triggert automatisch ein personalisiertes Angebot mit ROI-Rechner.",
+    AW: "Implementiere einen \u2018Campaign Health Agent\u2019: Alle 6 Stunden pr\u00fcft ein KI-Agent die Kampagnendaten und sendet bei >15% Abweichung einen Slack-Alert mit Diagnose.",
+    DP: "Nutze Multi-Armed-Bandit-Testing: Statt 50/50-Traffic-Splits verteilt KI den Traffic dynamisch auf die beste Variante. Bis zu 30% weniger Opportunit\u00e4tskosten."
+  },
+  mittelstand: {
+    SV: "Startet mit einem 90-Tage-KI-Pilotprojekt statt einer Jahresstrategie. W\u00e4hlt einen konkreten Use Case, messt den Zeitgewinn, und nutzt die Ergebnisse als Business Case f\u00fcr die Gesch\u00e4ftsf\u00fchrung.",
+    CK: "Nutzt KI, um aus jedem Kundenprojekt Content zu extrahieren: 30-Min-Interview \u2192 Case Study, LinkedIn-Serie, Webinar-Folie und Vertriebs-One-Pager \u2014 ohne externen Texter.",
+    LQ: "Implementiert einen KI-Chatbot, der Erstanfragen sofort qualifiziert: Branche, Gr\u00f6\u00dfe, Bedarf, Budget abfragen und automatisch als MQL oder SQL im CRM anlegen. Spart 5\u201310 Stunden pro Woche.",
+    AW: "Lost-Deal-Win-Back automatisieren: 60 Tage nach einem verlorenen Deal automatisch eine personalisierte E-Mail senden. Bis zu 15% der Deals lassen sich so reaktivieren.",
+    DP: "Trackt die Lead Velocity Rate (LVR): Statt nur Deals zu z\u00e4hlen, messt die Wachstumsrate qualifizierter Leads pro Monat. Gibt 3\u20136 Monate Vorwarnung f\u00fcr Pipeline-Probleme."
+  }
+};
+
+var ICP_NEXT_LEVEL = {
+  coach: [
+    { title: "KI-Klon als 24/7-Erstberater", text: "Trainiere einen KI-Agenten auf deinem gesamten Content. Dieser beantwortet Anfragen in deinem Stil, stellt diagnostische Fragen und empfiehlt passende Angebote. Leads werden rund um die Uhr vorqualifiziert \u2014 3x h\u00f6here Conversion gegen\u00fcber statischen Formularen." },
+    { title: "Predictive Retention Engine", text: "Kombiniere Sentiment-Analyse auf Session-Transkripten mit Verhaltensdaten (Login-Frequenz, Aufgaben-Completion), um einen Churn-Score pro Klient zu berechnen. Automatische Interventionen bei Risiko-Schwellwert." },
+    { title: "One-Input Full-Funnel Content-Maschine", text: "Ein Coaching-Call wird automatisch zum Content-Motor: Transkript \u2192 KI extrahiert Kernaussagen \u2192 generiert TOFU (LinkedIn, Reels), MOFU (Newsletter, Blog), BOFU (Case Study). 30 Minuten statt 10 Stunden pro Woche." }
+  ],
+  marketer: [
+    { title: "Agentic Campaign Execution", text: "KI-Agenten, die Kampagnen autonom optimieren: Budget-Umschichtung bei CPA-Anomalien, Creative-Rotation bei Fatigue, Bid-Adjustments nach Tageszeit. Eskalation nur bei >25% Abweichung. Doppelt so viele Kunden ohne Qualit\u00e4tsverlust." },
+    { title: "Outcome-Based Pricing mit KI als Hebel", text: "Wenn KI deine Delivery um 50\u201370% beschleunigt, verkaufe Ergebnisse statt Zeit: Garantierte Lead-Anzahl, ROAS-Ziele oder Ranking-Positionen. Die Marge steigt, der Kunde zahlt f\u00fcr Wert." },
+    { title: "Predictive Creative Testing mit Multi-Armed Bandits", text: "KI generiert 10\u201320 Creative-Varianten und verteilt Traffic dynamisch. Kombiniert mit Message-Match-Optimierung steigert das die Conversion Rate um 15\u201330% gegen\u00fcber klassischen A/B-Tests." }
+  ],
+  mittelstand: [
+    { title: "KI-native Sales-Pipeline mit Agentic Assistants", text: "Bis 2028 werden KI-Agenten menschliche Vertriebler 10:1 \u00fcberzahlen (Gartner). Startet jetzt mit einem KI-Assistenten, der Inbound-Anfragen qualifiziert, Termine bucht und Briefings vorbereitet." },
+    { title: "Rollenspezifische Hyper-Personalisierung", text: "Eure Website zeigt dem CFO automatisch ROI-Berechnungen, dem IT-Leiter Integrations-Specs und dem Eink\u00e4ufer Vergleichstabellen. KI erkennt die Rolle anhand von Firmendaten und passt Inhalte in Echtzeit an." },
+    { title: "Propriet\u00e4rer Datenvorteil durch First-Party-KI", text: "Trainiert KI-Modelle auf euren eigenen Kundendaten: Welche Leads konvertieren, welche Inhalte wirken, welche Gespr\u00e4chsmuster f\u00fchren zum Abschluss. Dieser Vorteil ist nicht kopierbar." }
+  ]
+};
+
+// ============================================
+// FRAGE 1: ICP AUSWAHL
+// ============================================
+var ICP_QUESTION = {
+  id: "icp", type: "icp-select",
+  question: "Was beschreibt dich am besten?",
+  hint: "Wir passen die n\u00e4chsten Fragen an dein Profil an.",
+  options: [
+    { text: "Coach, Consultant oder Trainer", desc: "Du verkaufst Wissen, Beratung oder Begleitung und willst KI strategisch nutzen.", value: "coach" },
+    { text: "Marketer oder Agentur", desc: "Du schaltest Ads, erstellst Content oder betreust Kunden und willst mit KI skalieren.", value: "marketer" },
+    { text: "Unternehmen (Mittelstand / B2B)", desc: "Ihr wollt KI in Marketing und Vertrieb integrieren und euch digitaler aufstellen.", value: "mittelstand" }
+  ]
+};
+
+// ============================================
+// TEIL 1: ALLGEMEINE FRAGEN (7)
+// ============================================
+var GENERAL_QUESTIONS = [
+  {
+    id: "g1", type: "single",
+    question: "Wie w\u00fcrdest du deinen aktuellen KI-Einsatz im Marketing beschreiben?",
+    options: [
+      { text: "Ich nutze kaum oder keine KI-Tools im Marketing", scores: { SV: 1 } },
+      { text: "Ich nutze ChatGPT oder \u00e4hnliche Tools gelegentlich f\u00fcr einzelne Aufgaben", scores: { SV: 2 } },
+      { text: "Ich habe feste KI-Workflows f\u00fcr bestimmte Marketing-Bereiche", scores: { SV: 4 } },
+      { text: "KI ist systematisch in meine gesamte Marketing-Strategie integriert", scores: { SV: 6 } }
+    ]
+  },
+  {
+    id: "g2", type: "single",
+    question: "Wie nutzt du KI f\u00fcr die Content-Erstellung?",
+    info: { label: "KI-Content: Mehr als nur ChatGPT", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h12v12H4z" stroke="#193F3B" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 8h6M7 11h4" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round"/></svg>', text: "<strong>KI-gest\u00fctzte Content-Erstellung bedeutet nicht, alles von der KI schreiben zu lassen.</strong><br><br>Der strategische Ansatz:<ul><li><strong>Stufe 1:</strong> KI als Ideengeber und Recherche-Assistent</li><li><strong>Stufe 2:</strong> KI erstellt Entw\u00fcrfe mit Brand-Voice-Vorgaben</li><li><strong>Stufe 3:</strong> Automatisierte Multi-Format-Produktion aus einem Source-Asset</li><li><strong>Stufe 4:</strong> Selbstoptimierender Content-Workflow mit Performance-Feedback</li></ul><span class='fq-info-benchmark'>Benchmark: KI-unterst\u00fctzte Teams produzieren 3\u20135x mehr Content bei gleicher Qualit\u00e4t</span>" },
+    options: [
+      { text: "Gar nicht \u2014 ich erstelle alles manuell", scores: { CK: 1 } },
+      { text: "Als Ideengeber oder f\u00fcr erste Entw\u00fcrfe, die ich komplett \u00fcberarbeite", scores: { CK: 2 } },
+      { text: "KI erstellt regelm\u00e4\u00dfig Entw\u00fcrfe mit meinen Vorgaben, die ich feinschliffe", scores: { CK: 4 } },
+      { text: "Systematischer KI-Workflow: Briefing \u2192 Entwurf \u2192 Brand-Check \u2192 Multi-Format-Output", scores: { CK: 6 } }
+    ]
+  },
+  {
+    id: "g3", type: "multi",
+    question: "F\u00fcr welche Marketing-Aufgaben nutzt du bereits KI?",
+    hint: "W\u00e4hle alle aus, die zutreffen.",
+    options: [
+      { text: "Texterstellung (Blog, Social Media, E-Mail)", scores: { CK: 1 } },
+      { text: "Bild- oder Video-Erstellung (Midjourney, Canva AI, Runway)", scores: { CK: 1 } },
+      { text: "Datenanalyse und Reporting", scores: { DP: 1 } },
+      { text: "Lead-Qualifizierung oder Chatbots", scores: { LQ: 1 } },
+      { text: "E-Mail-Automatisierung und Personalisierung", scores: { AW: 1, DP: 1 } },
+      { text: "Recherche und Wettbewerbsanalyse", scores: { SV: 1 } }
+    ]
+  },
+  {
+    id: "g4", type: "single",
+    question: "Wie gehst du mit der Qualit\u00e4tssicherung von KI-generierten Inhalten um?",
+    options: [
+      { text: "Ich poste KI-Output meistens direkt ohne gro\u00dfe \u00dcberarbeitung", scores: { CK: 1 } },
+      { text: "Ich \u00fcberarbeite Texte, aber ohne festen Prozess oder Checkliste", scores: { CK: 2 } },
+      { text: "Fester Review-Prozess: Fact-Check, Brand-Voice-Abgleich und Anpassung vor jeder Ver\u00f6ffentlichung", scores: { CK: 4 } },
+      { text: "Mehrstufiger QA-Workflow mit KI-gest\u00fctztem Brand-Check und menschlichem Final Review", scores: { CK: 5, SV: 1 } }
+    ]
+  },
+  {
+    id: "g5", type: "single",
+    question: "Wie automatisiert sind deine Marketing-Prozesse mit KI?",
+    info: { label: "Von Automation zu Agentic Workflows", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="10" r="2" stroke="#193F3B" stroke-width="1.5"/><circle cx="15" cy="10" r="2" stroke="#193F3B" stroke-width="1.5"/><path d="M7 10h6" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round"/><path d="M10 4v3M10 13v3" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round"/></svg>', text: "<strong>Marketing-Automatisierung entwickelt sich in drei Stufen:</strong><br><br><ul><li><strong>Stufe 1 \u2014 Regel-basiert:</strong> Wenn X, dann Y (z.\u00a0B. Autoresponder)</li><li><strong>Stufe 2 \u2014 KI-unterst\u00fctzt:</strong> KI optimiert Timing, Inhalte und Segmentierung</li><li><strong>Stufe 3 \u2014 Agentic:</strong> KI-Agenten handeln autonom, erkennen Anomalien und passen Kampagnen an</li></ul><span class='fq-info-benchmark'>Benchmark: KI-automatisierte Workflows sparen durchschnittlich 10\u201315 Stunden pro Woche</span>" },
+    options: [
+      { text: "Fast nichts ist automatisiert, ich mache das meiste manuell", scores: { AW: 1 } },
+      { text: "Einfache Automationen (Autoresponder, Zapier), aber ohne KI-Komponente", scores: { AW: 2 } },
+      { text: "KI-gest\u00fctzte Automationen in mehreren Bereichen (E-Mail, Posting, Nurturing)", scores: { AW: 4, LQ: 1 } },
+      { text: "Agentic Workflows: KI-Agenten handeln autonom und eskalieren nur bei Bedarf", scores: { AW: 6, LQ: 2 } }
+    ]
+  },
+  {
+    id: "g6", type: "single",
+    question: "Wie nutzt du Daten und KI f\u00fcr Personalisierung?",
+    options: [
+      { text: "Alle Kontakte bekommen die gleichen Inhalte", scores: { DP: 1 } },
+      { text: "Grobe Segmentierung (z.\u00a0B. nach Interesse), aber manuell", scores: { DP: 2 } },
+      { text: "KI-basierte Segmentierung mit automatisch angepassten Inhalten pro Gruppe", scores: { DP: 4, LQ: 1 } },
+      { text: "Hyper-Personalisierung: Jeder Kontakt bekommt individuelle KI-generierte Inhalte basierend auf Verhalten", scores: { DP: 6, LQ: 2 } }
+    ]
+  },
+  {
+    id: "g7", type: "single",
+    question: "Wie misst du den ROI deines KI-Einsatzes im Marketing?",
+    options: [
+      { text: "Gar nicht \u2014 ich habe kein Gef\u00fchl daf\u00fcr, ob sich KI f\u00fcr mich lohnt", scores: { SV: 1 } },
+      { text: "Ich sch\u00e4tze grob die Zeitersparnis, tracke aber nichts systematisch", scores: { SV: 2 } },
+      { text: "Ich tracke Zeitersparnis und Output-Menge pro KI-Workflow", scores: { SV: 4, DP: 1 } },
+      { text: "Klares KI-ROI-Dashboard: Zeitersparnis, Qualit\u00e4tsvergleich, Cost-per-Output und Business-Impact", scores: { SV: 6, DP: 1 } }
+    ]
+  }
+];
+
+// ============================================
+// TEIL 2: COACH-SPEZIFISCHE FRAGEN (12)
+// ============================================
+var COACH_QUESTIONS = [
+  {
+    id: "c1", type: "single",
+    question: "Wie planvoll setzt du KI in deinem Marketing ein?",
+    hint: "Denk an alle Bereiche: Content, Leads, Automatisierung, Daten.",
+    info: { label: "Warum eine KI-Strategie entscheidend ist", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2L3 6v8l7 4 7-4V6l-7-4z" stroke="#193F3B" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 10V18M10 10L3 6M10 10l7-4" stroke="#193F3B" stroke-width="1.5" stroke-linejoin="round"/></svg>', text: "<strong>94% der Marketer nutzen bereits KI-Tools \u2014 aber ohne Strategie bleibt es Flickwerk.</strong><br><br>Eine KI-Strategie definiert:<ul><li>Welche Prozesse du zuerst automatisierst (h\u00f6chster Hebel, geringste Komplexit\u00e4t)</li><li>Wie du KI-Output an deine Markensprache anpasst</li><li>Welche Daten du systematisch sammelst, um die KI zu verbessern</li></ul><span class='fq-info-benchmark'>Benchmark: Coaches mit KI-Strategie sparen durchschnittlich 10+ Stunden pro Woche</span>" },
+    options: [
+      { text: "Ich nutze KI kaum oder nur gelegentlich, wenn ich zuf\u00e4llig daran denke", scores: { SV: 1 } },
+      { text: "Ich nutze ChatGPT oder \u00e4hnliche Tools f\u00fcr einzelne Aufgaben, aber ohne festen Plan", scores: { SV: 2 } },
+      { text: "Ich habe definierte KI-Workflows f\u00fcr bestimmte Marketing-Bereiche", scores: { SV: 4 } },
+      { text: "KI ist fester Bestandteil meiner Gesamtstrategie mit dokumentierten Prozessen und Prompts", scores: { SV: 6 } }
+    ]
+  },
+  {
+    id: "c2", type: "single",
+    question: "Wie nutzt du KI f\u00fcr deine Content-Erstellung?",
+    options: [
+      { text: "Ich schreibe alles selbst, KI spielt beim Content keine Rolle", scores: { CK: 1 } },
+      { text: "Ich nutze KI manchmal als Ideengeber oder f\u00fcr erste Entw\u00fcrfe", scores: { CK: 2 } },
+      { text: "KI erstellt regelm\u00e4\u00dfig Entw\u00fcrfe, die ich \u00fcberarbeite und in meiner Stimme ver\u00f6ffentliche", scores: { CK: 4 } },
+      { text: "Ich habe ein KI-System mit Custom Instructions, das Content in meiner Markensprache auf Knopfdruck liefert", scores: { CK: 6 } }
+    ]
+  },
+  {
+    id: "c3", type: "single",
+    question: "Wie verwandelst du ein Coaching-Gespr\u00e4ch oder ein Video in mehrere Content-Formate?",
+    hint: "Zum Beispiel: Aus einem Webinar werden Blog, Newsletter, Social Posts.",
+    info: { label: "One-to-Dozens Repurposing Engine", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="3" stroke="#193F3B" stroke-width="1.5"/><path d="M10 2v3M10 15v3M18 10h-3M5 10H2M15.5 4.5l-2 2M6.5 13.5l-2 2M15.5 15.5l-2-2M6.5 6.5l-2-2" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round"/></svg>', text: "<strong>Ein einziges 60-Minuten-Gespr\u00e4ch kann 10+ Content-Pieces liefern.</strong><br><br><strong>So funktioniert die Repurposing Engine:</strong><ul><li>Aufnahme transkribieren (z.\u00a0B. mit Descript oder Whisper)</li><li>KI extrahiert automatisch: Kernaussagen, Zitate, Storytelling-Elemente</li><li>Daraus werden: Blog-Artikel, Newsletter, LinkedIn-Carousel, Reels-Skript, Twitter-Thread</li></ul><span class='fq-info-benchmark'>Benchmark: 5\u201310 Stunden Zeitersparnis pro Woche durch automatisiertes Repurposing</span>" },
+    options: [
+      { text: "Gar nicht \u2014 ich erstelle jedes Format einzeln von Null", scores: { CK: 1, AW: 1 } },
+      { text: "Ich nutze manchmal Copy-Paste und schreibe h\u00e4ndisch um", scores: { CK: 2, AW: 1 } },
+      { text: "Ich nutze KI, um aus einem St\u00fcck Content 3\u20135 Formate abzuleiten", scores: { CK: 4, AW: 3 } },
+      { text: "Automatisierter Workflow: Aufnahme \u2192 Transkript \u2192 KI erstellt 8\u201312 Content-Pieces in meiner Stimme", scores: { CK: 6, AW: 5 } }
+    ]
+  },
+  {
+    id: "c4", type: "single",
+    question: "Wie qualifizierst du Leads mithilfe von KI, bevor sie ins Erstgespr\u00e4ch kommen?",
+    options: [
+      { text: "Gar nicht \u2014 jeder, der bucht, bekommt einen Termin", scores: { LQ: 1 } },
+      { text: "Ich habe ein statisches Formular, das grundlegende Infos abfragt", scores: { LQ: 2 } },
+      { text: "Ich nutze einen KI-Chatbot oder ein intelligentes Quiz, das Leads vorqualifiziert", scores: { LQ: 4 } },
+      { text: "Mein KI-Agent f\u00fchrt diagnostische Gespr\u00e4che, scored Leads automatisch und routet nur passende Kontakte in meinen Kalender", scores: { LQ: 6 } }
+    ]
+  },
+  {
+    id: "c5", type: "single",
+    question: "Wie automatisiert sind deine Marketing-Prozesse mit KI?",
+    hint: "Denk an E-Mail-Sequenzen, Social-Media-Planung, Terminbuchung, Onboarding.",
+    options: [
+      { text: "Fast nichts ist automatisiert, ich mache das meiste manuell", scores: { AW: 1 } },
+      { text: "Ich habe einfache Automationen (z.\u00a0B. Autoresponder), aber ohne KI-Komponente", scores: { AW: 2 } },
+      { text: "Ich nutze KI-gest\u00fctzte Automationen in 2\u20133 Bereichen (z.\u00a0B. E-Mail + Posting-Planung)", scores: { AW: 4 } },
+      { text: "Durchg\u00e4ngig automatisierte Kette: Lead-Eingang \u2192 KI-Qualifizierung \u2192 personalisiertes Nurturing \u2192 Buchung \u2192 Onboarding", scores: { AW: 6 } }
+    ]
+  },
+  {
+    id: "c6", type: "single",
+    question: "Wie personalisiert ist deine Kommunikation mit Leads und Klienten?",
+    info: { label: "Warum Hyper-Personalisierung den Unterschied macht", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a8 8 0 100 16 8 8 0 000-16z" stroke="#193F3B" stroke-width="1.5"/><path d="M10 6v4l2.5 2.5" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>', text: "<strong>Personalisierte E-Mails liefern 6x mehr Transaktionen als generische Nachrichten.</strong><br><br>KI-gest\u00fctzte Personalisierung bedeutet nicht nur den Vornamen einzusetzen:<ul><li><strong>Verhaltensbasiert:</strong> Welche Seiten besucht? Welche Mails ge\u00f6ffnet?</li><li><strong>Kontextbasiert:</strong> Quiz-Antworten, Webinar-Fragen, DM-Interaktionen</li><li><strong>Phasenbasiert:</strong> Kalter Lead bekommt anderen Content als jemand kurz vor der Buchung</li></ul><span class='fq-info-benchmark'>Benchmark: KI-personalisierte Sequenzen steigern die Conversion um bis zu 30%</span>" },
+    options: [
+      { text: "Alle bekommen die gleichen E-Mails und Inhalte", scores: { DP: 1 } },
+      { text: "Ich segmentiere grob (z.\u00a0B. nach Themeninteresse), aber manuell", scores: { DP: 2 } },
+      { text: "KI passt Inhalte automatisch an Segmente an (z.\u00a0B. basierend auf Quiz-Ergebnissen)", scores: { DP: 4 } },
+      { text: "Hyper-Personalisierung: Jeder Lead bekommt KI-generierte Inhalte basierend auf Verhalten, Interessen und Phase in der Customer Journey", scores: { DP: 6 } }
+    ]
+  },
+  {
+    id: "c7", type: "single",
+    question: "Wie bereitest du dich mit KI auf Erstgespr\u00e4che vor?",
+    info: { label: "Die 30-Minuten KI-Discovery-Prep", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 2h4v4l3 3-5 5-5-5 3-3V2z" stroke="#193F3B" stroke-width="1.5" stroke-linejoin="round"/><path d="M5 14l-2 4h14l-2-4" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>', text: "<strong>KI-gest\u00fctzte Vorbereitung macht dein Erstgespr\u00e4ch 3x effektiver.</strong><br><br><strong>So funktioniert die 30-Minuten-Prep:</strong><ul><li>LinkedIn-Profil, Website und bisherige Interaktionen in KI pasten</li><li>KI identifiziert: Top-3-Probleme, gew\u00fcnschtes Outcome, wahrscheinliche Einw\u00e4nde</li><li>Du bekommst: Gespr\u00e4chsleitfaden, personalisierte Fragen, vorformulierte Einwandbehandlung</li></ul><span class='fq-info-benchmark'>Benchmark: Coaches mit KI-Prep berichten von 40\u201360% h\u00f6herer Abschlussrate</span>" },
+    options: [
+      { text: "Ich gehe ohne besondere Vorbereitung ins Gespr\u00e4ch", scores: { LQ: 1, SV: 1 } },
+      { text: "Ich schaue mir vorher kurz das LinkedIn-Profil an", scores: { LQ: 2, SV: 1 } },
+      { text: "Ich recherchiere manuell und mache mir Notizen", scores: { LQ: 3, SV: 2 } },
+      { text: "Ich paste alle Prospect-Daten in KI und bekomme eine komplette Gespr\u00e4chsvorbereitung mit Einwandbehandlung", scores: { LQ: 5, SV: 4 } }
+    ]
+  },
+  {
+    id: "c8", type: "single",
+    question: "Wie gestaltest du das Onboarding neuer Klienten und erkennst Abwanderungsrisiken?",
+    options: [
+      { text: "Onboarding ist bei mir manuell \u2014 ich schicke eine Willkommens-E-Mail und das war\u2019s", scores: { AW: 1, DP: 1 } },
+      { text: "Ich habe eine Standard-Willkommenssequenz, aber sie ist f\u00fcr alle gleich", scores: { AW: 2, DP: 2 } },
+      { text: "Automatisiertes Onboarding mit KI-generierten Cheat Sheets, angepasst an die Ziele des Klienten", scores: { AW: 4, DP: 4 } },
+      { text: "KI-gest\u00fctztes Onboarding plus Sentiment-Analyse, die Abwanderungsrisiken erkennt, bevor der Klient sich meldet", scores: { AW: 6, DP: 6 } }
+    ]
+  },
+  {
+    id: "c9", type: "multi",
+    question: "Welche dieser KI-gest\u00fctzten Marketing-Aktivit\u00e4ten nutzt du bereits?",
+    hint: "W\u00e4hle alle aus, die zutreffen.",
+    options: [
+      { text: "KI-generierte Social-Media-Posts (Texte, Hooks, Carousels)", scores: { CK: 1 } },
+      { text: "Automatische Transkription und Zusammenfassung von Calls", scores: { CK: 1, AW: 1 } },
+      { text: "KI-gest\u00fctzte E-Mail-Sequenzen mit dynamischem Content", scores: { AW: 1, DP: 1 } },
+      { text: "KI-Chatbot auf der Website oder in DMs f\u00fcr Lead-Qualifizierung", scores: { LQ: 1, AW: 1 } },
+      { text: "Automatisierte Content-Planung und Ver\u00f6ffentlichung", scores: { AW: 1, CK: 1 } }
+    ]
+  },
+  {
+    id: "c10", type: "multi",
+    question: "Welche Daten nutzt du, um dein Marketing zu verbessern?",
+    hint: "W\u00e4hle alle aus, die du aktiv auswertest.",
+    options: [
+      { text: "Quiz- oder Umfrage-Ergebnisse zur Segmentierung", scores: { DP: 1, LQ: 1 } },
+      { text: "E-Mail-\u00d6ffnungsraten und Klickverhalten", scores: { DP: 1 } },
+      { text: "Verhaltensdaten auf der Website (Seitenaufrufe, Verweildauer)", scores: { DP: 1 } },
+      { text: "KI-gest\u00fctztes Lead-Scoring basierend auf Engagement", scores: { LQ: 1, DP: 1 } },
+      { text: "Sentiment-Analyse aus Klienten-Feedback oder Session-Transkripten", scores: { DP: 1, AW: 1 } }
+    ]
+  },
+  {
+    id: "c11", type: "multi",
+    question: "Welche dieser KI-Strategien hast du f\u00fcr dein Coaching-Business umgesetzt?",
+    hint: "W\u00e4hle alle aus, die zutreffen.",
+    options: [
+      { text: "Custom Instructions oder System-Prompts, die meinen Ton und Stil abbilden", scores: { SV: 1, CK: 1 } },
+      { text: "Eine Prompt-Bibliothek f\u00fcr wiederkehrende Marketing-Aufgaben", scores: { SV: 1, CK: 1 } },
+      { text: "KI-Agent oder GPT, der auf meinen eigenen Inhalten trainiert ist", scores: { SV: 1, LQ: 1 } },
+      { text: "Definierte KI-Workflows mit klaren Input-Output-Standards", scores: { SV: 1, AW: 1 } },
+      { text: "Regelm\u00e4\u00dfige Evaluation und Optimierung meiner KI-Ergebnisse", scores: { SV: 1, DP: 1 } }
+    ]
+  },
+  {
+    id: "c12", type: "single",
+    question: "Was ist dein n\u00e4chster gro\u00dfer KI-Schritt im Marketing?",
+    hint: "Was steht bei dir als N\u00e4chstes auf dem Plan?",
+    options: [
+      { text: "Ich habe noch keinen Plan \u2014 ich will erst mal verstehen, was m\u00f6glich ist", scores: { SV: 1 } },
+      { text: "Ich will ein einzelnes Tool einf\u00fchren (z.\u00a0B. Chatbot oder Content-KI)", scores: { SV: 2 } },
+      { text: "Ich will mehrere KI-Tools verkn\u00fcpfen und einen durchg\u00e4ngigen Workflow bauen", scores: { SV: 4 } },
+      { text: "Ich baue ein komplettes KI-Marketing-\u00d6kosystem mit Datenkreislauf, das sich selbst optimiert", scores: { SV: 6 } }
+    ]
+  }
+];
+
+// ============================================
+// TEIL 2: MARKETER-SPEZIFISCHE FRAGEN (12)
+// ============================================
+var MARKETER_QUESTIONS = [
+  {
+    id: "m1", type: "single",
+    question: "Wie strategisch setzt du KI in deiner Agentur oder deinem Marketing ein?",
+    hint: "Denke an den Unterschied zwischen 'ab und zu ChatGPT nutzen' und einer echten KI-Strategie.",
+    info: { label: "KI-Strategie: Warum ad-hoc nicht reicht", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2L3 6v8l7 4 7-4V6l-7-4z" stroke="#193F3B" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 10V18M10 10L3 6M10 10l7-4" stroke="#193F3B" stroke-width="1.5" stroke-linejoin="round"/></svg>', text: "<strong>60% der Marketer nutzen KI mittlerweile t\u00e4glich</strong> \u2013 aber die meisten ohne klaren Plan.<br><br><strong>Ad-hoc vs. strategisch:</strong><ul><li><strong>Ad-hoc:</strong> Einzelne Mitarbeiter nutzen ChatGPT f\u00fcr Texte. Kein einheitlicher Prozess, keine Qualit\u00e4tskontrolle.</li><li><strong>Strategisch:</strong> Dokumentierte Use Cases, Prompt-Bibliotheken, definierte Workflows, ROI-Tracking pro KI-Einsatz.</li></ul><span class='fq-info-benchmark'>Agenturen mit KI-Strategie bringen Kampagnen bis zu 75% schneller auf den Markt</span>" },
+    options: [
+      { text: "Ich nutze ChatGPT oder \u00e4hnliche Tools gelegentlich, wenn ich nicht weiterkomme", scores: { SV: 1 } },
+      { text: "Einzelne im Team nutzen KI regelm\u00e4\u00dfig, aber jeder macht sein eigenes Ding", scores: { SV: 2 } },
+      { text: "Wir haben definierte Use Cases und gemeinsame Prompt-Vorlagen f\u00fcr wiederkehrende Aufgaben", scores: { SV: 4 } },
+      { text: "KI-Roadmap mit priorisierten Use Cases, ROI-Tracking und regelm\u00e4\u00dfiger Evaluation neuer Tools", scores: { SV: 6 } }
+    ]
+  },
+  {
+    id: "m2", type: "single",
+    question: "Wie nutzt du KI f\u00fcr die Content-Erstellung deiner Kunden?",
+    hint: "Von Ad Copy \u00fcber Blogartikel bis Social Media Posts.",
+    options: [
+      { text: "Ich schreibe alles selbst oder lasse es komplett von KI generieren und poste es 1:1", scores: { CK: 1 } },
+      { text: "KI liefert erste Entw\u00fcrfe, die ich manuell \u00fcberarbeite \u2013 ohne festes System", scores: { CK: 2 } },
+      { text: "Feste Prompt-Templates pro Content-Format (Ad Copy, Blog, Social) mit Brand-Voice-Vorgaben", scores: { CK: 4 } },
+      { text: "KI-gest\u00fctzter Content-Workflow: Briefing \u2192 Entwurf \u2192 Brand-Check \u2192 Varianten \u2192 Performance-Feedback-Loop", scores: { CK: 6 } }
+    ]
+  },
+  {
+    id: "m3", type: "single",
+    question: "Wie repurposed du Content \u00fcber verschiedene Kan\u00e4le?",
+    info: { label: "Content Repurposing mit KI", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 3H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2z" stroke="#193F3B" stroke-width="1.5"/><path d="M8 7h4M8 10h4M8 13h2" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round"/></svg>', text: "<strong>Ein Pillar-Content wird per KI in 8\u201312 plattformspezifische Formate umgewandelt.</strong><br><br><strong>So sieht ein moderner Repurposing-Workflow aus:</strong><ul><li>LinkedIn-Karussell mit Datenpunkten</li><li>Twitter/X-Thread mit kontroversen Takes</li><li>E-Mail-Sequenz mit praktischen Tipps</li><li>Kurzvideo-Skript f\u00fcr Reels/TikTok</li></ul><span class='fq-info-benchmark'>Agenturen mit KI-Repurposing produzieren 5\u20138x mehr Content-Pieces pro Pillar-Content</span>" },
+    options: [
+      { text: "Jedes Content-Piece wird einzeln und manuell f\u00fcr jeden Kanal erstellt", scores: { CK: 1 } },
+      { text: "Ich copy-paste Texte zwischen Kan\u00e4len und passe sie leicht an", scores: { CK: 2 } },
+      { text: "KI hilft mir, aus einem Pillar-Content mehrere Formate abzuleiten", scores: { CK: 4 } },
+      { text: "Automatisierter Repurposing-Workflow: Ein Content-Piece wird per KI in 5+ plattformspezifische Formate umgewandelt", scores: { CK: 6 } }
+    ]
+  },
+  {
+    id: "m4", type: "single",
+    question: "Wie setzt du KI bei der Leadgenerierung und -qualifizierung ein?",
+    hint: "Von Chatbots \u00fcber Lead Scoring bis Intent-basierte Ansprache.",
+    options: [
+      { text: "Gar nicht \u2013 Leads kommen \u00fcber Formulare und werden manuell qualifiziert", scores: { LQ: 1 } },
+      { text: "Ein einfacher Chatbot beantwortet FAQs auf der Website", scores: { LQ: 2 } },
+      { text: "KI-gest\u00fctztes Lead Scoring auf Basis von Verhalten (Seitenbesuche, E-Mail-Engagement, Downloads)", scores: { LQ: 4 } },
+      { text: "Predictive Lead Scoring mit Intent-Signalen, automatisierte Qualifizierung und dynamische Nurturing-Pfade", scores: { LQ: 6 } }
+    ]
+  },
+  {
+    id: "m5", type: "single",
+    question: "Wie automatisierst du wiederkehrende Marketing-Workflows mit KI?",
+    options: [
+      { text: "Kaum Automatisierung \u2013 die meisten Aufgaben erledige ich manuell", scores: { AW: 1 } },
+      { text: "Einzelne Automationen (z.\u00a0B. Zapier-Flows), aber nicht KI-gesteuert", scores: { AW: 2 } },
+      { text: "KI-gest\u00fctzte Automationen f\u00fcr wiederkehrende Tasks: Reporting, Briefings, Status-Updates", scores: { AW: 4 } },
+      { text: "Agentic Workflows: KI-Agenten \u00fcberwachen Kampagnen autonom, erkennen Anomalien und passen Budgets an", scores: { AW: 6 } }
+    ]
+  },
+  {
+    id: "m6", type: "single",
+    question: "Wie nutzt du KI-gest\u00fctzte Datenanalyse f\u00fcr Kampagnen-Entscheidungen?",
+    info: { label: "KI-Datenanalyse vs. manuelles Reporting", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="12" width="3" height="5" rx="0.5" stroke="#193F3B" stroke-width="1.5"/><rect x="8.5" y="8" width="3" height="9" rx="0.5" stroke="#193F3B" stroke-width="1.5"/><rect x="14" y="4" width="3" height="13" rx="0.5" stroke="#193F3B" stroke-width="1.5"/></svg>', text: "<strong>KI-gest\u00fctzte Analyse reduziert Report-Erstellungszeit um bis zu 80%.</strong><br><br><strong>Manuell vs. KI-gest\u00fctzt:</strong><ul><li><strong>Manuell:</strong> Daten exportieren, aufbereiten, Anomalien suchen \u2192 4\u20138 Stunden pro Client</li><li><strong>KI-gest\u00fctzt:</strong> Automatische Anomalie-Erkennung, Natural-Language-Insights \u2192 30\u201360 Minuten pro Client</li></ul><span class='fq-info-benchmark'>Agenturen mit KI-Analytics sparen durchschnittlich 38 Stunden/Woche pro Analyst</span>" },
+    options: [
+      { text: "Ich schaue in die Plattform-Dashboards und entscheide nach Erfahrung", scores: { DP: 1 } },
+      { text: "Ich erstelle regelm\u00e4\u00dfig Reports in Sheets, aber die Analyse ist manuell", scores: { DP: 2 } },
+      { text: "KI fasst Kampagnendaten zusammen und liefert automatisierte Insights und Handlungsempfehlungen", scores: { DP: 4 } },
+      { text: "KI-Agenten erkennen Anomalien in Echtzeit, liefern Prognosen und schlagen Budget-Umschichtungen vor", scores: { DP: 6 } }
+    ]
+  },
+  {
+    id: "m7", type: "single",
+    question: "Wie personalisierst du Kampagnen und Landingpages f\u00fcr unterschiedliche Zielgruppen?",
+    options: [
+      { text: "Alle sehen die gleiche Kampagne und die gleiche Landingpage", scores: { DP: 1 } },
+      { text: "Ich erstelle manuell 2\u20133 Varianten f\u00fcr verschiedene Audiences", scores: { DP: 2 } },
+      { text: "KI generiert dynamische Ad-Varianten und passt Landingpage-Elemente an die Zielgruppe an", scores: { DP: 4 } },
+      { text: "Hyper-Personalisierung: KI passt Headline, Bilder, Social Proof und CTA in Echtzeit an Nutzerverhalten an", scores: { DP: 6 } }
+    ]
+  },
+  {
+    id: "m8", type: "single",
+    question: "Wie gehst du mit Client-Reporting und Ergebnis-Kommunikation um?",
+    options: [
+      { text: "Ich schicke Screenshots aus den Plattformen oder ein einfaches PDF", scores: { AW: 1, DP: 1 } },
+      { text: "Monatliches Reporting in Slides oder Sheets, manuell zusammengestellt", scores: { AW: 2, DP: 1 } },
+      { text: "Automatisierte Dashboards, die Clients selbst einsehen k\u00f6nnen", scores: { AW: 4, DP: 2 } },
+      { text: "KI-generierte Insights im Dashboard: automatische Anomalie-Alerts, Prognosen und Handlungsempfehlungen", scores: { AW: 5, DP: 3 } }
+    ]
+  },
+  {
+    id: "m9", type: "multi",
+    question: "F\u00fcr welche Aufgaben nutzt du KI-Tools in deinem Agentur-Alltag?",
+    hint: "W\u00e4hle alle aus, die du regelm\u00e4\u00dfig einsetzt.",
+    options: [
+      { text: "Ad Copy und Creative-Varianten erstellen (Headlines, Hooks, CTAs)", scores: { CK: 1 } },
+      { text: "SEO-Content und Keyword-Recherche", scores: { CK: 1 } },
+      { text: "Kampagnen-Analyse und Reporting-Zusammenfassungen", scores: { DP: 1 } },
+      { text: "Kunden-Briefings und Strategiedokumente aufbereiten", scores: { SV: 1 } },
+      { text: "Chatbots oder Conversational AI auf Kunden-Websites", scores: { LQ: 1 } },
+      { text: "Automatische Budget-Optimierung und Bid-Management", scores: { AW: 1 } }
+    ]
+  },
+  {
+    id: "m10", type: "multi",
+    question: "Welche KI-gest\u00fctzten Prozesse hast du standardisiert (SOPs)?",
+    hint: "W\u00e4hle alle aus, f\u00fcr die du dokumentierte Abl\u00e4ufe mit KI hast.",
+    options: [
+      { text: "Prompt-Bibliothek mit getesteten Templates f\u00fcr verschiedene Content-Formate", scores: { CK: 1 } },
+      { text: "Onboarding-Workflow f\u00fcr neue Kunden mit KI-gest\u00fctzter Briefing-Analyse", scores: { SV: 1 } },
+      { text: "Automatisierte Kampagnen-Alerts bei Performance-Abweichungen", scores: { AW: 1 } },
+      { text: "KI-gest\u00fctzter QA-Prozess f\u00fcr Texte und Ads vor Go-Live", scores: { CK: 1 } },
+      { text: "Lead-Scoring-Modell, das automatisch qualifizierte Leads priorisiert", scores: { LQ: 1 } }
+    ]
+  },
+  {
+    id: "m11", type: "multi",
+    question: "Welche dieser fortgeschrittenen KI-Strategien setzt du bereits ein?",
+    hint: "W\u00e4hle alle aus, die du aktiv nutzt.",
+    options: [
+      { text: "Multi-Armed-Bandit-Testing statt klassischer A/B-Tests", scores: { DP: 1 } },
+      { text: "KI-gest\u00fctzte Konkurrenzanalyse (automatisches Monitoring von Wettbewerber-Ads)", scores: { SV: 1 } },
+      { text: "Predictive Analytics f\u00fcr Kampagnen-Forecasting (CPA, ROAS-Prognosen)", scores: { DP: 1 } },
+      { text: "Autonomous Campaign Management (KI-Agenten passen Gebote und Budgets eigenst\u00e4ndig an)", scores: { AW: 1 } },
+      { text: "KI-generierte Landingpage-Varianten mit automatischer Message-Match-Optimierung", scores: { LQ: 1 } }
+    ]
+  },
+  {
+    id: "m12", type: "single",
+    question: "Wie hat KI dein Pricing- oder Gesch\u00e4ftsmodell ver\u00e4ndert?",
+    hint: "Wenn KI deine Arbeit um 50% beschleunigt \u2013 rechnest du dann weniger ab oder lieferst du mehr?",
+    options: [
+      { text: "Gar nicht \u2013 ich rechne weiterhin nach Stunden oder Pauschalpreisen ab", scores: { SV: 1 } },
+      { text: "Ich arbeite schneller, gebe den Zeitvorteil aber nicht strategisch weiter", scores: { SV: 2 } },
+      { text: "Ich nutze die gewonnene Zeit f\u00fcr bessere Ergebnisse und h\u00f6here Qualit\u00e4t", scores: { SV: 4 } },
+      { text: "Outcome-basiertes Pricing: Ich verkaufe Ergebnisse (Leads, ROAS) statt Stunden \u2013 KI ist mein Hebel", scores: { SV: 6 } }
+    ]
+  }
+];
+
+// ============================================
+// TEIL 2: MITTELSTAND-SPEZIFISCHE FRAGEN (12)
+// ============================================
+var MITTELSTAND_QUESTIONS = [
+  {
+    id: "ms1", type: "single",
+    question: "Wie strategisch setzt euer Unternehmen KI im Marketing und Vertrieb ein?",
+    info: { label: "KI im Mittelstand: Wo stehen die meisten?", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2L3 6v8l7 4 7-4V6l-7-4z" stroke="#193F3B" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 10V18M10 10L3 6M10 10l7-4" stroke="#193F3B" stroke-width="1.5" stroke-linejoin="round"/></svg>', text: "<strong>86% der KMU erkennen die Relevanz von KI, aber nur 23% haben konkrete Projekte umgesetzt.</strong><br><br><strong>Die 4 Reifegrade:</strong><ul><li><strong>Stufe 1:</strong> Kein systematischer KI-Einsatz, einzelne Mitarbeiter experimentieren</li><li><strong>Stufe 2:</strong> Erste Use Cases definiert, aber isolierte Tool-Nutzung</li><li><strong>Stufe 3:</strong> KI-Strategie mit priorisierten Use Cases und ROI-Messung</li><li><strong>Stufe 4:</strong> KI als fester Bestandteil der Wertsch\u00f6pfungskette</li></ul><span class='fq-info-benchmark'>Deutsche Mittelst\u00e4ndler mit KI-Strategie wachsen 2,3x schneller als der Branchendurchschnitt</span>" },
+    options: [
+      { text: "Einzelne Mitarbeiter experimentieren mit ChatGPT, aber es gibt keinen Plan", scores: { SV: 1 } },
+      { text: "Wir haben erste Use Cases identifiziert, aber die Umsetzung stockt", scores: { SV: 2 } },
+      { text: "Definierte KI-Use-Cases f\u00fcr Marketing und Vertrieb mit klaren Verantwortlichkeiten", scores: { SV: 4 } },
+      { text: "KI-Roadmap mit priorisierten Projekten, Budget und regelm\u00e4\u00dfiger Evaluation", scores: { SV: 6 } }
+    ]
+  },
+  {
+    id: "ms2", type: "single",
+    question: "Wie nutzt ihr KI f\u00fcr eure Content-Erstellung und Fachkommunikation?",
+    options: [
+      { text: "Gar nicht \u2014 Content wird komplett manuell erstellt oder extern beauftragt", scores: { CK: 1 } },
+      { text: "Einzelne nutzen KI f\u00fcr Texte, aber ohne einheitliche Qualit\u00e4tsstandards", scores: { CK: 2 } },
+      { text: "KI-gest\u00fctzte Content-Produktion mit Tonalit\u00e4ts-Vorgaben und Review-Prozess", scores: { CK: 4 } },
+      { text: "Systematischer KI-Content-Workflow: Aus jedem Kundenprojekt entstehen automatisch Case Study, Blog, Social Posts", scores: { CK: 6 } }
+    ]
+  },
+  {
+    id: "ms3", type: "single",
+    question: "Wie qualifiziert ihr eingehende Leads und Anfragen mit KI?",
+    info: { label: "KI-gest\u00fctzte Lead-Qualifizierung im B2B", icon: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="7" cy="6" r="2.5" stroke="#193F3B" stroke-width="1.5"/><circle cx="13" cy="6" r="2.5" stroke="#193F3B" stroke-width="1.5"/><path d="M3 15.5C3 13 4.8 11 7 11C8.2 11 9.3 11.6 10 12.5C10.7 11.6 11.8 11 13 11C15.2 11 17 13 17 15.5" stroke="#193F3B" stroke-width="1.5" stroke-linecap="round"/></svg>', text: "<strong>Im B2B werden bis zu 50% der Vertriebszeit mit unqualifizierten Leads verschwendet.</strong><br><br><strong>KI-gest\u00fctzte Qualifizierung l\u00f6st das Problem:</strong><ul><li>Chatbot erfasst Branche, Unternehmensgr\u00f6\u00dfe, Bedarf und Budget</li><li>KI scored den Lead automatisch als MQL oder SQL</li><li>Qualifizierte Leads werden direkt im CRM angelegt und dem richtigen Vertriebler zugewiesen</li></ul><span class='fq-info-benchmark'>B2B-Unternehmen mit KI-Lead-Scoring steigern die Conversion um bis zu 45% (Forrester)</span>" },
+    options: [
+      { text: "Anfragen landen im Postfach und werden manuell gesichtet \u2014 ohne Scoring", scores: { LQ: 1 } },
+      { text: "Wir haben ein Kontaktformular mit Pflichtfeldern, aber keine automatische Bewertung", scores: { LQ: 2 } },
+      { text: "KI-gest\u00fctzter Chatbot oder Quiz qualifiziert Anfragen vor und erstellt ein Lead-Profil", scores: { LQ: 4 } },
+      { text: "Automatisches Lead-Scoring mit Intent-Signalen, CRM-Integration und automatischer Zuweisung an den Vertrieb", scores: { LQ: 6 } }
+    ]
+  },
+  {
+    id: "ms4", type: "single",
+    question: "Wie automatisiert sind eure Marketing- und Vertriebsprozesse mit KI?",
+    options: [
+      { text: "Fast alles ist manuell: E-Mails schreiben, Termine koordinieren, Angebote erstellen", scores: { AW: 1 } },
+      { text: "Einfache Automationen (Autoresponder, CRM-Reminder), aber ohne KI-Komponente", scores: { AW: 2 } },
+      { text: "KI-gest\u00fctzte Automationen in 2\u20133 Bereichen (z.\u00a0B. E-Mail-Nurturing, Angebotserstellung)", scores: { AW: 4 } },
+      { text: "Durchg\u00e4ngig automatisierte Kette: Anfrage \u2192 KI-Qualifizierung \u2192 personalisiertes Nurturing \u2192 Vertriebsbrief \u2192 Follow-up", scores: { AW: 6 } }
+    ]
+  },
+  {
+    id: "ms5", type: "single",
+    question: "Wie nutzt ihr Daten und KI, um Marketing-Inhalte zu personalisieren?",
+    options: [
+      { text: "Alle Interessenten bekommen die gleichen Brosch\u00fcren, E-Mails und Website-Inhalte", scores: { DP: 1 } },
+      { text: "Grobe Segmentierung nach Branche oder Unternehmensgr\u00f6\u00dfe, aber manuell gepflegt", scores: { DP: 2 } },
+      { text: "KI-basierte Segmentierung mit automatisch angepassten Inhalten pro Zielgruppe", scores: { DP: 4 } },
+      { text: "Rollenspezifische Personalisierung: CFO sieht ROI-Daten, IT-Leiter sieht Integrations-Specs, Eink\u00e4ufer sieht Vergleiche", scores: { DP: 6 } }
+    ]
+  },
+  {
+    id: "ms6", type: "single",
+    question: "Wie bereitet ihr euch mit KI auf Vertriebsgespr\u00e4che und Angebote vor?",
+    options: [
+      { text: "Jeder Vertriebler bereitet sich individuell vor \u2014 kein standardisierter Prozess", scores: { LQ: 1, SV: 1 } },
+      { text: "Wir recherchieren den Prospect manuell und erstellen Angebote von Hand", scores: { LQ: 2, SV: 1 } },
+      { text: "KI erstellt Prospect-Briefings aus LinkedIn, Website und CRM-Daten als Gespr\u00e4chsvorbereitung", scores: { LQ: 4, SV: 3 } },
+      { text: "KI-generierte Gesamtanalyse: Firmenprofil, Entscheider-Map, wahrscheinliche Einw\u00e4nde und personalisiertes Angebotskonzept", scores: { LQ: 6, SV: 5 } }
+    ]
+  },
+  {
+    id: "ms7", type: "single",
+    question: "Wie messt ihr den ROI eures KI-Einsatzes?",
+    options: [
+      { text: "Gar nicht \u2014 wir haben kein Gef\u00fchl daf\u00fcr, ob sich KI-Investitionen lohnen", scores: { SV: 1, DP: 1 } },
+      { text: "Grobe Sch\u00e4tzung der Zeitersparnis, aber kein systematisches Tracking", scores: { SV: 2, DP: 1 } },
+      { text: "Wir messen Zeitersparnis und Output-Steigerung pro KI-Workflow", scores: { SV: 4, DP: 2 } },
+      { text: "KI-ROI-Dashboard: Zeitersparnis, Qualit\u00e4tsvergleich, Cost-per-Lead-Reduktion und Pipeline-Impact", scores: { SV: 6, DP: 3 } }
+    ]
+  },
+  {
+    id: "ms8", type: "single",
+    question: "Wie nutzt ihr KI f\u00fcr euer Reporting und eure Kampagnen-Analyse?",
+    options: [
+      { text: "Wir schauen gelegentlich in Google Analytics oder die Plattform-Dashboards", scores: { DP: 1, AW: 1 } },
+      { text: "Monatliche Reports in Excel oder Slides, manuell zusammengestellt", scores: { DP: 2, AW: 1 } },
+      { text: "KI fasst Kampagnendaten zusammen und liefert automatisierte Handlungsempfehlungen", scores: { DP: 4, AW: 3 } },
+      { text: "KI-Agenten \u00fcberwachen Kampagnen in Echtzeit, erkennen Anomalien und schlagen Budget-Anpassungen vor", scores: { DP: 6, AW: 5 } }
+    ]
+  },
+  {
+    id: "ms9", type: "multi",
+    question: "In welchen Bereichen setzt ihr bereits KI-Tools ein?",
+    hint: "W\u00e4hle alle aus, die bei euch im Einsatz sind.",
+    options: [
+      { text: "Content-Erstellung (Texte, Pr\u00e4sentationen, Social Media)", scores: { CK: 1 } },
+      { text: "E-Mail-Marketing und Newsletter-Personalisierung", scores: { AW: 1, DP: 1 } },
+      { text: "Chatbot oder KI-Assistent f\u00fcr Website-Besucher", scores: { LQ: 1 } },
+      { text: "Vertriebsunterst\u00fctzung (Prospect-Research, Angebotserstellung)", scores: { LQ: 1, SV: 1 } },
+      { text: "Datenanalyse und Business Intelligence", scores: { DP: 1 } },
+      { text: "Interne Prozessautomatisierung (Workflows, Dokumentation)", scores: { AW: 1 } }
+    ]
+  },
+  {
+    id: "ms10", type: "multi",
+    question: "Welche KI-bezogenen Strukturen habt ihr bereits aufgebaut?",
+    hint: "W\u00e4hle alle aus, die zutreffen.",
+    options: [
+      { text: "KI-Verantwortlicher oder -Champion im Unternehmen benannt", scores: { SV: 1 } },
+      { text: "Richtlinien f\u00fcr den Umgang mit KI-Tools (Datenschutz, Qualit\u00e4t)", scores: { SV: 1 } },
+      { text: "Schulungen oder Workshops f\u00fcr Mitarbeiter zu KI-Tools", scores: { SV: 1, CK: 1 } },
+      { text: "Dokumentierte KI-Workflows mit klaren SOPs", scores: { AW: 1, SV: 1 } },
+      { text: "Budget f\u00fcr KI-Tools und -Projekte im Marketing eingeplant", scores: { SV: 1 } }
+    ]
+  },
+  {
+    id: "ms11", type: "multi",
+    question: "Welche Datenquellen nutzt ihr f\u00fcr KI-gest\u00fctztes Marketing?",
+    hint: "W\u00e4hle alle aus, die ihr aktiv f\u00fcr KI-Analysen verwendet.",
+    options: [
+      { text: "CRM-Daten (Kontakthistorie, Deal-Status, Interaktionen)", scores: { DP: 1, LQ: 1 } },
+      { text: "Website-Analytics (Seitenaufrufe, Verweildauer, Conversion-Pfade)", scores: { DP: 1 } },
+      { text: "E-Mail-Engagement-Daten (\u00d6ffnungsraten, Klicks, Abmeldungen)", scores: { DP: 1 } },
+      { text: "Vertriebsdaten (Win/Loss-Raten, Zyklusl\u00e4nge, Deal-Gr\u00f6\u00dfen)", scores: { DP: 1, SV: 1 } },
+      { text: "Kundenfeedback und Zufriedenheitsdaten (NPS, Bewertungen)", scores: { DP: 1, CK: 1 } }
+    ]
+  },
+  {
+    id: "ms12", type: "single",
+    question: "Was ist euer n\u00e4chster gro\u00dfer KI-Schritt im Marketing und Vertrieb?",
+    hint: "Was steht bei euch als N\u00e4chstes auf dem Plan?",
+    options: [
+      { text: "Wir m\u00fcssen erst mal verstehen, was f\u00fcr uns m\u00f6glich und sinnvoll ist", scores: { SV: 1 } },
+      { text: "Ein konkretes KI-Pilotprojekt starten (z.\u00a0B. Chatbot oder Content-Automatisierung)", scores: { SV: 2 } },
+      { text: "Mehrere KI-Tools integrieren und einen durchg\u00e4ngigen Marketing-Vertrieb-Workflow bauen", scores: { SV: 4 } },
+      { text: "KI-natives Marketing-System mit Datenkreislauf aufbauen, das sich kontinuierlich selbst optimiert", scores: { SV: 6 } }
+    ]
+  }
+];
+
+var ICP_MAP = { coach: COACH_QUESTIONS, marketer: MARKETER_QUESTIONS, mittelstand: MITTELSTAND_QUESTIONS };
+
+// ============================================
+// STATE
+// ============================================
+var selectedICP = null;
+var allQuestions = [];
+var currentQuestion = 0;
+var userAnswers = [];
+var quizResults = null;
+var TOTAL_QUESTIONS = 20;
+var GENERAL_END_INDEX = 8; // Q0 (ICP) + Q1-Q7 (general) = index 8 is first ICP-specific
+var PART2_END_INDEX = 14; // GENERAL_END_INDEX (8) + 6 = first 6 ICP questions
+
+function buildQuestions() {
+  allQuestions = [ICP_QUESTION].concat(GENERAL_QUESTIONS);
+  if (selectedICP) {
+    allQuestions = allQuestions.concat(ICP_MAP[selectedICP]);
+  }
+  TOTAL_QUESTIONS = allQuestions.length;
+  userAnswers = allQuestions.map(function(q) {
+    return q.type === "multi" ? [] : null;
+  });
+}
+
+function calculateDimensionMaxes(questions) {
+  var maxes = { SV: 0, CK: 0, LQ: 0, AW: 0, DP: 0 };
+  questions.forEach(function(q) {
+    if (q.type === "icp-select") return;
+    if (q.type === "single") {
+      var qMax = {};
+      q.options.forEach(function(opt) {
+        if (!opt.scores) return;
+        Object.keys(opt.scores).forEach(function(dim) {
+          if (!qMax[dim] || opt.scores[dim] > qMax[dim]) qMax[dim] = opt.scores[dim];
+        });
+      });
+      Object.keys(qMax).forEach(function(dim) { maxes[dim] += qMax[dim]; });
+    } else if (q.type === "multi") {
+      q.options.forEach(function(opt) {
+        if (!opt.scores) return;
+        Object.keys(opt.scores).forEach(function(dim) { maxes[dim] += opt.scores[dim]; });
+      });
+    }
+  });
+  return maxes;
+}
+
+function calculateResults(answers) {
+  var scores = { SV: 0, CK: 0, LQ: 0, AW: 0, DP: 0 };
+  answers.forEach(function(answer, qi) {
+    var q = allQuestions[qi];
+    if (q.type === "icp-select") return;
+    if (q.type === "single" && answer !== null) {
+      var opt = q.options[answer];
+      if (opt.scores) Object.keys(opt.scores).forEach(function(dim) { scores[dim] += opt.scores[dim]; });
+    } else if (q.type === "multi" && Array.isArray(answer)) {
+      answer.forEach(function(oi) {
+        var opt = q.options[oi];
+        if (opt.scores) Object.keys(opt.scores).forEach(function(dim) { scores[dim] += opt.scores[dim]; });
+      });
+    }
+  });
+  var maxes = calculateDimensionMaxes(allQuestions);
+  var totalScore = Object.values(scores).reduce(function(a,b){ return a+b; }, 0);
+  var maxScore = Object.values(maxes).reduce(function(a,b){ return a+b; }, 0);
+  var pct = maxScore > 0 ? totalScore / maxScore : 0;
+  var segment, segmentLabel;
+  if (pct <= 0.35) { segment = "A"; segmentLabel = "KI-Einsteiger"; }
+  else if (pct <= 0.70) { segment = "B"; segmentLabel = "KI-Anwender"; }
+  else { segment = "C"; segmentLabel = "KI-Vorreiter"; }
+  var dimArr = Object.keys(scores).map(function(key) {
+    var val = scores[key]; var max = maxes[key] || 1;
+    return { key: key, label: DIMENSIONS[key].label, score: val, max: max, percentage: val/max };
+  }).sort(function(a,b){ return a.percentage - b.percentage; });
+  return { scores: scores, totalScore: totalScore, maxScore: maxScore,
+    segment: segment, segmentLabel: segmentLabel,
+    weakest: dimArr[0], secondWeakest: dimArr[1], dimPercentages: dimArr };
+}
+
+// ============================================
+// SCREEN MANAGEMENT
+// ============================================
+function showScreen(name) {
+  var screens = document.querySelectorAll('#quiz-root .fq-screen');
+  var target = null;
+  screens.forEach(function(s) { if (s.classList.contains('fq-screen--' + name)) target = s; });
+  if (!target) return;
+  var current = document.querySelector('#quiz-root .fq-screen.fq-active');
+  if (current === target) return;
+  if (current) {
+    current.style.opacity = '0';
+    setTimeout(function() {
+      current.classList.remove('fq-active'); current.style.display = ''; current.style.opacity = '';
+      target.style.opacity = '0'; target.style.display = 'block'; target.classList.add('fq-active');
+      playWhoosh();
+      requestAnimationFrame(function() { requestAnimationFrame(function() { target.style.opacity = '1'; }); });
+      // Trigger stagger entrance for new screen
+      var staggerItems = target.querySelectorAll('.fq-stagger-item');
+      staggerItems.forEach(function(el) { el.classList.remove('fq-entered'); });
+      staggerItems.forEach(function(el, i) {
+        setTimeout(function() { el.classList.add('fq-entered'); }, 120 * i + 200);
+      });
+      if (!target.classList.contains('fq-screen--result')) {
+        document.getElementById('quiz-root').scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 250);
+  } else { target.classList.add('fq-active'); target.style.opacity = '1'; }
+}
+
+function showMilestone(cb) {
+  var el = document.getElementById('fq-milestone');
+  // Calculate interim stats from Teil 1 answers
+  var statsContainer = document.getElementById('fq-milestone-stats-1');
+  while (statsContainer.firstChild) statsContainer.removeChild(statsContainer.firstChild);
+  var answeredCount = 0;
+  var interimScores = { SV: 0, CK: 0, LQ: 0, AW: 0, DP: 0 };
+  for (var i = 0; i < GENERAL_END_INDEX; i++) {
+    if (userAnswers[i] !== null && userAnswers[i] !== undefined) {
+      answeredCount++;
+      var q = allQuestions[i];
+      if (q.type === 'single' && typeof userAnswers[i] === 'number') {
+        var opt = q.options[userAnswers[i]];
+        if (opt && opt.scores) { Object.keys(opt.scores).forEach(function(k) { interimScores[k] = (interimScores[k] || 0) + opt.scores[k]; }); }
+      } else if (q.type === 'multi' && Array.isArray(userAnswers[i])) {
+        userAnswers[i].forEach(function(oi) {
+          var opt = q.options[oi];
+          if (opt && opt.scores) { Object.keys(opt.scores).forEach(function(k) { interimScores[k] = (interimScores[k] || 0) + opt.scores[k]; }); }
+        });
+      }
+    }
+  }
+  var totalInterim = Object.values(interimScores).reduce(function(a,b){ return a+b; }, 0);
+  // Find strongest dimension so far
+  var strongest = Object.keys(interimScores).reduce(function(a,b){ return interimScores[a] >= interimScores[b] ? a : b; });
+  var stats = [
+    { value: answeredCount, label: 'Fragen' },
+    { value: totalInterim, label: 'Punkte' }
+  ];
+  stats.forEach(function(s, i) {
+    var card = document.createElement('div'); card.className = 'fq-milestone-stat';
+    var val = document.createElement('div'); val.className = 'fq-milestone-stat-value'; val.textContent = s.value;
+    var label = document.createElement('div'); label.className = 'fq-milestone-stat-label'; label.textContent = s.label;
+    card.appendChild(val); card.appendChild(label);
+    statsContainer.appendChild(card);
+    setTimeout(function() { card.classList.add('fq-visible'); }, 300 + i * 150);
+  });
+
+  el.classList.add('fq-visible');
+  playSuccess();
+  setTimeout(function() {
+    el.classList.remove('fq-visible');
+    if (cb) setTimeout(cb, 300);
+  }, 3200);
+}
+
+function showMilestone2(cb) {
+  var el = document.getElementById('fq-milestone-2');
+  var statsContainer = document.getElementById('fq-milestone-stats-2');
+  while (statsContainer.firstChild) statsContainer.removeChild(statsContainer.firstChild);
+  // Calculate interim stats from Teil 1 + first half of Teil 2
+  var interimScores = { SV: 0, CK: 0, LQ: 0, AW: 0, DP: 0 };
+  var answeredCount = 0;
+  for (var i = 0; i < PART2_END_INDEX; i++) {
+    if (userAnswers[i] !== null && userAnswers[i] !== undefined) {
+      answeredCount++;
+      var q = allQuestions[i];
+      if (q.type === 'single' && typeof userAnswers[i] === 'number') {
+        var opt = q.options[userAnswers[i]];
+        if (opt && opt.scores) { Object.keys(opt.scores).forEach(function(k) { interimScores[k] = (interimScores[k] || 0) + opt.scores[k]; }); }
+      } else if (q.type === 'multi' && Array.isArray(userAnswers[i])) {
+        userAnswers[i].forEach(function(oi) {
+          var opt = q.options[oi];
+          if (opt && opt.scores) { Object.keys(opt.scores).forEach(function(k) { interimScores[k] = (interimScores[k] || 0) + opt.scores[k]; }); }
+        });
+      }
+    }
+  }
+  var totalInterim = Object.values(interimScores).reduce(function(a,b){ return a+b; }, 0);
+  // Find weakest dimension so far (this is what they'll optimize in Teil 3)
+  var weakest = Object.keys(interimScores).reduce(function(a,b){ return interimScores[a] <= interimScores[b] ? a : b; });
+  var pct = Math.round((answeredCount / TOTAL_QUESTIONS) * 100);
+  var stats = [
+    { value: pct + '%', label: 'Komplett' },
+    { value: totalInterim, label: 'Punkte' }
+  ];
+  stats.forEach(function(s, i) {
+    var card = document.createElement('div'); card.className = 'fq-milestone-stat';
+    var val = document.createElement('div'); val.className = 'fq-milestone-stat-value'; val.textContent = s.value;
+    var label = document.createElement('div'); label.className = 'fq-milestone-stat-label'; label.textContent = s.label;
+    card.appendChild(val); card.appendChild(label);
+    statsContainer.appendChild(card);
+    setTimeout(function() { card.classList.add('fq-visible'); }, 300 + i * 150);
+  });
+
+  el.classList.add('fq-visible');
+  playSuccess();
+  setTimeout(function() {
+    el.classList.remove('fq-visible');
+    if (cb) setTimeout(cb, 300);
+  }, 3200);
+}
+
+function hasAnswer(qi) {
+  var q = allQuestions[qi];
+  if (q.type === "multi") return userAnswers[qi].length > 0;
+  if (q.type === "icp-select") return userAnswers[qi] !== null;
+  return userAnswers[qi] !== null;
+}
+
+// ============================================
+// QUESTION RENDERING
+// ============================================
+function buildOptionEl(qi, oi, q) {
+  var opt = q.options[oi];
+  var isICP = q.type === "icp-select";
+  var isMulti = q.type === "multi";
+  var isSelected;
+  if (isICP || q.type === "single") isSelected = userAnswers[qi] === oi;
+  else isSelected = userAnswers[qi].indexOf(oi) !== -1;
+
+  var el = document.createElement('div');
+  el.className = 'fq-option' + (isSelected ? ' fq-selected' : '') + (isICP ? ' fq-option-icp' : '');
+  el.setAttribute('role', q.type === 'multi' ? 'checkbox' : 'radio');
+  el.setAttribute('aria-checked', String(isSelected));
+  el.setAttribute('tabindex', '0');
+  el.dataset.qi = qi; el.dataset.oi = oi;
+
+  if (isICP) {
+    var row = document.createElement('div'); row.className = 'fq-option-icp-row';
+    var indicator = document.createElement('span'); indicator.className = 'fq-option-indicator';
+    var textEl = document.createElement('span'); textEl.className = 'fq-option-text'; textEl.textContent = opt.text;
+    row.appendChild(indicator); row.appendChild(textEl);
+    el.appendChild(row);
+    if (opt.desc) {
+      var descEl = document.createElement('div'); descEl.className = 'fq-option-icp-desc'; descEl.textContent = opt.desc;
+      el.appendChild(descEl);
+    }
+  } else {
+    var indicator2 = document.createElement('span');
+    if (isMulti) {
+      indicator2.className = 'fq-option-checkbox';
+      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width','12'); svg.setAttribute('height','10'); svg.setAttribute('viewBox','0 0 12 10'); svg.setAttribute('fill','none');
+      var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d','M1 5L4.5 8.5L11 1.5'); path.setAttribute('stroke','white'); path.setAttribute('stroke-width','2');
+      path.setAttribute('stroke-linecap','round'); path.setAttribute('stroke-linejoin','round');
+      svg.appendChild(path); indicator2.appendChild(svg);
+    } else {
+      indicator2.className = 'fq-option-indicator';
+    }
+    var textEl2 = document.createElement('span'); textEl2.className = 'fq-option-text'; textEl2.textContent = opt.text;
+    el.appendChild(indicator2); el.appendChild(textEl2);
+  }
+
+  function onSelect() { selectOption(qi, oi); }
+  el.addEventListener('click', onSelect);
+  el.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(); } });
+  return el;
+}
+
+function renderQuestion(qi, direction) {
+  var q = allQuestions[qi];
+  var content = document.getElementById('fq-question-content');
+
+  // Update part label
+  var partLabel = document.getElementById('fq-part-label');
+  if (qi < GENERAL_END_INDEX) {
+    partLabel.textContent = 'Teil 1: Allgemeine KI-Marketing-Analyse';
+  } else if (qi < PART2_END_INDEX) {
+    var icpNames = { coach: 'Coach & Consulting', marketer: 'Marketing & Agentur', mittelstand: 'Unternehmen & B2B' };
+    partLabel.textContent = 'Teil 2: ' + (icpNames[selectedICP] || 'Dein Bereich');
+  } else {
+    partLabel.textContent = 'Teil 3: Feintuning & Abschluss';
+  }
+
+  function doRender() {
+    while (content.firstChild) content.removeChild(content.firstChild);
+
+    var indic = document.createElement('div'); indic.className = 'fq-question-indicator';
+    indic.textContent = 'Frage ' + (qi + 1) + ' von ' + TOTAL_QUESTIONS;
+
+    var qText = document.createElement('div'); qText.className = 'fq-question-text';
+    qText.textContent = q.question;
+
+    var hint = document.createElement('div'); hint.className = 'fq-question-hint';
+    if (q.hint) hint.textContent = q.hint;
+
+    var opts = document.createElement('div'); opts.className = 'fq-options';
+    opts.setAttribute('role', q.type === 'multi' ? 'group' : 'radiogroup');
+    opts.setAttribute('aria-label', q.question);
+    q.options.forEach(function(_, oi) { opts.appendChild(buildOptionEl(qi, oi, q)); });
+
+    content.appendChild(indic);
+    content.appendChild(qText);
+    content.appendChild(hint);
+
+    if (q.info) {
+      var infoBox = document.createElement('div'); infoBox.className = 'fq-info-box';
+      var infoHeader = document.createElement('button'); infoHeader.className = 'fq-info-header';
+      infoHeader.setAttribute('type', 'button'); infoHeader.setAttribute('aria-expanded', 'false');
+      var infoIcon = document.createElement('span'); infoIcon.className = 'fq-info-icon';
+      if (q.info.icon) infoIcon.innerHTML = q.info.icon;
+      var infoLabel = document.createElement('span'); infoLabel.className = 'fq-info-label'; infoLabel.textContent = q.info.label;
+      var infoChevron = document.createElement('span'); infoChevron.className = 'fq-info-chevron'; infoChevron.textContent = '\u25BC';
+      infoHeader.appendChild(infoIcon); infoHeader.appendChild(infoLabel); infoHeader.appendChild(infoChevron);
+      var infoText = document.createElement('div'); infoText.className = 'fq-info-text'; infoText.innerHTML = q.info.text;
+      infoHeader.addEventListener('click', function() {
+        var expanded = infoBox.classList.toggle('fq-expanded');
+        infoHeader.setAttribute('aria-expanded', String(expanded));
+      });
+      infoBox.appendChild(infoHeader); infoBox.appendChild(infoText);
+      content.appendChild(infoBox);
+    }
+
+    content.appendChild(opts);
+
+    // Stagger option reveals
+    var optionEls = opts.querySelectorAll('.fq-option');
+    optionEls.forEach(function(optEl, i) {
+      optEl.style.opacity = '0';
+      optEl.style.transform = 'translateY(12px)';
+      optEl.style.transition = 'none';
+      setTimeout(function() {
+        optEl.style.transition = 'opacity 500ms ease-out, transform 600ms cubic-bezier(0.22, 1.3, 0.36, 1)';
+        optEl.style.opacity = '1';
+        optEl.style.transform = 'translateY(0)';
+      }, 100 * i + (direction === 'init' ? 0 : 180));
+    });
+
+    // Progress
+    document.getElementById('fq-progress-fill').style.width = (((qi + 1) / TOTAL_QUESTIONS) * 100) + '%';
+    var progressTrack = document.querySelector('#quiz-root .fq-progress-track');
+    if (progressTrack) {
+      progressTrack.setAttribute('role', 'progressbar');
+      progressTrack.setAttribute('aria-valuenow', qi + 1);
+      progressTrack.setAttribute('aria-valuemin', 1);
+      progressTrack.setAttribute('aria-valuemax', TOTAL_QUESTIONS);
+      progressTrack.setAttribute('aria-label', 'Fortschritt: Frage ' + (qi + 1) + ' von ' + TOTAL_QUESTIONS);
+    }
+
+    // Nav
+    var backBtn = document.getElementById('fq-back-btn');
+    var nextBtn = document.getElementById('fq-next-btn');
+    if (qi === 0) backBtn.classList.add('fq-hidden'); else backBtn.classList.remove('fq-hidden');
+    nextBtn.textContent = qi === TOTAL_QUESTIONS - 1 ? 'Ergebnis anzeigen \u2192' : 'Weiter \u2192';
+    nextBtn.disabled = !hasAnswer(qi);
+
+    // Animate in
+    if (direction !== 'init') {
+      var inX = direction === 'forward' ? '20px' : '-20px';
+      content.style.transition = 'none'; content.style.opacity = '0'; content.style.transform = 'translateX(' + inX + ')';
+      requestAnimationFrame(function() { requestAnimationFrame(function() {
+        content.style.transition = 'opacity 400ms ease-out, transform 500ms cubic-bezier(0.22, 1.3, 0.36, 1)';
+        content.style.opacity = '1'; content.style.transform = 'translateX(0)';
+      }); });
+    } else {
+      content.style.transition = ''; content.style.opacity = '1'; content.style.transform = 'translateX(0)';
+    }
+  }
+
+  if (direction === 'init') { doRender(); }
+  else {
+    var outX = direction === 'forward' ? '-20px' : '20px';
+    content.style.transition = 'opacity 250ms ease-out, transform 250ms ease-out';
+    content.style.opacity = '0'; content.style.transform = 'translateX(' + outX + ')';
+    setTimeout(doRender, 260);
+  }
+}
+
+function selectOption(qi, oi) {
+  var q = allQuestions[qi];
+  if (q.type === "icp-select") {
+    userAnswers[qi] = oi;
+    selectedICP = q.options[oi].value;
+    buildQuestions();
+    // Restore the ICP answer
+    userAnswers[0] = oi;
+  } else if (q.type === "single") {
+    userAnswers[qi] = oi;
+  } else {
+    var arr = userAnswers[qi];
+    var idx = arr.indexOf(oi);
+    if (idx === -1) arr.push(oi); else arr.splice(idx, 1);
+  }
+  var options = document.querySelectorAll('#fq-question-content .fq-option');
+  options.forEach(function(el) {
+    var elOi = parseInt(el.dataset.oi);
+    var sel;
+    if (q.type === "multi") sel = userAnswers[qi].indexOf(elOi) !== -1;
+    else sel = userAnswers[qi] === elOi;
+    el.classList.toggle('fq-selected', sel);
+    el.setAttribute('aria-checked', String(sel));
+  });
+  playTick();
+  document.getElementById('fq-next-btn').disabled = !hasAnswer(qi);
+}
+
+// ============================================
+// CONFETTI
+// ============================================
+function launchConfetti() {
+  var canvas = document.getElementById('fq-confetti');
+  var resultScreen = canvas.parentElement;
+  var W = resultScreen.offsetWidth;
+  var H = Math.min(resultScreen.offsetHeight, 800);
+  canvas.width = W; canvas.height = H;
+  canvas.style.display = 'block';
+  var ctx = canvas.getContext('2d');
+
+  var palette = [
+    {r:25,g:63,b:59}, {r:28,g:185,b:158}, {r:161,g:207,b:21},
+    {r:92,g:251,b:245}, {r:212,g:175,b:55}, {r:201,g:196,b:181},
+    {r:45,g:107,b:99}, {r:139,g:191,b:182}
+  ];
+
+  var particles = [];
+  var originX = W * 0.5;
+  var originY = H * 0.7;
+  var totalCount = Math.max(80, Math.min(200, Math.floor(W / 5)));
+
+  // 5 bursts mimicking canvas-confetti "Realistic Look"
+  var bursts = [
+    { ratio: 0.25, spread: 26, startVelocity: 55, decay: 0.94, scalar: 1.2 },
+    { ratio: 0.20, spread: 60, startVelocity: 45, decay: 0.94, scalar: 1.0 },
+    { ratio: 0.35, spread: 100, startVelocity: 45, decay: 0.92, scalar: 0.7 },
+    { ratio: 0.10, spread: 120, startVelocity: 25, decay: 0.93, scalar: 1.5 },
+    { ratio: 0.10, spread: 120, startVelocity: 45, decay: 0.93, scalar: 0.5 }
+  ];
+
+  bursts.forEach(function(b) {
+    var n = Math.floor(totalCount * b.ratio);
+    for (var i = 0; i < n; i++) {
+      var angle = (90 * Math.PI / 180); // upward
+      var spreadRad = (b.spread * Math.PI / 180);
+      var angle2D = -angle + ((0.5 * spreadRad) - (Math.random() * spreadRad));
+      var vel = (b.startVelocity * 0.5) + (Math.random() * b.startVelocity);
+      var col = palette[Math.floor(Math.random() * palette.length)];
+      var sc = b.scalar;
+      particles.push({
+        x: originX,
+        y: originY,
+        wobble: Math.random() * 10,
+        wobbleSpeed: Math.min(0.11, Math.random() * 0.1 + 0.05),
+        velocity: vel,
+        angle2D: angle2D,
+        tiltAngle: (Math.random() * 0.5 + 0.25) * Math.PI,
+        color: col,
+        tick: 0,
+        totalTicks: 260 + Math.floor(Math.random() * 120),
+        decay: b.decay,
+        drift: (Math.random() - 0.5) * 0.5,
+        gravity: 2,
+        scalar: sc,
+        ovalScalar: 0.6 + Math.random() * 0.4
+      });
+    }
+  });
+
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    var alive = false;
+    particles.forEach(function(p) {
+      if (p.tick >= p.totalTicks) return;
+      alive = true;
+
+      p.x += Math.cos(p.angle2D) * p.velocity + p.drift;
+      p.y += Math.sin(p.angle2D) * p.velocity + p.gravity;
+      p.velocity *= p.decay;
+      p.wobble += p.wobbleSpeed;
+      p.tiltAngle += 0.1;
+
+      var wobbleX = p.x + ((10 * p.scalar) * Math.cos(p.wobble));
+      var wobbleY = p.y + ((10 * p.scalar) * Math.sin(p.wobble));
+      var tiltSin = Math.sin(p.tiltAngle);
+      var tiltCos = Math.cos(p.tiltAngle);
+      var progress = p.tick / p.totalTicks;
+      var alpha = 1 - progress;
+
+      // Random is seeded by wobble for consistent shape
+      var x1 = p.x + (p.scalar * tiltCos * 0.5);
+      var y1 = p.y + (p.scalar * tiltSin * 0.5);
+      var x2 = wobbleX + (p.scalar * tiltCos * -0.5);
+      var y2 = wobbleY + (p.scalar * tiltSin * -0.5);
+
+      ctx.fillStyle = 'rgba(' + p.color.r + ',' + p.color.g + ',' + p.color.b + ',' + alpha + ')';
+      ctx.beginPath();
+
+      // Draw as ellipse (like canvas-confetti default)
+      var rx = Math.abs(x2 - x1) * 0.5 * p.ovalScalar;
+      var ry = Math.abs(y2 - y1) * 0.5 * p.ovalScalar;
+      rx = Math.max(rx, 1); ry = Math.max(ry, 1);
+      var cx = (x1 + x2) * 0.5;
+      var cy = (y1 + y2) * 0.5;
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(Math.PI / 10 * p.wobble);
+      ctx.scale(1, ry / Math.max(rx, 0.01));
+      ctx.beginPath();
+      ctx.arc(0, 0, rx, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      p.tick++;
+    });
+    if (alive) {
+      requestAnimationFrame(frame);
+    } else {
+      canvas.style.display = 'none';
+    }
+  }
+  frame();
+}
+
+// ============================================
+// SOUND EFFECTS (subtle, organic)
+// ============================================
+var audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+  }
+  return audioCtx;
+}
+
+function playTick() {
+  var ctx = getAudioCtx(); if (!ctx) return;
+  // Soft, woody click — like a gentle tap on wood
+  var osc = ctx.createOscillator();
+  var gain = ctx.createGain();
+  var filter = ctx.createBiquadFilter();
+  osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+  osc.frequency.value = 380;
+  osc.type = 'sine';
+  filter.type = 'lowpass';
+  filter.frequency.value = 600;
+  gain.gain.setValueAtTime(0.035, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + 0.06);
+}
+
+function playSuccess() {
+  var ctx = getAudioCtx(); if (!ctx) return;
+  // Gentle chime — two soft tones like a xylophone
+  var notes = [
+    { freq: 880, delay: 0, dur: 0.35, vol: 0.04 },
+    { freq: 1320, delay: 0.12, dur: 0.4, vol: 0.03 }
+  ];
+  notes.forEach(function(n) {
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    var filter = ctx.createBiquadFilter();
+    osc.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = n.freq;
+    osc.type = 'sine';
+    filter.type = 'lowpass';
+    filter.frequency.value = 2000;
+    filter.Q.value = 0.5;
+    var t = ctx.currentTime + n.delay;
+    gain.gain.setValueAtTime(0, t);
+    gain.gain.linearRampToValueAtTime(n.vol, t + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + n.dur);
+    osc.start(t);
+    osc.stop(t + n.dur + 0.05);
+  });
+}
+
+function playWhoosh() {
+  var ctx = getAudioCtx(); if (!ctx) return;
+  // Very soft air movement
+  var bufferSize = Math.floor(ctx.sampleRate * 0.12);
+  var buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  var data = buffer.getChannelData(0);
+  for (var i = 0; i < bufferSize; i++) {
+    var env = Math.sin(Math.PI * i / bufferSize);
+    data[i] = (Math.random() * 2 - 1) * env;
+  }
+  var source = ctx.createBufferSource();
+  source.buffer = buffer;
+  var filter = ctx.createBiquadFilter();
+  filter.type = 'bandpass'; filter.frequency.value = 500; filter.Q.value = 0.3;
+  var gain = ctx.createGain();
+  source.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+  gain.gain.setValueAtTime(0.02, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+  source.start(ctx.currentTime);
+}
+
+function playConfettiPop() {
+  var ctx = getAudioCtx(); if (!ctx) return;
+  // Soft celebration — warm rising tone with gentle shimmer
+  var osc1 = ctx.createOscillator();
+  var osc2 = ctx.createOscillator();
+  var gain1 = ctx.createGain();
+  var gain2 = ctx.createGain();
+  var filter = ctx.createBiquadFilter();
+  filter.type = 'lowpass'; filter.frequency.value = 1500;
+  osc1.connect(filter); osc2.connect(filter);
+  filter.connect(gain1); gain1.connect(ctx.destination);
+  osc1.type = 'sine'; osc2.type = 'sine';
+  osc1.frequency.setValueAtTime(440, ctx.currentTime);
+  osc1.frequency.linearRampToValueAtTime(880, ctx.currentTime + 0.3);
+  osc2.frequency.setValueAtTime(554, ctx.currentTime);
+  osc2.frequency.linearRampToValueAtTime(1108, ctx.currentTime + 0.3);
+  gain1.gain.setValueAtTime(0, ctx.currentTime);
+  gain1.gain.linearRampToValueAtTime(0.04, ctx.currentTime + 0.05);
+  gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+  osc1.start(ctx.currentTime); osc1.stop(ctx.currentTime + 0.5);
+  osc2.start(ctx.currentTime); osc2.stop(ctx.currentTime + 0.5);
+}
+
+function animateCounter(el, target, duration) {
+  var startTime = null;
+  function step(ts) {
+    if (!startTime) startTime = ts;
+    var p = Math.min((ts - startTime) / duration, 1);
+    var eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = String(Math.round(eased * target));
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ============================================
+// RESULT RENDERING
+// ============================================
+function renderResult(results) {
+  var totalScore = results.totalScore;
+  var maxScore = results.maxScore;
+  var segment = results.segment;
+  var segmentLabel = results.segmentLabel;
+  var weakest = results.weakest;
+  var secondWeakest = results.secondWeakest;
+  var dimPercentages = results.dimPercentages;
+  var circumference = 2 * Math.PI * 70;
+
+  var CONTENT = {
+    A: {
+      headline: "Dein KI-Marketing steckt noch in den Kinderschuhen. Aber genau das ist die Chance.",
+      p1: "Dein Ergebnis zeigt: Du nutzt KI noch kaum oder nur punktuell im Marketing. Das ist keine Seltenheit \u2014 die meisten starten mit Einzeltools statt mit einem System.",
+      p2: "Die gute Nachricht: Du hast enormes ungenutztes Potenzial. Schon kleine, gezielte KI-Integrationen k\u00f6nnen 10+ Stunden pro Woche freisetzen.",
+      leverTitle: "Deine gr\u00f6\u00dften KI-Hebel:",
+      ctaP: "Was w\u00e4re, wenn du in 60 Minuten einen klaren KI-Fahrplan h\u00e4ttest: Welche Tools, welche Workflows, in welcher Reihenfolge?\n\nGenau das machen wir im kostenlosen Erstgespr\u00e4ch.",
+      ctaBtn: "Kostenloses KI-Erstgespr\u00e4ch sichern \u2192",
+      hebelTag: "GR\u00d6SSTER HEBEL"
+    },
+    B: {
+      headline: "Du nutzt KI bereits \u2014 aber l\u00e4sst noch viel Potenzial liegen.",
+      p1: "Du hast bereits erste KI-Workflows etabliert. Aber dein System hat L\u00fccken, die dich jeden Monat Zeit und Ergebnisse kosten.",
+      p2: "Der Unterschied zwischen \u201eKI nutzen\u201c und \u201eKI strategisch einsetzen\u201c liegt oft in 2\u20133 Stellschrauben, die den gesamten Workflow transformieren.",
+      leverTitle: "Deine gr\u00f6\u00dften KI-Hebel:",
+      ctaP: "Du brauchst keine komplett neue Strategie. Du brauchst jemanden, der mit dir dr\u00fcberschaut und die Stellschrauben findet, die den gr\u00f6\u00dften Unterschied machen.",
+      ctaBtn: "Erstgespr\u00e4ch vereinbaren \u2192",
+      hebelTag: "GR\u00d6SSTER HEBEL"
+    },
+    C: {
+      headline: "Dein KI-Marketing ist stark. Jetzt geht es um Skalierung.",
+      p1: "Du geh\u00f6rst zu den wenigen, die KI wirklich strategisch im Marketing einsetzen. Deine Workflows sind durchdacht und datengetrieben.",
+      p2: "Die Frage ist nicht mehr, ob KI f\u00fcr dich funktioniert \u2014 sondern wie du von hier aus skalierst und den Vorsprung ausbaust.",
+      leverTitle: "Optimierungs-Potenzial:",
+      ctaP: "Du bist an einem Punkt, an dem generische Tipps nicht mehr weiterhelfen. Was du brauchst, ist ein Sparring auf Augenh\u00f6he mit jemandem, der KI-Marketing-Systeme f\u00fcr Dutzende Unternehmen aufgebaut hat.",
+      ctaBtn: "Sparring-Gespr\u00e4ch buchen \u2192",
+      hebelTag: "OPTIMIERUNGS-POTENZIAL"
+    }
+  };
+  var sc = CONTENT[segment];
+
+  var ICP_STATS = {
+    A: {
+      coach: "94% der Marketer nutzen bereits KI-Tools. Coaches ohne KI-Strategie verlieren aktuell den Anschluss an systematisch arbeitende Wettbewerber.",
+      marketer: "60% der Marketer nutzen KI bereits t\u00e4glich. Agenturen ohne KI-Workflows riskieren, bei Effizienz und Geschwindigkeit abgeh\u00e4ngt zu werden.",
+      mittelstand: "86% der KMU erkennen die Relevanz von KI, aber nur 23% haben konkrete Projekte umgesetzt. Der Mittelstand hat enormen Aufholbedarf."
+    },
+    B: {
+      coach: "Coaches mit optimierten KI-Workflows sparen durchschnittlich 10+ Stunden pro Woche und steigern ihre Content-Frequenz um das 3\u20135-fache.",
+      marketer: "Agenturen mit KI-Strategie bringen Kampagnen bis zu 75% schneller auf den Markt und betreuen mit dem gleichen Team doppelt so viele Kunden.",
+      mittelstand: "B2B-Unternehmen mit KI-gest\u00fctztem Lead Scoring steigern ihre Conversion Rate um bis zu 45% (Forrester)."
+    },
+    C: {
+      coach: "Nur 6% der Coaches haben KI vollst\u00e4ndig in ihre Marketing-Strategie integriert. Du geh\u00f6rst zur Spitzengruppe.",
+      marketer: "Top-Agenturen nutzen KI nicht nur f\u00fcr Content, sondern f\u00fcr autonome Kampagnen-Optimierung. Der n\u00e4chste Schritt: Agentic Workflows.",
+      mittelstand: "Deutsche Mittelst\u00e4ndler mit KI-gest\u00fctztem Vertrieb wachsen 2,3x schneller als der Branchendurchschnitt."
+    }
+  };
+
+  var root = document.getElementById('fq-result-inner');
+  while (root.firstChild) root.removeChild(root.firstChild);
+
+  // Ring
+  var ringWrap = document.createElement('div'); ringWrap.className = 'fq-ring-wrap';
+  var svgNS = 'http://www.w3.org/2000/svg';
+  var svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('class','fq-ring-svg'); svg.setAttribute('viewBox','0 0 160 160');
+  var track = document.createElementNS(svgNS, 'circle');
+  track.setAttribute('cx','80'); track.setAttribute('cy','80'); track.setAttribute('r','70');
+  track.setAttribute('fill','none'); track.setAttribute('stroke','var(--fq-border-subtle)'); track.setAttribute('stroke-width','8');
+  var prog = document.createElementNS(svgNS, 'circle');
+  prog.setAttribute('id','fq-ring-progress'); prog.setAttribute('cx','80'); prog.setAttribute('cy','80'); prog.setAttribute('r','70');
+  prog.setAttribute('fill','none'); prog.setAttribute('stroke','var(--fq-accent)'); prog.setAttribute('stroke-width','8');
+  prog.setAttribute('stroke-linecap','round');
+  prog.setAttribute('stroke-dasharray', circumference.toFixed(2));
+  prog.setAttribute('stroke-dashoffset', circumference.toFixed(2));
+  prog.setAttribute('transform','rotate(-90 80 80)');
+  prog.style.transition = 'stroke-dashoffset 1200ms ease-out';
+  var scoreText = document.createElementNS(svgNS, 'text');
+  scoreText.setAttribute('id','fq-score-counter');
+  scoreText.setAttribute('x','80'); scoreText.setAttribute('y','76'); scoreText.setAttribute('text-anchor','middle');
+  scoreText.setAttribute('dominant-baseline','middle'); scoreText.setAttribute('font-family','var(--fq-font)');
+  scoreText.setAttribute('font-size','40'); scoreText.setAttribute('font-weight','700'); scoreText.setAttribute('fill','var(--fq-text-primary)');
+  scoreText.textContent = '0';
+  var maxText = document.createElementNS(svgNS, 'text');
+  maxText.setAttribute('x','80'); maxText.setAttribute('y','100'); maxText.setAttribute('text-anchor','middle');
+  maxText.setAttribute('dominant-baseline','middle'); maxText.setAttribute('font-family','var(--fq-font)');
+  maxText.setAttribute('font-size','16'); maxText.setAttribute('fill','var(--fq-text-tertiary)');
+  maxText.textContent = '/' + maxScore;
+  svg.appendChild(track); svg.appendChild(prog); svg.appendChild(scoreText); svg.appendChild(maxText);
+  ringWrap.appendChild(svg); ringWrap.classList.add('fq-reveal-scale'); root.appendChild(ringWrap);
+
+  // Segment badge
+  var badgeWrap = document.createElement('div'); badgeWrap.className = 'fq-segment-badge';
+  badgeWrap.classList.add('fq-reveal-scale');
+  var badge = document.createElement('span'); badge.className = 'fq-badge'; badge.textContent = segmentLabel;
+  badgeWrap.appendChild(badge); root.appendChild(badgeWrap);
+
+  // Dims
+  var dims = document.createElement('div'); dims.className = 'fq-dims'; dims.classList.add('fq-reveal');
+  var dimOrder = ['SV','CK','LQ','AW','DP'];
+  dimOrder.forEach(function(key, idx) {
+    var dim = null;
+    dimPercentages.forEach(function(d){ if (d.key === key) dim = d; });
+    var isWeakest = dim.key === weakest.key;
+    var row = document.createElement('div'); row.className = 'fq-dim-row';
+    var header = document.createElement('div'); header.className = 'fq-dim-header';
+    var labelEl = document.createElement('span'); labelEl.className = 'fq-dim-label' + (isWeakest ? ' fq-weakest' : '');
+    labelEl.textContent = dim.label;
+    if (isWeakest) {
+      var tag = document.createElement('span'); tag.className = 'fq-dim-tag'; tag.textContent = sc.hebelTag;
+      labelEl.appendChild(tag);
+    }
+    var scoreEl = document.createElement('span'); scoreEl.className = 'fq-dim-score'; scoreEl.textContent = dim.score + '/' + dim.max;
+    header.appendChild(labelEl); header.appendChild(scoreEl);
+    var barTrack = document.createElement('div'); barTrack.className = 'fq-dim-bar-track';
+    var barFill = document.createElement('div'); barFill.className = 'fq-dim-bar-fill';
+    barFill.dataset.target = (dim.percentage * 100).toFixed(1);
+    barFill.dataset.idx = idx;
+    barTrack.appendChild(barFill);
+    row.appendChild(header); row.appendChild(barTrack);
+    dims.appendChild(row);
+  });
+  root.appendChild(dims);
+
+  // Text — wrapped in diagnosis card
+  var textBlock = document.createElement('div'); textBlock.className = 'fq-result-text-block';
+  var diagCard = document.createElement('div'); diagCard.className = 'fq-result-diagnosis-card'; diagCard.classList.add('fq-reveal');
+  var h2 = document.createElement('h2'); h2.className = 'fq-result-h2'; h2.textContent = sc.headline;
+  var p1 = document.createElement('p'); p1.className = 'fq-result-p'; p1.textContent = sc.p1;
+  var p2 = document.createElement('p'); p2.className = 'fq-result-p'; p2.textContent = sc.p2;
+  diagCard.appendChild(h2); diagCard.appendChild(p1); diagCard.appendChild(p2);
+  var icpStatText = ICP_STATS[segment] && ICP_STATS[segment][selectedICP];
+  if (icpStatText) {
+    var statWrap = document.createElement('div'); statWrap.className = 'fq-result-icp-stat';
+    var statIcon = document.createElement('div'); statIcon.className = 'fq-result-icp-stat-icon';
+    statIcon.innerHTML = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L12.5 7.5L18 8.5L14 12.5L15 18L10 15.5L5 18L6 12.5L2 8.5L7.5 7.5L10 2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>';
+    var statText = document.createElement('div'); statText.className = 'fq-result-icp-stat-text'; statText.textContent = icpStatText;
+    statWrap.appendChild(statIcon); statWrap.appendChild(statText);
+    diagCard.appendChild(statWrap);
+  }
+  textBlock.appendChild(diagCard);
+  var leverWrap = document.createElement('div'); leverWrap.style.marginTop = '24px';
+  var leverTitle = document.createElement('div'); leverTitle.className = 'fq-lever-title'; leverTitle.style.marginBottom = '16px'; leverTitle.textContent = sc.leverTitle;
+  leverWrap.appendChild(leverTitle);
+  [weakest, secondWeakest].forEach(function(dim, idx) {
+    var detail = LEVER_DETAILS[dim.key];
+    if (!detail) return;
+    var card = document.createElement('div'); card.className = 'fq-lever-card'; card.classList.add('fq-reveal');
+    var cardHeader = document.createElement('div'); cardHeader.className = 'fq-lever-card-header';
+    var cardName = document.createElement('span'); cardName.className = 'fq-lever-card-name'; cardName.textContent = dim.label;
+    cardHeader.appendChild(cardName);
+    if (idx === 0) {
+      var tag = document.createElement('span'); tag.className = 'fq-dim-tag'; tag.textContent = sc.hebelTag;
+      cardHeader.appendChild(tag);
+    }
+    card.appendChild(cardHeader);
+    var diagEl = document.createElement('p'); diagEl.className = 'fq-lever-card-diagnosis'; diagEl.textContent = detail.diagnosis;
+    card.appendChild(diagEl);
+    var actionsWrap = document.createElement('div'); actionsWrap.className = 'fq-lever-card-actions';
+    detail.actions.forEach(function(actionText) {
+      var actionEl = document.createElement('div'); actionEl.className = 'fq-lever-card-action'; actionEl.textContent = actionText;
+      actionsWrap.appendChild(actionEl);
+    });
+    card.appendChild(actionsWrap);
+    var icpTip = ICP_LEVER_TIPS[selectedICP] && ICP_LEVER_TIPS[selectedICP][dim.key];
+    if (icpTip) {
+      var tipWrap = document.createElement('div'); tipWrap.className = 'fq-lever-protipp';
+      var tipLabel = document.createElement('div'); tipLabel.className = 'fq-lever-protipp-label'; tipLabel.textContent = 'Pro-Tipp';
+      var tipText = document.createElement('div'); tipText.className = 'fq-lever-protipp-text'; tipText.textContent = icpTip;
+      tipWrap.appendChild(tipLabel); tipWrap.appendChild(tipText);
+      card.appendChild(tipWrap);
+    }
+    leverWrap.appendChild(card);
+  });
+  textBlock.appendChild(leverWrap);
+  // Next Level section
+  var nextLevelData = ICP_NEXT_LEVEL[selectedICP];
+  if (nextLevelData) {
+    var nlSection = document.createElement('div'); nlSection.className = 'fq-next-level';
+    var nlTitle = document.createElement('div'); nlTitle.className = 'fq-next-level-title'; nlTitle.textContent = 'N\u00e4chstes Level: Fortgeschrittene KI-Strategien';
+    nlSection.appendChild(nlTitle);
+    nextLevelData.forEach(function(item) {
+      var card = document.createElement('div'); card.className = 'fq-next-level-card'; card.classList.add('fq-reveal');
+      var cardTitle = document.createElement('div'); cardTitle.className = 'fq-next-level-card-title'; cardTitle.textContent = item.title;
+      var cardText = document.createElement('div'); cardText.className = 'fq-next-level-card-text'; cardText.textContent = item.text;
+      card.appendChild(cardTitle); card.appendChild(cardText);
+      nlSection.appendChild(card);
+    });
+    textBlock.appendChild(nlSection);
+  }
+  root.appendChild(textBlock);
+
+  // CTA Card
+  var ctaCard = document.createElement('div'); ctaCard.className = 'fq-cta-card'; ctaCard.classList.add('fq-reveal');
+
+  var ctaBadge = document.createElement('div'); ctaBadge.className = 'fq-cta-card-badge';
+  ctaBadge.innerHTML = 'Limitierte Pl\u00e4tze';
+  ctaCard.appendChild(ctaBadge);
+
+  var ctaHeadline = document.createElement('div'); ctaHeadline.className = 'fq-cta-card-headline';
+  ctaHeadline.innerHTML = 'Dein <em>pers\u00f6nlicher</em> KI-Marketing-Fahrplan';
+  ctaCard.appendChild(ctaHeadline);
+
+  var ctaSub = document.createElement('div'); ctaSub.className = 'fq-cta-card-sub';
+  ctaSub.textContent = sc.ctaP.replace(/\n\n/g, ' ');
+  ctaCard.appendChild(ctaSub);
+
+  var ctaBtn = document.createElement('button'); ctaBtn.className = 'fq-btn-cta';
+  ctaBtn.textContent = sc.ctaBtn;
+  ctaBtn.addEventListener('click', function() { window.open(CONFIG.bookingUrl, '_blank'); });
+  ctaCard.appendChild(ctaBtn);
+
+  root.appendChild(ctaCard);
+
+  // Spacer at bottom
+  var spacer = document.createElement('div'); spacer.style.height = '64px';
+  root.appendChild(spacer);
+
+  // Animate ring + counter
+  setTimeout(function() {
+    var ring = document.getElementById('fq-ring-progress');
+    if (ring) { ring.style.strokeDashoffset = (circumference * (1 - totalScore / maxScore)).toFixed(2); }
+    var counter = document.getElementById('fq-score-counter');
+    if (counter) animateCounter(counter, totalScore, 1400);
+  }, 120);
+
+  // Animate bars
+  var bars = root.querySelectorAll('.fq-dim-bar-fill');
+  bars.forEach(function(bar, i) {
+    setTimeout(function() {
+      bar.style.transition = 'width 1200ms cubic-bezier(0.22, 1.3, 0.36, 1)';
+      bar.style.width = bar.dataset.target + '%';
+    }, 400 + i * 150);
+  });
+
+  // Scroll-triggered reveals
+  var revealEls = root.querySelectorAll('.fq-reveal, .fq-reveal-scale');
+  if ('IntersectionObserver' in window) {
+    var revealObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var parent = entry.target.parentElement;
+          var siblings = parent.querySelectorAll('.fq-reveal, .fq-reveal-scale');
+          var idx = Array.prototype.indexOf.call(siblings, entry.target);
+          setTimeout(function() {
+            entry.target.classList.add('fq-revealed');
+          }, Math.min(Math.max(0, idx * 120), 600));
+          revealObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(function(el) { revealObs.observe(el); });
+  } else {
+    revealEls.forEach(function(el) { el.classList.add('fq-revealed'); });
+  }
+
+  // Confetti
+  setTimeout(function() { launchConfetti(); playConfettiPop(); }, 600);
+  setTimeout(playSuccess, 200);
+}
+
+// ============================================
+// WEBHOOK
+// ============================================
+function sendWebhook(formData) {
+  if (!quizResults) return;
+  var payload = {
+    firstName: formData.firstName, lastName: formData.lastName, email: formData.email, phone: formData.phone || null,
+    icp: selectedICP,
+    quiz: {
+      totalScore: quizResults.totalScore, maxScore: quizResults.maxScore,
+      segment: quizResults.segment, segmentLabel: quizResults.segmentLabel,
+      scores: quizResults.scores, weakestDimension: quizResults.weakest.key,
+      weakestDimensionLabel: quizResults.weakest.label,
+      secondWeakestDimension: quizResults.secondWeakest.key,
+      answers: userAnswers
+    },
+    submittedAt: new Date().toISOString(), source: "ai-marketing-quiz"
+  };
+  fetch(CONFIG.webhookUrl, {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  }).catch(function(err) { console.error("Webhook Error:", err); });
+}
+
+// ============================================
+// EVENT LISTENERS
+// ============================================
+buildQuestions();
+
+document.getElementById('fq-start-btn').addEventListener('click', function() {
+  showScreen('quiz');
+  setTimeout(function() { renderQuestion(0, 'init'); }, 160);
+});
+
+document.getElementById('fq-next-btn').addEventListener('click', function() {
+  if (!hasAnswer(currentQuestion)) return;
+  if (currentQuestion < TOTAL_QUESTIONS - 1) {
+    var nextQ = currentQuestion + 1;
+    // Show milestone when transitioning from Teil 1 to Teil 2
+    if (nextQ === GENERAL_END_INDEX && selectedICP) {
+      showMilestone(function() {
+        currentQuestion = nextQ;
+        renderQuestion(currentQuestion, 'forward');
+      });
+    } else if (nextQ === PART2_END_INDEX) {
+      showMilestone2(function() {
+        currentQuestion = nextQ;
+        renderQuestion(currentQuestion, 'forward');
+      });
+    } else {
+      currentQuestion = nextQ;
+      renderQuestion(currentQuestion, 'forward');
+    }
+  } else {
+    quizResults = calculateResults(userAnswers);
+    // Create blurred preview
+    var gateScreen = document.querySelector('.fq-screen--gate');
+    var existingPreview = gateScreen.querySelector('.fq-gate-preview');
+    if (existingPreview) existingPreview.remove();
+    var preview = document.createElement('div');
+    preview.className = 'fq-gate-preview';
+    var pHTML = '<div style="max-width:640px;margin:0 auto;text-align:center;">';
+    // Large score ring
+    pHTML += '<div style="display:flex;justify-content:center;margin-bottom:16px;">';
+    pHTML += '<svg width="200" height="200" viewBox="0 0 200 200">';
+    var pCirc = 2 * Math.PI * 85;
+    var pOffset = pCirc * (1 - quizResults.totalScore / quizResults.maxScore);
+    pHTML += '<circle cx="100" cy="100" r="85" fill="none" stroke="rgba(25,63,59,0.12)" stroke-width="10"/>';
+    pHTML += '<circle cx="100" cy="100" r="85" fill="none" stroke="var(--fq-accent)" stroke-width="10" stroke-dasharray="' + pCirc.toFixed(2) + '" stroke-dashoffset="' + pOffset.toFixed(2) + '" transform="rotate(-90 100 100)" stroke-linecap="round"/>';
+    pHTML += '<text x="100" y="90" text-anchor="middle" dominant-baseline="middle" font-family="var(--fq-font)" font-size="52" font-weight="700" fill="var(--fq-text-primary)">' + quizResults.totalScore + '</text>';
+    pHTML += '<text x="100" y="118" text-anchor="middle" dominant-baseline="middle" font-family="var(--fq-font)" font-size="18" fill="var(--fq-text-tertiary)">/' + quizResults.maxScore + ' Punkte</text>';
+    pHTML += '</svg></div>';
+    // Segment badge
+    pHTML += '<div style="display:flex;justify-content:center;margin-bottom:28px;"><span class="fq-badge" style="font-size:14px;padding:8px 20px;">' + quizResults.segmentLabel + '</span></div>';
+    // Dimension bars — full width, clearly visible
+    pHTML += '<div style="max-width:520px;margin:0 auto;">';
+    var dimOrder = ['SV','CK','LQ','AW','DP'];
+    dimOrder.forEach(function(key) {
+      var dim = null;
+      quizResults.dimPercentages.forEach(function(d) { if (d.key === key) dim = d; });
+      pHTML += '<div style="margin-bottom:20px;">';
+      pHTML += '<div style="display:flex;justify-content:space-between;margin-bottom:6px;">';
+      pHTML += '<span style="font-size:15px;font-weight:500;color:var(--fq-text-primary);">' + dim.label + '</span>';
+      pHTML += '<span style="font-size:15px;font-weight:600;color:var(--fq-accent);">' + dim.score + '/' + dim.max + '</span>';
+      pHTML += '</div>';
+      pHTML += '<div style="width:100%;height:8px;background:rgba(25,63,59,0.1);border-radius:4px;overflow:hidden;">';
+      pHTML += '<div style="height:100%;width:' + (dim.percentage * 100).toFixed(1) + '%;background:linear-gradient(90deg,#193F3B,#1CB99E);border-radius:4px;"></div>';
+      pHTML += '</div></div>';
+    });
+    pHTML += '</div>';
+    // Fake text blocks to fill more space
+    pHTML += '<div style="max-width:520px;margin:24px auto 0;">';
+    pHTML += '<div style="height:24px;background:rgba(25,63,59,0.08);border-radius:6px;margin-bottom:12px;width:75%;"></div>';
+    pHTML += '<div style="height:16px;background:rgba(25,63,59,0.05);border-radius:4px;margin-bottom:8px;width:100%;"></div>';
+    pHTML += '<div style="height:16px;background:rgba(25,63,59,0.05);border-radius:4px;margin-bottom:8px;width:90%;"></div>';
+    pHTML += '<div style="height:16px;background:rgba(25,63,59,0.05);border-radius:4px;width:60%;"></div>';
+    pHTML += '</div>';
+    pHTML += '</div>';
+    preview.innerHTML = pHTML;
+    gateScreen.insertBefore(preview, gateScreen.firstChild);
+    // Add peek text if not already present
+    if (!gateScreen.querySelector('.fq-gate-peek')) {
+      var peek = document.createElement('div');
+      peek.className = 'fq-gate-peek';
+      peek.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="vertical-align:-2px;margin-right:4px;"><path d="M8 3C4.4 3 1.4 5.4.5 8c.9 2.6 3.9 5 7.5 5s6.6-2.4 7.5-5c-.9-2.6-3.9-5-7.5-5z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>Deine Ergebnisse warten';
+      var gateInner = gateScreen.querySelector('.fq-gate-inner');
+      var statusBadge = gateInner.querySelector('.fq-gate-status');
+      if (statusBadge && statusBadge.nextSibling) {
+        gateInner.insertBefore(peek, statusBadge.nextSibling);
+      } else {
+        gateInner.insertBefore(peek, gateInner.firstChild);
+      }
+    }
+    showScreen('gate');
+  }
+});
+
+document.getElementById('fq-back-btn').addEventListener('click', function() {
+  if (currentQuestion > 0) { currentQuestion--; renderQuestion(currentQuestion, 'backward'); }
+});
+
+document.getElementById('fq-gate-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var nameEl = document.getElementById('fq-input-name');
+  var lastnameEl = document.getElementById('fq-input-lastname');
+  var emailEl = document.getElementById('fq-input-email');
+  var phoneEl = document.getElementById('fq-input-phone');
+  var nameErr = document.getElementById('fq-error-name');
+  var lastnameErr = document.getElementById('fq-error-lastname');
+  var emailErr = document.getElementById('fq-error-email');
+  var valid = true;
+  nameEl.classList.remove('fq-error'); lastnameEl.classList.remove('fq-error'); emailEl.classList.remove('fq-error');
+  nameErr.classList.remove('fq-visible'); lastnameErr.classList.remove('fq-visible'); emailErr.classList.remove('fq-visible');
+  if (!nameEl.value.trim()) { nameEl.classList.add('fq-error'); nameErr.classList.add('fq-visible'); valid = false; }
+  if (!lastnameEl.value.trim()) { lastnameEl.classList.add('fq-error'); lastnameErr.classList.add('fq-visible'); valid = false; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) { emailEl.classList.add('fq-error'); emailErr.classList.add('fq-visible'); valid = false; }
+  if (!valid) return;
+  var submitBtn = document.getElementById('fq-submit-btn');
+  submitBtn.textContent = 'Wird ausgewertet\u2026'; submitBtn.disabled = true;
+  sendWebhook({ firstName: nameEl.value.trim(), lastName: lastnameEl.value.trim(), email: emailEl.value.trim(), phone: phoneEl.value.trim() });
+  // Remove blurred preview
+  var preview = document.querySelector('.fq-gate-preview');
+  if (preview) preview.remove();
+  renderResult(quizResults);
+  showScreen('result');
+});
+
+// Staggered landing entrance
+(function() {
+  var items = document.querySelectorAll('.fq-screen--landing .fq-stagger-item');
+  items.forEach(function(el, i) {
+    setTimeout(function() { el.classList.add('fq-entered'); }, 150 * i);
+  });
+})();
+
+// Magnetic CTA buttons
+(function() {
+  if ('ontouchstart' in window) return;
+  var selectors = '.fq-btn-primary, .fq-btn-next, .fq-btn-submit, .fq-btn-cta';
+  var maxDist = 60;
+  var maxShift = 4;
+
+  document.getElementById('quiz-root').addEventListener('mousemove', function(e) {
+    var btns = document.querySelectorAll(selectors);
+    btns.forEach(function(btn) {
+      if (btn.disabled || btn.dataset.magneticPaused) return;
+      var rect = btn.getBoundingClientRect();
+      var cx = rect.left + rect.width / 2;
+      var cy = rect.top + rect.height / 2;
+      var dx = e.clientX - cx;
+      var dy = e.clientY - cy;
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < maxDist) {
+        var strength = (1 - dist / maxDist);
+        var tx = dx * strength * (maxShift / maxDist);
+        var ty = dy * strength * (maxShift / maxDist);
+        btn.style.transform = 'translate(' + tx.toFixed(1) + 'px, ' + ty.toFixed(1) + 'px)';
+      } else {
+        if (btn.style.transform.indexOf('translate') !== -1) {
+          btn.style.transform = '';
+        }
+      }
+    });
+  });
+
+  document.getElementById('quiz-root').addEventListener('mousedown', function(e) {
+    var btn = e.target.closest(selectors);
+    if (btn && !btn.disabled) {
+      btn.style.transform = '';
+      btn.dataset.magneticPaused = '1';
+    }
+  });
+  document.getElementById('quiz-root').addEventListener('mouseup', function(e) {
+    var btn = e.target.closest(selectors);
+    if (btn) { delete btn.dataset.magneticPaused; }
+  });
+
+  document.getElementById('quiz-root').addEventListener('mouseleave', function() {
+    var btns = document.querySelectorAll(selectors);
+    btns.forEach(function(btn) { btn.style.transform = ''; delete btn.dataset.magneticPaused; });
+  });
+})();
+
+// iFrame height reporting
+function reportHeight() {
+  var height = document.getElementById('quiz-root').offsetHeight;
+  window.parent.postMessage({ type: 'quiz-resize', height: height }, '*');
+}
+var ro = new ResizeObserver(function() { reportHeight(); });
+ro.observe(document.getElementById('quiz-root'));
+</script>
+</body>
+</html>
