@@ -296,6 +296,18 @@ body { background: #FBFAF2; margin: 0; }
 #quiz-root .fq-btn-submit:disabled { opacity: 0.5; cursor: wait; animation: none; }
 #quiz-root .fq-fine-print { font-size: 12px; color: var(--fq-text-tertiary); text-align: center; margin-top: 16px; line-height: 1.5; }
 
+/* Social proof logos */
+#quiz-root .fq-gate-logos {
+  display: flex; align-items: center; justify-content: center; gap: 24px;
+  margin-top: 24px; padding-top: 20px;
+  border-top: 1px solid var(--fq-border-subtle);
+  opacity: 0.5; filter: grayscale(1);
+  transition: opacity 300ms ease, filter 300ms ease;
+  flex-wrap: wrap;
+}
+#quiz-root .fq-gate-logos:hover { opacity: 0.8; filter: grayscale(0.3); }
+#quiz-root .fq-gate-logos img { height: 28px; width: auto; object-fit: contain; }
+
 /* Result */
 #quiz-root .fq-screen--result { padding: 64px 20px 0; }
 #quiz-root .fq-result-inner { max-width: 640px; margin: 0 auto; }
@@ -631,6 +643,45 @@ body { background: #FBFAF2; margin: 0; }
   display: inline-block; z-index: 9999;
 }
 
+/* Resume dialog */
+#quiz-root .fq-resume-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(251, 250, 242, 0.9); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  z-index: 1001; opacity: 0; transition: opacity 300ms ease;
+}
+#quiz-root .fq-resume-overlay.fq-visible { opacity: 1; }
+#quiz-root .fq-resume-card {
+  background: rgba(255,255,255,0.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.5); border-radius: var(--fq-radius-lg);
+  padding: 36px; max-width: 420px; width: calc(100% - 40px); text-align: center;
+  box-shadow: 0 20px 40px -15px rgba(25,63,59,0.1), inset 0 1px 0 rgba(255,255,255,0.2);
+  transform: scale(0.95); transition: transform 400ms var(--fq-spring);
+}
+#quiz-root .fq-resume-overlay.fq-visible .fq-resume-card { transform: scale(1); }
+#quiz-root .fq-resume-icon {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: rgba(25,63,59,0.06); display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px; color: var(--fq-accent);
+}
+#quiz-root .fq-resume-title { font-size: 20px; font-weight: 500; color: var(--fq-text-primary); letter-spacing: -0.02em; margin-bottom: 8px; }
+#quiz-root .fq-resume-sub { font-size: 15px; color: var(--fq-text-secondary); line-height: 1.5; margin-bottom: 24px; }
+#quiz-root .fq-resume-buttons { display: flex; flex-direction: column; gap: 10px; }
+#quiz-root .fq-resume-btn-primary {
+  background: var(--fq-btn-gradient); color: #fff; font-family: var(--fq-font);
+  font-size: 15px; font-weight: 500; padding: 14px 24px;
+  border-radius: var(--fq-radius-md); border: none; cursor: pointer;
+  transition: transform 250ms var(--fq-spring), opacity 200ms ease;
+}
+#quiz-root .fq-resume-btn-primary:hover { transform: translateY(-1px) scale(1.02); opacity: 0.92; }
+#quiz-root .fq-resume-btn-primary:active { transform: scale(0.98); }
+#quiz-root .fq-resume-btn-secondary {
+  background: none; color: var(--fq-text-tertiary); font-family: var(--fq-font);
+  font-size: 14px; font-weight: 400; padding: 10px; border: none; cursor: pointer;
+  transition: color 200ms ease;
+}
+#quiz-root .fq-resume-btn-secondary:hover { color: var(--fq-text-secondary); }
+
 /* Mobile */
 @media (max-width: 600px) {
   #quiz-root .fq-screen--gate { padding: 60px 16px 32px; }
@@ -688,6 +739,10 @@ body { background: #FBFAF2; margin: 0; }
   #quiz-root .fq-lever-card:hover,
   #quiz-root .fq-next-level-card:hover { transform: none; }
   #quiz-root .fq-gate-sub { margin-bottom: 20px; }
+  #quiz-root .fq-gate-logos { gap: 16px; margin-top: 20px; }
+  #quiz-root .fq-gate-logos img { height: 22px; }
+  #quiz-root .fq-resume-card { padding: 28px 20px; }
+  #quiz-root .fq-resume-title { font-size: 18px; }
 }
 /* Stagger entrance animations */
 #quiz-root .fq-stagger-item {
@@ -825,6 +880,11 @@ body { background: #FBFAF2; margin: 0; }
         <button class="fq-btn-submit fq-stagger-item fq-scale-in" id="fq-submit-btn" type="submit">Meine Analyse anfordern &rarr;</button>
       </form>
       <p class="fq-fine-print">Kein Spam. Keine Weitergabe. Du bekommst deine Analyse + 2-3 weiterf&uuml;hrende Mails mit konkreten Tipps.</p>
+      <div class="fq-gate-logos fq-stagger-item">
+        <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/69a9a665bb56c60cd46f82b5_UR%20Logo%20(Full).avif" alt="UR Logo" loading="lazy">
+        <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/69a9a7c89298254b77b98c09_Frame%202117939972.avif" alt="Client Logo" loading="lazy">
+        <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/69a9a7c707400ef022df82a4_Frame%202117939971.avif" alt="Client Logo" loading="lazy">
+      </div>
     </div>
   </div>
 
@@ -852,6 +912,20 @@ body { background: #FBFAF2; margin: 0; }
       <div class="fq-milestone-h">Teil 2 abgeschlossen!</div>
       <div class="fq-milestone-sub">Fast geschafft.<br>Noch 6 Fragen f&uuml;r deine vollst&auml;ndige Analyse.</div>
       <div class="fq-milestone-stats" id="fq-milestone-stats-2"></div>
+    </div>
+  </div>
+
+  <div class="fq-resume-overlay" id="fq-resume-overlay">
+    <div class="fq-resume-card">
+      <div class="fq-resume-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+      </div>
+      <div class="fq-resume-title">Weitermachen?</div>
+      <div class="fq-resume-sub">Du hast das Quiz schon angefangen. M&ouml;chtest du dort weitermachen, wo du aufgeh&ouml;rt hast?</div>
+      <div class="fq-resume-buttons">
+        <button class="fq-resume-btn-primary" id="fq-resume-continue">Weitermachen</button>
+        <button class="fq-resume-btn-secondary" id="fq-resume-restart">Neu starten</button>
+      </div>
     </div>
   </div>
 
@@ -1862,6 +1936,7 @@ function selectOption(qi, oi) {
   });
   playTick();
   document.getElementById('fq-next-btn').disabled = !hasAnswer(qi);
+  saveProgress();
 }
 
 // ============================================
@@ -2399,15 +2474,18 @@ document.getElementById('fq-next-btn').addEventListener('click', function() {
       showMilestone(function() {
         currentQuestion = nextQ;
         renderQuestion(currentQuestion, 'forward');
+        saveProgress();
       });
     } else if (nextQ === PART2_END_INDEX) {
       showMilestone2(function() {
         currentQuestion = nextQ;
         renderQuestion(currentQuestion, 'forward');
+        saveProgress();
       });
     } else {
       currentQuestion = nextQ;
       renderQuestion(currentQuestion, 'forward');
+      saveProgress();
     }
   } else {
     quizResults = calculateResults(userAnswers);
@@ -2474,7 +2552,7 @@ document.getElementById('fq-next-btn').addEventListener('click', function() {
 });
 
 document.getElementById('fq-back-btn').addEventListener('click', function() {
-  if (currentQuestion > 0) { currentQuestion--; renderQuestion(currentQuestion, 'backward'); }
+  if (currentQuestion > 0) { currentQuestion--; renderQuestion(currentQuestion, 'backward'); saveProgress(); }
 });
 
 document.getElementById('fq-gate-form').addEventListener('submit', function(e) {
@@ -2501,14 +2579,71 @@ document.getElementById('fq-gate-form').addEventListener('submit', function(e) {
   if (preview) preview.remove();
   renderResult(quizResults);
   showScreen('result');
+  clearProgress();
 });
 
-// Staggered landing entrance
+// Session storage progress save
+var STORAGE_KEY = 'fq-progress';
+function saveProgress() {
+  try {
+    var data = {
+      currentQuestion: currentQuestion,
+      selectedICP: selectedICP,
+      userAnswers: userAnswers,
+      timestamp: Date.now()
+    };
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch(e) {}
+}
+function clearProgress() {
+  try { sessionStorage.removeItem(STORAGE_KEY); } catch(e) {}
+}
+function loadProgress() {
+  try {
+    var raw = sessionStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    var data = JSON.parse(raw);
+    // Expire after 30 minutes
+    if (Date.now() - data.timestamp > 30 * 60 * 1000) { clearProgress(); return null; }
+    return data;
+  } catch(e) { return null; }
+}
+
+// Check for saved progress and show resume dialog or landing stagger
 (function() {
-  var items = document.querySelectorAll('.fq-screen--landing .fq-stagger-item');
-  items.forEach(function(el, i) {
-    setTimeout(function() { el.classList.add('fq-entered'); }, 150 * i);
-  });
+  var saved = loadProgress();
+  if (saved && saved.currentQuestion > 0 && saved.selectedICP) {
+    // Show resume dialog
+    var overlay = document.getElementById('fq-resume-overlay');
+    overlay.classList.add('fq-visible');
+
+    document.getElementById('fq-resume-continue').addEventListener('click', function() {
+      // Restore state
+      selectedICP = saved.selectedICP;
+      buildQuestions();
+      userAnswers = saved.userAnswers;
+      currentQuestion = saved.currentQuestion;
+      overlay.classList.remove('fq-visible');
+      showScreen('quiz');
+      setTimeout(function() { renderQuestion(currentQuestion, 'init'); }, 160);
+    });
+
+    document.getElementById('fq-resume-restart').addEventListener('click', function() {
+      clearProgress();
+      overlay.classList.remove('fq-visible');
+      // Show landing with stagger
+      var items = document.querySelectorAll('.fq-screen--landing .fq-stagger-item');
+      items.forEach(function(el, i) {
+        setTimeout(function() { el.classList.add('fq-entered'); }, 150 * i);
+      });
+    });
+  } else {
+    // Normal landing stagger
+    var items = document.querySelectorAll('.fq-screen--landing .fq-stagger-item');
+    items.forEach(function(el, i) {
+      setTimeout(function() { el.classList.add('fq-entered'); }, 150 * i);
+    });
+  }
 })();
 
 // Magnetic CTA buttons
