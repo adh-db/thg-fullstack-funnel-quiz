@@ -305,8 +305,13 @@ body { background: #FBFAF2; margin: 0; }
   transition: opacity 300ms ease, filter 300ms ease;
   flex-wrap: wrap;
 }
-#quiz-root .fq-gate-logos:hover { opacity: 0.8; filter: grayscale(0.3); }
+#quiz-root .fq-gate-logos:hover { opacity: 0.8; }
 #quiz-root .fq-gate-logos img { height: 28px; width: auto; object-fit: contain; }
+#quiz-root .fq-gate-logo-placeholder {
+  display: inline-block; padding: 6px 20px; border-radius: 6px;
+  background: rgba(25,63,59,0.04); border: 1px dashed rgba(25,63,59,0.12);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: var(--fq-text-tertiary);
+}
 
 /* Result */
 #quiz-root .fq-screen--result { padding: 64px 20px 0; }
@@ -925,9 +930,9 @@ body { background: #FBFAF2; margin: 0; }
       </form>
       <p class="fq-fine-print">Kein Spam. Keine Weitergabe. Du bekommst deine Analyse + 2-3 weiterf&uuml;hrende Mails mit konkreten Tipps.</p>
       <div class="fq-gate-logos fq-stagger-item">
-        <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/69a9a665bb56c60cd46f82b5_UR%20Logo%20(Full).avif" alt="UR Logo" loading="lazy">
-        <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/69a9a7c89298254b77b98c09_Frame%202117939972.avif" alt="Client Logo" loading="lazy">
-        <img src="https://cdn.prod.website-files.com/65573c446874868ee0fa68b5/69a9a7c707400ef022df82a4_Frame%202117939971.avif" alt="Client Logo" loading="lazy">
+        <span class="fq-gate-logo-placeholder">LOGO</span>
+        <span class="fq-gate-logo-placeholder">LOGO</span>
+        <span class="fq-gate-logo-placeholder">LOGO</span>
       </div>
     </div>
   </div>
