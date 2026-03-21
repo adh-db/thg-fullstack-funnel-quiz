@@ -701,6 +701,27 @@ body { background: #FBFAF2; margin: 0; }
 #quiz-root .fq-share-btn:active { transform: scale(0.98); }
 #quiz-root .fq-share-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
 
+/* Benchmark comparison */
+#quiz-root .fq-benchmark-bar {
+  background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.4); border-radius: var(--fq-radius-lg);
+  padding: 24px; margin-bottom: 32px; text-align: center;
+  box-shadow: 0 4px 16px -4px rgba(25,63,59,0.06), inset 0 1px 0 rgba(255,255,255,0.15);
+}
+#quiz-root .fq-benchmark-label { font-size: 13px; font-weight: 500; color: var(--fq-text-tertiary); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 12px; }
+#quiz-root .fq-benchmark-track {
+  width: 100%; height: 8px; background: rgba(25,63,59,0.08); border-radius: 4px;
+  position: relative; margin-bottom: 8px;
+}
+#quiz-root .fq-benchmark-marker {
+  position: absolute; top: -4px; width: 16px; height: 16px;
+  background: var(--fq-accent); border: 2px solid #fff; border-radius: 50%;
+  transform: translateX(-50%); transition: left 1200ms var(--fq-spring);
+  box-shadow: 0 2px 6px rgba(25,63,59,0.2);
+}
+#quiz-root .fq-benchmark-text { font-size: 14px; color: var(--fq-text-secondary); line-height: 1.5; margin-top: 4px; }
+#quiz-root .fq-benchmark-text strong { color: var(--fq-text-primary); font-weight: 600; }
+
 /* Mobile */
 @media (max-width: 600px) {
   #quiz-root .fq-screen--gate { padding: 60px 16px 32px; }
@@ -764,6 +785,8 @@ body { background: #FBFAF2; margin: 0; }
   #quiz-root .fq-resume-title { font-size: 18px; }
   #quiz-root .fq-share-section { margin-top: 24px; padding-bottom: 32px; }
   #quiz-root .fq-share-btn { padding: 8px 16px; font-size: 13px; }
+  #quiz-root .fq-benchmark-bar { padding: 20px 16px; margin-bottom: 24px; }
+  #quiz-root .fq-benchmark-text { font-size: 13px; }
 }
 /* Stagger entrance animations */
 #quiz-root .fq-stagger-item {
@@ -2318,6 +2341,30 @@ function renderResult(results) {
     dims.appendChild(row);
   });
   root.appendChild(dims);
+
+  // Benchmark comparison
+  var benchPct = (totalScore / maxScore);
+  var percentile;
+  if (benchPct <= 0.25) percentile = Math.round(10 + benchPct * 80);
+  else if (benchPct <= 0.5) percentile = Math.round(30 + (benchPct - 0.25) * 100);
+  else if (benchPct <= 0.75) percentile = Math.round(55 + (benchPct - 0.5) * 120);
+  else percentile = Math.round(85 + (benchPct - 0.75) * 60);
+  percentile = Math.min(percentile, 99);
+  var benchBar = document.createElement('div'); benchBar.className = 'fq-benchmark-bar fq-reveal';
+  var benchLabel = document.createElement('div'); benchLabel.className = 'fq-benchmark-label';
+  benchLabel.textContent = 'Dein Vergleich';
+  var benchTrack = document.createElement('div'); benchTrack.className = 'fq-benchmark-track';
+  var benchMarker = document.createElement('div'); benchMarker.className = 'fq-benchmark-marker';
+  benchMarker.style.left = '0%';
+  benchTrack.appendChild(benchMarker);
+  var benchText = document.createElement('div'); benchText.className = 'fq-benchmark-text';
+  benchText.innerHTML = 'Du liegst vor <strong>' + percentile + '%</strong> aller bisherigen Teilnehmer.';
+  benchBar.appendChild(benchLabel);
+  benchBar.appendChild(benchTrack);
+  benchBar.appendChild(benchText);
+  root.appendChild(benchBar);
+  // Animate marker
+  setTimeout(function() { benchMarker.style.left = percentile + '%'; }, 500);
 
   // Text — wrapped in diagnosis card
   var textBlock = document.createElement('div'); textBlock.className = 'fq-result-text-block';
