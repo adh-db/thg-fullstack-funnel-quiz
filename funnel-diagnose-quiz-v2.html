@@ -1797,7 +1797,7 @@ function renderQuestion(qi, direction) {
     });
 
     // Progress
-    document.getElementById('fq-progress-fill').style.width = (((qi + 1) / TOTAL_QUESTIONS) * 100) + '%';
+    document.getElementById('fq-progress-fill').style.width = (((qi + 1) / 20) * 100) + '%';
     var progressTrack = document.querySelector('#quiz-root .fq-progress-track');
     if (progressTrack) {
       progressTrack.setAttribute('role', 'progressbar');
