@@ -984,6 +984,16 @@ var CONFIG = {
 };
 // ============================================
 
+// Capture UTM parameters
+var UTM_PARAMS = {};
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(function(key) {
+    var val = params.get(key);
+    if (val) UTM_PARAMS[key] = val;
+  });
+})();
+
 var DIMENSIONS = {
   SV: { key: "SV", label: "KI-Strategie & Vision" },
   CK: { key: "CK", label: "KI-Content & Kreation" },
@@ -2540,7 +2550,8 @@ function sendWebhook(formData) {
       secondWeakestDimension: quizResults.secondWeakest.key,
       answers: userAnswers
     },
-    submittedAt: new Date().toISOString(), source: "ai-marketing-quiz"
+    submittedAt: new Date().toISOString(), source: "ai-marketing-quiz",
+    utm: UTM_PARAMS
   };
   fetch(CONFIG.webhookUrl, {
     method: "POST", headers: { "Content-Type": "application/json" },
