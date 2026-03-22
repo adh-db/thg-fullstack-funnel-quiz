@@ -133,7 +133,8 @@
       "question": "Wie nutzt du KI für die Content-Erstellung?",
       "info": {
         "label": "KI-Content: Mehr als nur ChatGPT",
-        "text": "<strong>KI-gestützte Content-Erstellung bedeutet nicht, alles von der KI schreiben zu lassen.</strong><br><br>Der strategische Ansatz:<ul><li><strong>Stufe 1:</strong> KI als Ideengeber und Recherche-Assistent</li><li><strong>Stufe 2:</strong> KI erstellt Entwürfe mit Brand-Voice-Vorgaben</li><li><strong>Stufe 3:</strong> Automatisierte Multi-Format-Produktion aus einem Source-Asset</li><li><strong>Stufe 4:</strong> Selbstoptimierender Content-Workflow mit Performance-Feedback</li></ul><span class='fq-info-benchmark'>Benchmark: KI-unterstützte Teams produzieren 3 bis 5x mehr Content bei gleicher Qualität</span>"
+        "text": "<strong>KI-gestützte Content-Erstellung bedeutet nicht, alles von der KI schreiben zu lassen.</strong><br><br>Der strategische Ansatz:<ul><li><strong>Stufe 1:</strong> KI als Ideengeber und Recherche-Assistent</li><li><strong>Stufe 2:</strong> KI erstellt Entwürfe mit Brand-Voice-Vorgaben</li><li><strong>Stufe 3:</strong> Automatisierte Multi-Format-Produktion aus einem Source-Asset</li><li><strong>Stufe 4:</strong> Selbstoptimierender Content-Workflow mit Performance-Feedback</li></ul><span class='fq-info-benchmark'>Benchmark: KI-unterstützte Teams produzieren 3 bis 5x mehr Content bei gleicher Qualität</span>",
+        "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 4h12v12H4z\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M7 8h6M7 11h4\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>"
       },
       "options": [
         {
@@ -245,7 +246,8 @@
       "question": "Wie automatisiert sind deine Marketing-Prozesse mit KI?",
       "info": {
         "label": "Von Automation zu Agentic Workflows",
-        "text": "<strong>Marketing-Automatisierung entwickelt sich in drei Stufen:</strong><br><br><ul><li><strong>Stufe 1 — Regel-basiert:</strong> Wenn X, dann Y (z. B. Autoresponder)</li><li><strong>Stufe 2 — KI-unterstützt:</strong> KI optimiert Timing, Inhalte und Segmentierung</li><li><strong>Stufe 3 — Agentic:</strong> KI-Agenten handeln autonom, erkennen Anomalien und passen Kampagnen an</li></ul><span class='fq-info-benchmark'>Benchmark: KI-automatisierte Workflows sparen durchschnittlich 10 bis 15 Stunden pro Woche</span>"
+        "text": "<strong>Marketing-Automatisierung entwickelt sich in drei Stufen:</strong><br><br><ul><li><strong>Stufe 1 — Regel-basiert:</strong> Wenn X, dann Y (z. B. Autoresponder)</li><li><strong>Stufe 2 — KI-unterstützt:</strong> KI optimiert Timing, Inhalte und Segmentierung</li><li><strong>Stufe 3 — Agentic:</strong> KI-Agenten handeln autonom, erkennen Anomalien und passen Kampagnen an</li></ul><span class='fq-info-benchmark'>Benchmark: KI-automatisierte Workflows sparen durchschnittlich 10 bis 15 Stunden pro Woche</span>",
+        "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"5\" cy=\"10\" r=\"2\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><circle cx=\"15\" cy=\"10\" r=\"2\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><path d=\"M7 10h6\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><path d=\"M10 4v3M10 13v3\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>"
       },
       "options": [
         {
@@ -352,7 +354,8 @@
         "hint": "Denk an alle Bereiche: Content, Leads, Automatisierung, Daten.",
         "info": {
           "label": "Warum eine KI-Strategie entscheidend ist",
-          "text": "<strong>94% der Marketer nutzen bereits KI-Tools — aber ohne Strategie bleibt es Flickwerk.</strong><br><br>Eine KI-Strategie definiert:<ul><li>Welche Prozesse du zuerst automatisierst (höchster Hebel, geringste Komplexität)</li><li>Wie du KI-Output an deine Markensprache anpasst</li><li>Welche Daten du systematisch sammelst, um die KI zu verbessern</li></ul><span class='fq-info-benchmark'>Benchmark: Coaches mit KI-Strategie sparen durchschnittlich 10+ Stunden pro Woche</span>"
+          "text": "<strong>94% der Marketer nutzen bereits KI-Tools — aber ohne Strategie bleibt es Flickwerk.</strong><br><br>Eine KI-Strategie definiert:<ul><li>Welche Prozesse du zuerst automatisierst (höchster Hebel, geringste Komplexität)</li><li>Wie du KI-Output an deine Markensprache anpasst</li><li>Welche Daten du systematisch sammelst, um die KI zu verbessern</li></ul><span class='fq-info-benchmark'>Benchmark: Coaches mit KI-Strategie sparen durchschnittlich 10+ Stunden pro Woche</span>",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M10 2L3 6v8l7 4 7-4V6l-7-4z\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M10 10V18M10 10L3 6M10 10l7-4\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/></svg>"
         },
         "options": [
           {
@@ -419,7 +422,8 @@
         "hint": "Zum Beispiel: Aus einem Webinar werden Blog, Newsletter, Social Posts.",
         "info": {
           "label": "One-to-Dozens Repurposing Engine",
-          "text": "<strong>Ein einziges 60-Minuten-Gespräch kann 10+ Content-Pieces liefern.</strong><br><br><strong>So funktioniert die Repurposing Engine:</strong><ul><li>Aufnahme transkribieren (z. B. mit Descript oder Whisper)</li><li>KI extrahiert automatisch: Kernaussagen, Zitate, Storytelling-Elemente</li><li>Daraus werden: Blog-Artikel, Newsletter, LinkedIn-Carousel, Reels-Skript, Twitter-Thread</li></ul><span class='fq-info-benchmark'>Benchmark: 5 bis 10 Stunden Zeitersparnis pro Woche durch automatisiertes Repurposing</span>"
+          "text": "<strong>Ein einziges 60-Minuten-Gespräch kann 10+ Content-Pieces liefern.</strong><br><br><strong>So funktioniert die Repurposing Engine:</strong><ul><li>Aufnahme transkribieren (z. B. mit Descript oder Whisper)</li><li>KI extrahiert automatisch: Kernaussagen, Zitate, Storytelling-Elemente</li><li>Daraus werden: Blog-Artikel, Newsletter, LinkedIn-Carousel, Reels-Skript, Twitter-Thread</li></ul><span class='fq-info-benchmark'>Benchmark: 5 bis 10 Stunden Zeitersparnis pro Woche durch automatisiertes Repurposing</span>",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"10\" cy=\"10\" r=\"3\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><path d=\"M10 2v3M10 15v3M18 10h-3M5 10H2M15.5 4.5l-2 2M6.5 13.5l-2 2M15.5 15.5l-2-2M6.5 6.5l-2-2\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>"
         },
         "options": [
           {
@@ -521,7 +525,8 @@
         "question": "Wie personalisiert ist deine Kommunikation mit Leads und Klienten?",
         "info": {
           "label": "Warum Hyper-Personalisierung den Unterschied macht",
-          "text": "<strong>Personalisierte E-Mails liefern 6x mehr Transaktionen als generische Nachrichten.</strong><br><br>KI-gestützte Personalisierung bedeutet nicht nur den Vornamen einzusetzen:<ul><li><strong>Verhaltensbasiert:</strong> Welche Seiten besucht? Welche Mails geöffnet?</li><li><strong>Kontextbasiert:</strong> Quiz-Antworten, Webinar-Fragen, DM-Interaktionen</li><li><strong>Phasenbasiert:</strong> Kalter Lead bekommt anderen Content als jemand kurz vor der Buchung</li></ul><span class='fq-info-benchmark'>Benchmark: KI-personalisierte Sequenzen steigern die Conversion um bis zu 30%</span>"
+          "text": "<strong>Personalisierte E-Mails liefern 6x mehr Transaktionen als generische Nachrichten.</strong><br><br>KI-gestützte Personalisierung bedeutet nicht nur den Vornamen einzusetzen:<ul><li><strong>Verhaltensbasiert:</strong> Welche Seiten besucht? Welche Mails geöffnet?</li><li><strong>Kontextbasiert:</strong> Quiz-Antworten, Webinar-Fragen, DM-Interaktionen</li><li><strong>Phasenbasiert:</strong> Kalter Lead bekommt anderen Content als jemand kurz vor der Buchung</li></ul><span class='fq-info-benchmark'>Benchmark: KI-personalisierte Sequenzen steigern die Conversion um bis zu 30%</span>",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M10 2a8 8 0 100 16 8 8 0 000-16z\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><path d=\"M10 6v4l2.5 2.5\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
         },
         "options": [
           {
@@ -556,7 +561,8 @@
         "question": "Wie bereitest du dich mit KI auf Erstgespräche vor?",
         "info": {
           "label": "Die 30-Minuten KI-Discovery-Prep",
-          "text": "<strong>KI-gestützte Vorbereitung macht dein Erstgespräch 3x effektiver.</strong><br><br><strong>So funktioniert die 30-Minuten-Prep:</strong><ul><li>LinkedIn-Profil, Website und bisherige Interaktionen in KI pasten</li><li>KI identifiziert: Top-3-Probleme, gewünschtes Outcome, wahrscheinliche Einwände</li><li>Du bekommst: Gesprächsleitfaden, personalisierte Fragen, vorformulierte Einwandbehandlung</li></ul><span class='fq-info-benchmark'>Benchmark: Coaches mit KI-Prep berichten von 40 bis 60% höherer Abschlussrate</span>"
+          "text": "<strong>KI-gestützte Vorbereitung macht dein Erstgespräch 3x effektiver.</strong><br><br><strong>So funktioniert die 30-Minuten-Prep:</strong><ul><li>LinkedIn-Profil, Website und bisherige Interaktionen in KI pasten</li><li>KI identifiziert: Top-3-Probleme, gewünschtes Outcome, wahrscheinliche Einwände</li><li>Du bekommst: Gesprächsleitfaden, personalisierte Fragen, vorformulierte Einwandbehandlung</li></ul><span class='fq-info-benchmark'>Benchmark: Coaches mit KI-Prep berichten von 40 bis 60% höherer Abschlussrate</span>",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M8 2h4v4l3 3-5 5-5-5 3-3V2z\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M5 14l-2 4h14l-2-4\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
         },
         "options": [
           {
@@ -791,7 +797,8 @@
         "hint": "Denke an den Unterschied zwischen 'ab und zu ChatGPT nutzen' und einer echten KI-Strategie.",
         "info": {
           "label": "KI-Strategie: Warum ad-hoc nicht reicht",
-          "text": "<strong>60% der Marketer nutzen KI mittlerweile täglich</strong>, die meisten jedoch ohne klaren Plan.<br><br><strong>Ad-hoc vs. strategisch:</strong><ul><li><strong>Ad-hoc:</strong> Einzelne Mitarbeiter nutzen ChatGPT für Texte. Kein einheitlicher Prozess, keine Qualitätskontrolle.</li><li><strong>Strategisch:</strong> Dokumentierte Use Cases, Prompt-Bibliotheken, definierte Workflows, ROI-Tracking pro KI-Einsatz.</li></ul><span class='fq-info-benchmark'>Agenturen mit KI-Strategie bringen Kampagnen bis zu 75% schneller auf den Markt</span>"
+          "text": "<strong>60% der Marketer nutzen KI mittlerweile täglich</strong>, die meisten jedoch ohne klaren Plan.<br><br><strong>Ad-hoc vs. strategisch:</strong><ul><li><strong>Ad-hoc:</strong> Einzelne Mitarbeiter nutzen ChatGPT für Texte. Kein einheitlicher Prozess, keine Qualitätskontrolle.</li><li><strong>Strategisch:</strong> Dokumentierte Use Cases, Prompt-Bibliotheken, definierte Workflows, ROI-Tracking pro KI-Einsatz.</li></ul><span class='fq-info-benchmark'>Agenturen mit KI-Strategie bringen Kampagnen bis zu 75% schneller auf den Markt</span>",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M10 2L3 6v8l7 4 7-4V6l-7-4z\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M10 10V18M10 10L3 6M10 10l7-4\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/></svg>"
         },
         "options": [
           {
@@ -858,7 +865,8 @@
         "question": "Wie repurposed du Content über verschiedene Kanäle?",
         "info": {
           "label": "Content Repurposing mit KI",
-          "text": "<strong>Ein Pillar-Content wird per KI in 8 bis 12 plattformspezifische Formate umgewandelt.</strong><br><br><strong>So sieht ein moderner Repurposing-Workflow aus:</strong><ul><li>LinkedIn-Karussell mit Datenpunkten</li><li>Twitter/X-Thread mit kontroversen Takes</li><li>E-Mail-Sequenz mit praktischen Tipps</li><li>Kurzvideo-Skript für Reels/TikTok</li></ul><span class='fq-info-benchmark'>Agenturen mit KI-Repurposing produzieren 5 bis 8x mehr Content-Pieces pro Pillar-Content</span>"
+          "text": "<strong>Ein Pillar-Content wird per KI in 8 bis 12 plattformspezifische Formate umgewandelt.</strong><br><br><strong>So sieht ein moderner Repurposing-Workflow aus:</strong><ul><li>LinkedIn-Karussell mit Datenpunkten</li><li>Twitter/X-Thread mit kontroversen Takes</li><li>E-Mail-Sequenz mit praktischen Tipps</li><li>Kurzvideo-Skript für Reels/TikTok</li></ul><span class='fq-info-benchmark'>Agenturen mit KI-Repurposing produzieren 5 bis 8x mehr Content-Pieces pro Pillar-Content</span>",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M14 3H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2z\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><path d=\"M8 7h4M8 10h4M8 13h2\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>"
         },
         "options": [
           {
@@ -956,7 +964,8 @@
         "question": "Wie nutzt du KI-gestützte Datenanalyse für Kampagnen-Entscheidungen?",
         "info": {
           "label": "KI-Datenanalyse vs. manuelles Reporting",
-          "text": "<strong>KI-gestützte Analyse reduziert Report-Erstellungszeit um bis zu 80%.</strong><br><br><strong>Manuell vs. KI-gestützt:</strong><ul><li><strong>Manuell:</strong> Daten exportieren, aufbereiten, Anomalien suchen → 4 bis 8 Stunden pro Client</li><li><strong>KI-gestützt:</strong> Automatische Anomalie-Erkennung, Natural-Language-Insights → 30 bis 60 Minuten pro Client</li></ul><span class='fq-info-benchmark'>Agenturen mit KI-Analytics sparen durchschnittlich 38 Stunden/Woche pro Analyst</span>"
+          "text": "<strong>KI-gestützte Analyse reduziert Report-Erstellungszeit um bis zu 80%.</strong><br><br><strong>Manuell vs. KI-gestützt:</strong><ul><li><strong>Manuell:</strong> Daten exportieren, aufbereiten, Anomalien suchen → 4 bis 8 Stunden pro Client</li><li><strong>KI-gestützt:</strong> Automatische Anomalie-Erkennung, Natural-Language-Insights → 30 bis 60 Minuten pro Client</li></ul><span class='fq-info-benchmark'>Agenturen mit KI-Analytics sparen durchschnittlich 38 Stunden/Woche pro Analyst</span>",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"3\" y=\"12\" width=\"3\" height=\"5\" rx=\"0.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><rect x=\"8.5\" y=\"8\" width=\"3\" height=\"9\" rx=\"0.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><rect x=\"14\" y=\"4\" width=\"3\" height=\"13\" rx=\"0.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/></svg>"
         },
         "options": [
           {
@@ -1211,7 +1220,8 @@
         "question": "Wie strategisch setzt euer Unternehmen KI im Marketing und Vertrieb ein?",
         "info": {
           "label": "KI im Mittelstand: Wo stehen die meisten?",
-          "text": "<strong>86% der KMU erkennen die Relevanz von KI, aber nur 23% haben konkrete Projekte umgesetzt.</strong><br><br><strong>Die 4 Reifegrade:</strong><ul><li><strong>Stufe 1:</strong> Kein systematischer KI-Einsatz, einzelne Mitarbeiter experimentieren</li><li><strong>Stufe 2:</strong> Erste Use Cases definiert, aber isolierte Tool-Nutzung</li><li><strong>Stufe 3:</strong> KI-Strategie mit priorisierten Use Cases und ROI-Messung</li><li><strong>Stufe 4:</strong> KI als fester Bestandteil der Wertschöpfungskette</li></ul><span class='fq-info-benchmark'>Deutsche Mittelständler mit KI-Strategie wachsen 2,3x schneller als der Branchendurchschnitt</span>"
+          "text": "<strong>86% der KMU erkennen die Relevanz von KI, aber nur 23% haben konkrete Projekte umgesetzt.</strong><br><br><strong>Die 4 Reifegrade:</strong><ul><li><strong>Stufe 1:</strong> Kein systematischer KI-Einsatz, einzelne Mitarbeiter experimentieren</li><li><strong>Stufe 2:</strong> Erste Use Cases definiert, aber isolierte Tool-Nutzung</li><li><strong>Stufe 3:</strong> KI-Strategie mit priorisierten Use Cases und ROI-Messung</li><li><strong>Stufe 4:</strong> KI als fester Bestandteil der Wertschöpfungskette</li></ul><span class='fq-info-benchmark'>Deutsche Mittelständler mit KI-Strategie wachsen 2,3x schneller als der Branchendurchschnitt</span>",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M10 2L3 6v8l7 4 7-4V6l-7-4z\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/><path d=\"M10 10V18M10 10L3 6M10 10l7-4\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/></svg>"
         },
         "options": [
           {
@@ -1277,7 +1287,8 @@
         "question": "Wie qualifiziert ihr eingehende Leads und Anfragen mit KI?",
         "info": {
           "label": "KI-gestützte Lead-Qualifizierung im B2B",
-          "text": "<strong>Im B2B werden bis zu 50% der Vertriebszeit mit unqualifizierten Leads verschwendet.</strong><br><br><strong>KI-gestützte Qualifizierung löst das Problem:</strong><ul><li>Chatbot erfasst Branche, Unternehmensgröße, Bedarf und Budget</li><li>KI scored den Lead automatisch als MQL oder SQL</li><li>Qualifizierte Leads werden direkt im CRM angelegt und dem richtigen Vertriebler zugewiesen</li></ul><span class='fq-info-benchmark'>B2B-Unternehmen mit KI-Lead-Scoring steigern die Conversion um bis zu 45% (Forrester)</span>"
+          "text": "<strong>Im B2B werden bis zu 50% der Vertriebszeit mit unqualifizierten Leads verschwendet.</strong><br><br><strong>KI-gestützte Qualifizierung löst das Problem:</strong><ul><li>Chatbot erfasst Branche, Unternehmensgröße, Bedarf und Budget</li><li>KI scored den Lead automatisch als MQL oder SQL</li><li>Qualifizierte Leads werden direkt im CRM angelegt und dem richtigen Vertriebler zugewiesen</li></ul><span class='fq-info-benchmark'>B2B-Unternehmen mit KI-Lead-Scoring steigern die Conversion um bis zu 45% (Forrester)</span>",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"7\" cy=\"6\" r=\"2.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><circle cx=\"13\" cy=\"6\" r=\"2.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><path d=\"M3 15.5C3 13 4.8 11 7 11C8.2 11 9.3 11.6 10 12.5C10.7 11.6 11.8 11 13 11C15.2 11 17 13 17 15.5\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>"
         },
         "options": [
           {
