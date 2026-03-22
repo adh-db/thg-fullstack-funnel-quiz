@@ -64,12 +64,13 @@
   },
   "partLabels": {
     "part1": "Teil 1: Allgemeine KI-Marketing-Analyse",
-    "part2": {
-      "coach": "Teil 2: Coach & Consulting",
-      "marketer": "Teil 2: Marketing & Agentur",
-      "mittelstand": "Teil 2: Unternehmen & B2B"
-    },
-    "part3": "Teil 3: Feintuning & Abschluss"
+    "part3": "Teil 3: Feintuning & Abschluss",
+    "part2Prefix": "Teil 2: ",
+    "icpNames": {
+      "coach": "Coach & Consulting",
+      "marketer": "Marketing & Agentur",
+      "mittelstand": "Unternehmen & B2B"
+    }
   },
   "icpQuestion": {
     "id": "icp",
