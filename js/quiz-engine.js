@@ -27,6 +27,24 @@ function detectQuizType() {
 
 var QUIZ_TYPE = detectQuizType();
 
+// Check for ?result= param (shared result link)
+var pendingResult = null;
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var resultParam = params.get('result');
+  if (resultParam) {
+    try {
+      var decoded = JSON.parse(atob(resultParam));
+      if (decoded && decoded.t) {
+        QUIZ_TYPE = decoded.t;
+        pendingResult = decoded;
+      }
+    } catch(e) {
+      pendingResult = null;
+    }
+  }
+})();
+
 // Capture UTM parameters
 var UTM_PARAMS = {};
 (function() {
@@ -1502,6 +1520,35 @@ function initQuiz(quizData) {
       revealEls.forEach(function(el) { el.classList.add('fq-revealed'); });
     }
 
+    // Persist result in URL for sharing/revisiting
+    try {
+      var resultData = {
+        t: quizData.meta.slug,
+        s: results.totalScore,
+        m: results.maxScore,
+        g: results.segment,
+        i: selectedICP,
+        w: results.weakest.key,
+        w2: results.secondWeakest.key
+      };
+      var encoded = btoa(JSON.stringify(resultData));
+      var newUrl = window.location.pathname + '?type=' + quizData.meta.slug + '&result=' + encoded;
+      history.replaceState(null, '', newUrl);
+      // Update share button hrefs to use the result URL
+      var shareUrl = window.location.href;
+      var liBtn = resultRoot.querySelector('.fq-share-btn[href*="linkedin"]');
+      if (liBtn) liBtn.href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(shareUrl);
+      var waBtn = resultRoot.querySelector('.fq-share-btn[href*="wa.me"]');
+      if (waBtn) {
+        var updatedShareText = quizData.shareText
+          .replace('{score}', results.totalScore)
+          .replace('{max}', results.maxScore)
+          .replace('{segment}', results.segmentLabel)
+          .replace('{url}', shareUrl);
+        waBtn.href = 'https://wa.me/?text=' + encodeURIComponent(updatedShareText);
+      }
+    } catch(e) {}
+
     // Confetti
     setTimeout(function() { launchConfetti(); playConfettiPop(); }, 600);
     setTimeout(playSuccess, 200);
@@ -1704,6 +1751,15 @@ function initQuiz(quizData) {
   populateText();
   buildQuestions();
 
+  // If a ?result= param was decoded, skip straight to the result screen
+  if (pendingResult) {
+    selectedICP = pendingResult.i || null;
+    buildQuestions(); // needed so leverDetails lookup works
+    renderSharedResult(pendingResult);
+    showScreen('result');
+    return; // skip normal quiz flow (event wiring etc. not needed)
+  }
+
   // Start button
   document.getElementById('fq-start-btn').addEventListener('click', function() {
     showScreen('quiz');
@@ -1865,6 +1921,256 @@ function initQuiz(quizData) {
   if (typeof ResizeObserver !== 'undefined') {
     var ro = new ResizeObserver(function() { reportHeight(); });
     ro.observe(document.getElementById('quiz-root'));
+  }
+
+  // ============================================
+  // 3u. SHARED RESULT RENDERING (from ?result= URL)
+  // ============================================
+  function renderSharedResult(data) {
+    var totalScore = data.s;
+    var maxScore = data.m;
+    var segment = data.g;
+    var weakestKey = data.w;
+    var secondWeakestKey = data.w2;
+
+    var segData = quizData.segments[segment] || {};
+    var segmentLabel = segData.label || segment;
+    var sc = quizData.resultContent[segment];
+    if (!sc) return; // cannot render without content data
+
+    var circumference = 2 * Math.PI * 70;
+    var svgNS = 'http://www.w3.org/2000/svg';
+    var resultRoot = document.getElementById('fq-result-inner');
+    while (resultRoot.firstChild) resultRoot.removeChild(resultRoot.firstChild);
+
+    // "Take the quiz yourself" banner
+    var takeBanner = document.createElement('div');
+    takeBanner.style.cssText = 'text-align:center;padding:12px 16px;margin-bottom:8px;background:rgba(25,63,59,0.05);border-radius:10px;font-size:14px;color:var(--fq-text-secondary);';
+    var takeLink = document.createElement('a');
+    takeLink.href = window.location.pathname + '?type=' + quizData.meta.slug;
+    takeLink.style.cssText = 'font-weight:600;color:var(--fq-accent);text-decoration:none;';
+    takeLink.textContent = 'Mach das Quiz selbst';
+    takeBanner.appendChild(document.createTextNode('Du siehst ein geteiltes Ergebnis. '));
+    takeBanner.appendChild(takeLink);
+    takeBanner.appendChild(document.createTextNode(' \u2192'));
+    resultRoot.appendChild(takeBanner);
+
+    // Ring
+    var ringWrap = document.createElement('div'); ringWrap.className = 'fq-ring-wrap';
+    var svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('class', 'fq-ring-svg'); svg.setAttribute('viewBox', '0 0 160 160');
+    var trackCircle = document.createElementNS(svgNS, 'circle');
+    trackCircle.setAttribute('cx', '80'); trackCircle.setAttribute('cy', '80'); trackCircle.setAttribute('r', '70');
+    trackCircle.setAttribute('fill', 'none'); trackCircle.setAttribute('stroke', 'var(--fq-border-subtle)'); trackCircle.setAttribute('stroke-width', '8');
+    var progCircle = document.createElementNS(svgNS, 'circle');
+    progCircle.setAttribute('id', 'fq-ring-progress'); progCircle.setAttribute('cx', '80'); progCircle.setAttribute('cy', '80'); progCircle.setAttribute('r', '70');
+    progCircle.setAttribute('fill', 'none'); progCircle.setAttribute('stroke', 'var(--fq-accent)'); progCircle.setAttribute('stroke-width', '8');
+    progCircle.setAttribute('stroke-linecap', 'round');
+    progCircle.setAttribute('stroke-dasharray', circumference.toFixed(2));
+    progCircle.setAttribute('stroke-dashoffset', circumference.toFixed(2));
+    progCircle.setAttribute('transform', 'rotate(-90 80 80)');
+    progCircle.style.transition = 'stroke-dashoffset 1200ms ease-out';
+    var scoreTextEl = document.createElementNS(svgNS, 'text');
+    scoreTextEl.setAttribute('id', 'fq-score-counter');
+    scoreTextEl.setAttribute('x', '80'); scoreTextEl.setAttribute('y', '76'); scoreTextEl.setAttribute('text-anchor', 'middle');
+    scoreTextEl.setAttribute('dominant-baseline', 'middle'); scoreTextEl.setAttribute('font-family', 'var(--fq-font)');
+    scoreTextEl.setAttribute('font-size', '40'); scoreTextEl.setAttribute('font-weight', '700'); scoreTextEl.setAttribute('fill', 'var(--fq-text-primary)');
+    scoreTextEl.textContent = '0';
+    var maxTextEl = document.createElementNS(svgNS, 'text');
+    maxTextEl.setAttribute('x', '80'); maxTextEl.setAttribute('y', '100'); maxTextEl.setAttribute('text-anchor', 'middle');
+    maxTextEl.setAttribute('dominant-baseline', 'middle'); maxTextEl.setAttribute('font-family', 'var(--fq-font)');
+    maxTextEl.setAttribute('font-size', '16'); maxTextEl.setAttribute('fill', 'var(--fq-text-tertiary)');
+    maxTextEl.textContent = '/' + maxScore;
+    svg.appendChild(trackCircle); svg.appendChild(progCircle); svg.appendChild(scoreTextEl); svg.appendChild(maxTextEl);
+    ringWrap.appendChild(svg); ringWrap.classList.add('fq-reveal-scale'); resultRoot.appendChild(ringWrap);
+
+    // Segment badge
+    var badgeWrap = document.createElement('div'); badgeWrap.className = 'fq-segment-badge fq-reveal-scale';
+    var badge = document.createElement('span'); badge.className = 'fq-badge'; badge.textContent = segmentLabel;
+    badgeWrap.appendChild(badge); resultRoot.appendChild(badgeWrap);
+
+    // NOTE: No dimension bars in shared view (no per-dimension data in URL)
+    // NOTE: No benchmark bar in shared view (not meaningful without real score distribution)
+
+    // Diagnosis card
+    var textBlock = document.createElement('div'); textBlock.className = 'fq-result-text-block';
+    var diagCard = document.createElement('div'); diagCard.className = 'fq-result-diagnosis-card fq-reveal';
+    var h2El = document.createElement('h2'); h2El.className = 'fq-result-h2'; h2El.textContent = sc.headline;
+    var p1El = document.createElement('p'); p1El.className = 'fq-result-p'; p1El.textContent = sc.p1;
+    var p2El = document.createElement('p'); p2El.className = 'fq-result-p'; p2El.textContent = sc.p2;
+    diagCard.appendChild(h2El); diagCard.appendChild(p1El); diagCard.appendChild(p2El);
+    var icpStatText = quizData.icpStats[segment] && quizData.icpStats[segment][selectedICP];
+    if (icpStatText) {
+      var statWrap = document.createElement('div'); statWrap.className = 'fq-result-icp-stat';
+      var statIcon = document.createElement('div'); statIcon.className = 'fq-result-icp-stat-icon';
+      var starSvg = document.createElementNS(svgNS, 'svg');
+      starSvg.setAttribute('width', '20'); starSvg.setAttribute('height', '20'); starSvg.setAttribute('viewBox', '0 0 20 20'); starSvg.setAttribute('fill', 'none');
+      var starPath = document.createElementNS(svgNS, 'path');
+      starPath.setAttribute('d', 'M10 2L12.5 7.5L18 8.5L14 12.5L15 18L10 15.5L5 18L6 12.5L2 8.5L7.5 7.5L10 2Z');
+      starPath.setAttribute('stroke', 'currentColor'); starPath.setAttribute('stroke-width', '1.3'); starPath.setAttribute('stroke-linejoin', 'round');
+      starSvg.appendChild(starPath); statIcon.appendChild(starSvg);
+      var statTextEl = document.createElement('div'); statTextEl.className = 'fq-result-icp-stat-text'; statTextEl.textContent = icpStatText;
+      statWrap.appendChild(statIcon); statWrap.appendChild(statTextEl);
+      diagCard.appendChild(statWrap);
+    }
+    textBlock.appendChild(diagCard);
+
+    // Lever cards (weakest + secondWeakest)
+    var leverWrap = document.createElement('div'); leverWrap.style.marginTop = '24px';
+    var leverTitle = document.createElement('div'); leverTitle.className = 'fq-lever-title'; leverTitle.style.marginBottom = '16px'; leverTitle.textContent = sc.leverTitle;
+    leverWrap.appendChild(leverTitle);
+    var leverKeys = [weakestKey, secondWeakestKey];
+    leverKeys.forEach(function(key, idx) {
+      var detail = quizData.leverDetails[key];
+      if (!detail) return;
+      var dimLabel = quizData.dimensions[key] || key;
+      var card = document.createElement('div'); card.className = 'fq-lever-card fq-reveal';
+      var cardHeader = document.createElement('div'); cardHeader.className = 'fq-lever-card-header';
+      var cardName = document.createElement('span'); cardName.className = 'fq-lever-card-name'; cardName.textContent = dimLabel;
+      cardHeader.appendChild(cardName);
+      if (idx === 0) {
+        var leverTag = document.createElement('span'); leverTag.className = 'fq-dim-tag'; leverTag.textContent = sc.hebelTag;
+        cardHeader.appendChild(leverTag);
+      }
+      card.appendChild(cardHeader);
+      var diagEl = document.createElement('p'); diagEl.className = 'fq-lever-card-diagnosis'; diagEl.textContent = detail.diagnosis;
+      card.appendChild(diagEl);
+      var actionsWrap = document.createElement('div'); actionsWrap.className = 'fq-lever-card-actions';
+      detail.actions.forEach(function(actionText) {
+        var actionEl = document.createElement('div'); actionEl.className = 'fq-lever-card-action'; actionEl.textContent = actionText;
+        actionsWrap.appendChild(actionEl);
+      });
+      card.appendChild(actionsWrap);
+      var icpTip = quizData.icpLeverTips[selectedICP] && quizData.icpLeverTips[selectedICP][key];
+      if (icpTip) {
+        var tipWrap = document.createElement('div'); tipWrap.className = 'fq-lever-protipp';
+        var tipLabelEl = document.createElement('div'); tipLabelEl.className = 'fq-lever-protipp-label'; tipLabelEl.textContent = 'Pro-Tipp';
+        var tipTextEl = document.createElement('div'); tipTextEl.className = 'fq-lever-protipp-text'; tipTextEl.textContent = icpTip;
+        tipWrap.appendChild(tipLabelEl); tipWrap.appendChild(tipTextEl);
+        card.appendChild(tipWrap);
+      }
+      leverWrap.appendChild(card);
+    });
+    textBlock.appendChild(leverWrap);
+
+    // Next Level section
+    var nextLevelData = quizData.icpNextLevel[selectedICP];
+    if (nextLevelData) {
+      var nlSection = document.createElement('div'); nlSection.className = 'fq-next-level';
+      var nlTitle = document.createElement('div'); nlTitle.className = 'fq-next-level-title'; nlTitle.textContent = quizData.ctaCard.nextLevelTitle;
+      nlSection.appendChild(nlTitle);
+      nextLevelData.forEach(function(item) {
+        var nlCard = document.createElement('div'); nlCard.className = 'fq-next-level-card fq-reveal';
+        var nlCardTitle = document.createElement('div'); nlCardTitle.className = 'fq-next-level-card-title'; nlCardTitle.textContent = item.title;
+        var nlCardText = document.createElement('div'); nlCardText.className = 'fq-next-level-card-text'; nlCardText.textContent = item.text;
+        nlCard.appendChild(nlCardTitle); nlCard.appendChild(nlCardText);
+        nlSection.appendChild(nlCard);
+      });
+      textBlock.appendChild(nlSection);
+    }
+    resultRoot.appendChild(textBlock);
+
+    // CTA Card
+    var ctaCardEl = document.createElement('div'); ctaCardEl.className = 'fq-cta-card fq-reveal';
+    var ctaBadge = document.createElement('div'); ctaBadge.className = 'fq-cta-card-badge';
+    ctaBadge.textContent = quizData.ctaCard.badge;
+    ctaCardEl.appendChild(ctaBadge);
+    var ctaHeadline = document.createElement('div'); ctaHeadline.className = 'fq-cta-card-headline';
+    ctaHeadline.innerHTML = quizData.ctaCard.headline; // eslint-disable-line -- trusted quiz JSON content
+    ctaCardEl.appendChild(ctaHeadline);
+    var ctaSub = document.createElement('div'); ctaSub.className = 'fq-cta-card-sub';
+    ctaSub.textContent = sc.ctaP.replace(/\n\n/g, ' ');
+    ctaCardEl.appendChild(ctaSub);
+    var ctaBtn = document.createElement('button'); ctaBtn.className = 'fq-btn-cta';
+    ctaBtn.textContent = sc.ctaBtn;
+    ctaBtn.addEventListener('click', function() { window.open(quizData.meta.bookingUrl, '_blank'); });
+    ctaCardEl.appendChild(ctaBtn);
+    resultRoot.appendChild(ctaCardEl);
+
+    // Share section
+    var shareSection = document.createElement('div'); shareSection.className = 'fq-share-section fq-reveal';
+    var shareLabelEl = document.createElement('div'); shareLabelEl.className = 'fq-share-label';
+    shareLabelEl.textContent = 'Teile dieses Ergebnis';
+    shareSection.appendChild(shareLabelEl);
+    var shareBtns = document.createElement('div'); shareBtns.className = 'fq-share-buttons';
+    var shareUrl = window.location.href;
+
+    var linkedinBtn = document.createElement('a'); linkedinBtn.className = 'fq-share-btn';
+    linkedinBtn.href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(shareUrl);
+    linkedinBtn.target = '_blank'; linkedinBtn.rel = 'noopener';
+    var liSvg = document.createElementNS(svgNS, 'svg');
+    liSvg.setAttribute('viewBox', '0 0 24 24'); liSvg.setAttribute('fill', 'currentColor');
+    var liPath = document.createElementNS(svgNS, 'path');
+    liPath.setAttribute('d', 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z');
+    liSvg.appendChild(liPath); linkedinBtn.appendChild(liSvg);
+    linkedinBtn.appendChild(document.createTextNode('LinkedIn'));
+    shareBtns.appendChild(linkedinBtn);
+
+    var whatsappBtn = document.createElement('a'); whatsappBtn.className = 'fq-share-btn';
+    var shareTextStr = quizData.shareText
+      .replace('{score}', totalScore)
+      .replace('{max}', maxScore)
+      .replace('{segment}', segmentLabel)
+      .replace('{url}', shareUrl);
+    whatsappBtn.href = 'https://wa.me/?text=' + encodeURIComponent(shareTextStr);
+    whatsappBtn.target = '_blank'; whatsappBtn.rel = 'noopener';
+    var waSvg = document.createElementNS(svgNS, 'svg');
+    waSvg.setAttribute('viewBox', '0 0 24 24'); waSvg.setAttribute('fill', 'currentColor');
+    var waPath = document.createElementNS(svgNS, 'path');
+    waPath.setAttribute('d', 'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z');
+    waSvg.appendChild(waPath); whatsappBtn.appendChild(waSvg);
+    whatsappBtn.appendChild(document.createTextNode('WhatsApp'));
+    shareBtns.appendChild(whatsappBtn);
+
+    shareSection.appendChild(shareBtns);
+    resultRoot.appendChild(shareSection);
+
+    // WhatsApp debug preview (useful for testing shared view)
+    var waDebug = document.createElement('div'); waDebug.className = 'fq-reveal';
+    waDebug.style.cssText = 'margin-top:32px;padding:20px;border-radius:12px;background:rgba(25,63,59,0.04);border:1px dashed rgba(25,63,59,0.2);font-family:monospace;font-size:12px;color:var(--fq-text-secondary);line-height:1.7;white-space:pre-wrap;word-break:break-word;';
+    var waLabelEl = document.createElement('div');
+    waLabelEl.style.cssText = 'font-family:var(--fq-font);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--fq-text-tertiary);margin-bottom:10px;';
+    waLabelEl.textContent = 'DEBUG: WhatsApp-Nachricht (Vorschau)';
+    var waMsg = 'Hallo [Vorname]! \ud83d\udc4b\n\n' + quizData.waDebugIntro + '\n\n';
+    waMsg += '\ud83c\udfaf Score: ' + totalScore + '/' + maxScore + ' (' + segmentLabel + ')\n\n';
+    waMsg += '\ud83d\udd0d Gr\u00f6\u00dfter Hebel: ' + (quizData.dimensions[weakestKey] || weakestKey) + '\n';
+    waMsg += '\n\u27a1\ufe0f Deine vollst\u00e4ndige Analyse: ' + shareUrl + '\n\n';
+    waMsg += 'Fragen? Antworte einfach auf diese Nachricht.';
+    waDebug.appendChild(waLabelEl);
+    waDebug.appendChild(document.createTextNode(waMsg));
+    resultRoot.appendChild(waDebug);
+    var waBottom = document.createElement('div');
+    waBottom.style.cssText = 'padding-bottom:48px;';
+    resultRoot.appendChild(waBottom);
+
+    // Animate ring + counter
+    setTimeout(function() {
+      var ring = document.getElementById('fq-ring-progress');
+      if (ring) { ring.style.strokeDashoffset = (circumference * (1 - totalScore / maxScore)).toFixed(2); }
+      var counter = document.getElementById('fq-score-counter');
+      if (counter) animateCounter(counter, totalScore, 1400);
+    }, 120);
+
+    // Scroll-triggered reveals
+    var revealEls = resultRoot.querySelectorAll('.fq-reveal, .fq-reveal-scale');
+    if ('IntersectionObserver' in window) {
+      var revealObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var parent = entry.target.parentElement;
+            var siblings = parent.querySelectorAll('.fq-reveal, .fq-reveal-scale');
+            var revIdx = Array.prototype.indexOf.call(siblings, entry.target);
+            setTimeout(function() {
+              entry.target.classList.add('fq-revealed');
+            }, Math.min(Math.max(0, revIdx * 120), 600));
+            revealObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      revealEls.forEach(function(el) { revealObs.observe(el); });
+    } else {
+      revealEls.forEach(function(el) { el.classList.add('fq-revealed'); });
+    }
   }
 
 } // end initQuiz
