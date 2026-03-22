@@ -4,9 +4,6 @@
     "source": "ai-marketing-quiz",
     "storageKey": "fq-ai-progress",
     "title": "KI-Marketing Assessment",
-    "totalQuestions": 20,
-    "generalEndIndex": 8,
-    "part2EndIndex": 14,
     "webhookUrl": "https://DEIN-WEBHOOK-ENDPOINT.com",
     "bookingUrl": "https://DEIN-CALENDLY-LINK.com"
   },
@@ -27,39 +24,42 @@
   "segments": {
     "A": {
       "label": "KI-Einsteiger",
-      "maxPct": 0.35
+      "threshold": 0.35
     },
     "B": {
       "label": "KI-Anwender",
-      "maxPct": 0.7
+      "threshold": 0.7
     },
     "C": {
       "label": "KI-Vorreiter",
-      "maxPct": 1.0
+      "threshold": 1.0
     }
   },
   "landing": {
     "badge": "Kostenloses KI-Marketing Assessment",
-    "h1": "Wie gut nutzt du KI in deinem Marketing?",
-    "sub": "20 Fragen. 5 Minuten. Du bekommst eine personalisierte Analyse deines KI-Reifegrads und weißt, welcher KI-Hebel bei dir den größten Impact hat.",
     "cta": "Jetzt KI-Assessment starten →",
-    "socialProof": "Basierend auf aktuellen Forschungsergebnissen und Best Practices aus 200+ KI-Marketing-Implementierungen."
+    "socialProof": "Basierend auf aktuellen Forschungsergebnissen und Best Practices aus 200+ KI-Marketing-Implementierungen.",
+    "headline": "Wie gut nutzt du KI in deinem Marketing?",
+    "subtitle": "20 Fragen. 5 Minuten. Du bekommst eine personalisierte Analyse deines KI-Reifegrads und weißt, welcher KI-Hebel bei dir den größten Impact hat."
   },
   "gate": {
     "statusText": "Analyse bereit",
-    "h2": "Deine KI-Analyse ist fertig.",
-    "sub": "Trag deine Daten ein. Du bekommst deinen KI-Marketing Score und eine detaillierte Auswertung mit konkreten Empfehlungen.",
-    "submitBtn": "Meine KI-Analyse anfordern →",
-    "finePrint": "Kein Spam. Keine Weitergabe. Du bekommst deine Analyse + 2-3 weiterführende Mails mit konkreten Tipps."
+    "finePrint": "Kein Spam. Keine Weitergabe. Du bekommst deine Analyse + 2-3 weiterführende Mails mit konkreten Tipps.",
+    "headline": "Deine KI-Analyse ist fertig.",
+    "subtitle": "Trag deine Daten ein. Du bekommst deinen KI-Marketing Score und eine detaillierte Auswertung mit konkreten Empfehlungen.",
+    "submitButton": "Meine KI-Analyse anfordern →",
+    "submitLoadingText": "Wird ausgewertet…",
+    "peekIcon": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" style=\"vertical-align:-2px;margin-right:4px;\"><path d=\"M8 3C4.4 3 1.4 5.4.5 8c.9 2.6 3.9 5 7.5 5s6.6-2.4 7.5-5c-.9-2.6-3.9-5-7.5-5z\" stroke=\"currentColor\" stroke-width=\"1.2\"/><circle cx=\"8\" cy=\"8\" r=\"2\" stroke=\"currentColor\" stroke-width=\"1.2\"/></svg>",
+    "peekText": "Deine Ergebnisse warten"
   },
   "milestones": {
-    "1": {
-      "h": "Teil 1 abgeschlossen!",
-      "sub": "Jetzt wird's spezifisch.\nDie nächsten Fragen sind auf dein KI-Profil zugeschnitten."
+    "m1": {
+      "headline": "Teil 1 abgeschlossen!",
+      "subtitle": "Jetzt wird's spezifisch.\nDie nächsten Fragen sind auf dein KI-Profil zugeschnitten."
     },
-    "2": {
-      "h": "Teil 2 abgeschlossen!",
-      "sub": "Fast geschafft.\nNoch 6 Fragen für deine vollständige KI-Analyse."
+    "m2": {
+      "headline": "Teil 2 abgeschlossen!",
+      "subtitle": "Fast geschafft.\nNoch 6 Fragen für deine vollständige KI-Analyse."
     }
   },
   "partLabels": {
@@ -1790,9 +1790,9 @@
   },
   "ctaCard": {
     "badge": "Limitierte Plätze",
-    "headline": "Dein <em>persönlicher</em> KI-Marketing-Fahrplan"
+    "headline": "Dein <em>persönlicher</em> KI-Marketing-Fahrplan",
+    "nextLevelTitle": "Nächstes Level: Fortgeschrittene KI-Strategien"
   },
-  "nextLevelTitle": "Nächstes Level: Fortgeschrittene KI-Strategien",
   "waDebugIntro": "Hier ist deine KI-Marketing-Analyse auf einen Blick:",
   "resume": {
     "title": "Weitermachen?",
