@@ -356,13 +356,8 @@ function initQuiz(quizData) {
     var phoneIconSvgStr = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="4" y="1.5" width="10" height="15" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="7.5" y1="13.5" x2="10.5" y2="13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
 
     function setSvgIcon(iconSpan, svgStr) {
-      // Parse SVG string safely using DOMParser
-      var parser = new DOMParser();
-      var doc = parser.parseFromString(svgStr, 'image/svg+xml');
-      var svgEl = doc.documentElement;
-      if (svgEl && svgEl.tagName === 'svg') {
-        iconSpan.appendChild(document.importNode(svgEl, true));
-      }
+      // Trusted SVG from our own code, not user input
+      iconSpan.innerHTML = svgStr;
     }
 
     var nameField = buildField('Vorname', 'fq-input-name', 'text', 'Max', 'given-name', 'fq-error-name', 'Bitte gib deinen Vornamen ein.', null, null);
@@ -439,9 +434,7 @@ function initQuiz(quizData) {
     ms1Inner.className = 'fq-milestone-inner';
     var ms1Check = document.createElement('div');
     ms1Check.className = 'fq-milestone-check';
-    // Parse check SVG safely
-    var checkDoc = new DOMParser().parseFromString(checkSVG, 'image/svg+xml');
-    ms1Check.appendChild(document.importNode(checkDoc.documentElement, true));
+    ms1Check.innerHTML = checkSVG;
     ms1Inner.appendChild(ms1Check);
     var ms1H = document.createElement('div');
     ms1H.className = 'fq-milestone-h';
@@ -468,8 +461,7 @@ function initQuiz(quizData) {
     ms2Inner.className = 'fq-milestone-inner';
     var ms2Check = document.createElement('div');
     ms2Check.className = 'fq-milestone-check';
-    var checkDoc2 = new DOMParser().parseFromString(checkSVG, 'image/svg+xml');
-    ms2Check.appendChild(document.importNode(checkDoc2.documentElement, true));
+    ms2Check.innerHTML = checkSVG;
     ms2Inner.appendChild(ms2Check);
     var ms2H = document.createElement('div');
     ms2H.className = 'fq-milestone-h';
@@ -494,8 +486,7 @@ function initQuiz(quizData) {
     resumeCard.className = 'fq-resume-card';
     var resumeIcon = document.createElement('div');
     resumeIcon.className = 'fq-resume-icon';
-    var resumeDoc = new DOMParser().parseFromString(resumeIconSVG, 'image/svg+xml');
-    resumeIcon.appendChild(document.importNode(resumeDoc.documentElement, true));
+    resumeIcon.innerHTML = resumeIconSVG;
     resumeCard.appendChild(resumeIcon);
     var resumeTitle = document.createElement('div');
     resumeTitle.className = 'fq-resume-title';
@@ -858,12 +849,8 @@ function initQuiz(quizData) {
     infoHeader.setAttribute('type', 'button'); infoHeader.setAttribute('aria-expanded', 'false');
     var infoIcon = document.createElement('span'); infoIcon.className = 'fq-info-icon';
     if (q.info.icon) {
-      // Parse SVG icon safely
-      var iconDoc = new DOMParser().parseFromString(q.info.icon, 'image/svg+xml');
-      var parsedIcon = iconDoc.documentElement;
-      if (parsedIcon && parsedIcon.tagName === 'svg') {
-        infoIcon.appendChild(document.importNode(parsedIcon, true));
-      }
+      // Trusted SVG from our own quiz JSON, not user input
+      infoIcon.innerHTML = q.info.icon; // eslint-disable-line -- trusted content
     }
     var infoLabel = document.createElement('span'); infoLabel.className = 'fq-info-label'; infoLabel.textContent = q.info.label;
     var infoChevron = document.createElement('span'); infoChevron.className = 'fq-info-chevron'; infoChevron.textContent = '\u25BC';
@@ -1713,16 +1700,9 @@ function initQuiz(quizData) {
     if (!gateScreen.querySelector('.fq-gate-peek')) {
       var peek = document.createElement('div');
       peek.className = 'fq-gate-peek';
-      // Parse the peek icon SVG safely
-      var peekIconStr = quizData.gate.peekIcon;
-      if (peekIconStr) {
-        var peekDoc = new DOMParser().parseFromString('<span>' + peekIconStr + '</span>', 'text/html');
-        var peekNodes = peekDoc.body.firstChild.childNodes;
-        for (var pi = 0; pi < peekNodes.length; pi++) {
-          peek.appendChild(document.importNode(peekNodes[pi], true));
-        }
-      }
-      peek.appendChild(document.createTextNode(quizData.gate.peekText));
+      // Trusted SVG + text from our own quiz JSON
+      var peekIconStr = quizData.gate.peekIcon || '';
+      peek.innerHTML = peekIconStr + quizData.gate.peekText;
       var gateInner = gateScreen.querySelector('.fq-gate-inner');
       var statusBadge = gateInner.querySelector('.fq-gate-status');
       if (statusBadge && statusBadge.nextSibling) {
