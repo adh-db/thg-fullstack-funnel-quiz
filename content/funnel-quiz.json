@@ -1,0 +1,805 @@
+{
+  "meta": {
+    "title": "Funnel-Diagnose Quiz",
+    "slug": "funnel",
+    "source": "funnel-diagnose-quiz",
+    "storageKey": "fq-progress",
+    "webhookUrl": "https://DEIN-WEBHOOK-ENDPOINT.com",
+    "bookingUrl": "https://DEIN-CALENDLY-LINK.com"
+  },
+  "landing": {
+    "badge": "Kostenlose Funnel-Analyse",
+    "headline": "Wo lässt dein Funnel gerade Umsatz liegen?",
+    "subtitle": "20 Fragen. 5 Minuten. Du bekommst eine personalisierte Diagnose und weißt, welcher Hebel bei dir den größten Impact hat.",
+    "cta": "Jetzt Funnel analysieren →",
+    "socialProof": "Basierend auf Erkenntnissen aus 200+ Kundenprojekten und 65M€+ verwaltetem Werbebudget."
+  },
+  "gate": {
+    "statusText": "Analyse bereit",
+    "headline": "Deine Analyse ist fertig.",
+    "subtitle": "Trag deine Daten ein. Du bekommst deinen Funnel Health Score und eine detaillierte Auswertung mit konkreten Empfehlungen.",
+    "submitButton": "Meine Analyse anfordern →",
+    "submitLoadingText": "Wird ausgewertet…",
+    "peekIcon": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" style=\"vertical-align:-2px;margin-right:4px;\"><path d=\"M8 3C4.4 3 1.4 5.4.5 8c.9 2.6 3.9 5 7.5 5s6.6-2.4 7.5-5c-.9-2.6-3.9-5-7.5-5z\" stroke=\"currentColor\" stroke-width=\"1.2\"/><circle cx=\"8\" cy=\"8\" r=\"2\" stroke=\"currentColor\" stroke-width=\"1.2\"/></svg>",
+    "peekText": "Deine Ergebnisse warten",
+    "finePrint": "Kein Spam. Keine Weitergabe. Du bekommst deine Analyse + 2-3 weiterführende Mails mit konkreten Tipps."
+  },
+  "resume": {
+    "title": "Weitermachen?",
+    "subtitle": "Du hast das Quiz schon angefangen. Möchtest du dort weitermachen, wo du aufgehört hast?",
+    "continueButton": "Weitermachen",
+    "restartButton": "Neu starten"
+  },
+  "milestones": {
+    "m1": {
+      "headline": "Teil 1 abgeschlossen!",
+      "subtitle": "Jetzt wird's spezifisch.\nDie nächsten Fragen sind auf dein Profil zugeschnitten."
+    },
+    "m2": {
+      "headline": "Teil 2 abgeschlossen!",
+      "subtitle": "Fast geschafft.\nNoch 6 Fragen für deine vollständige Analyse."
+    }
+  },
+  "partLabels": {
+    "part1": "Teil 1: Allgemeine Funnel-Analyse",
+    "part2Prefix": "Teil 2: ",
+    "part3": "Teil 3: Feintuning & Abschluss",
+    "icpNames": {
+      "coach": "Coach & Consulting",
+      "marketer": "Marketing & Agentur",
+      "mittelstand": "Unternehmen & B2B"
+    }
+  },
+  "dimOrder": ["TR", "LP", "CO", "FU", "SA"],
+  "dimensions": {
+    "TR": "Traffic & Ads",
+    "LP": "Landing Page & Conversion",
+    "CO": "Content & Überzeugung",
+    "FU": "Follow-up & Nurturing",
+    "SA": "Sales & Abschluss"
+  },
+  "segments": {
+    "A": { "label": "Funnel-Baustelle", "threshold": 0.35 },
+    "B": { "label": "Funnel mit Potenzial", "threshold": 0.70 },
+    "C": { "label": "Funnel-Ready" }
+  },
+  "icpQuestion": {
+    "id": "icp",
+    "type": "icp-select",
+    "question": "Was beschreibt dich am besten?",
+    "hint": "Wir passen die nächsten Fragen an dein Profil an.",
+    "options": [
+      { "text": "Coach, Consultant oder Trainer", "desc": "Du verkaufst Wissen, Beratung oder Begleitung.", "value": "coach" },
+      { "text": "Marketer oder Agentur", "desc": "Du schaltest Ads, optimierst Funnels oder betreust Kunden.", "value": "marketer" },
+      { "text": "Unternehmen (Mittelstand / B2B)", "desc": "Ihr seid ein etabliertes Unternehmen und wollt euren Vertrieb digitaler aufstellen.", "value": "mittelstand" }
+    ]
+  },
+  "generalQuestions": [
+    {
+      "id": "g1",
+      "type": "single",
+      "question": "Wie gewinnst du aktuell neue Leads?",
+      "options": [
+        { "text": "Hauptsächlich organisch (Empfehlungen, Social Media, Netzwerk)", "scores": { "TR": 1 } },
+        { "text": "Ich schalte Ads, aber ohne klare Strategie oder regelmäßiges Testing", "scores": { "TR": 2 } },
+        { "text": "Ich habe laufende Kampagnen mit regelmäßigem Testing und Reporting", "scores": { "TR": 4 } },
+        { "text": "Ich habe ein System mit verschiedenen Kampagnentypen, Retargeting und klaren KPIs", "scores": { "TR": 6 } }
+      ]
+    },
+    {
+      "id": "g2",
+      "type": "single",
+      "question": "Wie sieht deine Landing Page aktuell aus?",
+      "info": {
+        "label": "Was ist eine Landing Page?",
+        "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"2\" y=\"3\" width=\"16\" height=\"13\" rx=\"2\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><line x1=\"2\" y1=\"7\" x2=\"18\" y2=\"7\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><circle cx=\"4.5\" cy=\"5\" r=\"0.75\" fill=\"#193F3B\"/><circle cx=\"7\" cy=\"5\" r=\"0.75\" fill=\"#193F3B\"/><circle cx=\"9.5\" cy=\"5\" r=\"0.75\" fill=\"#193F3B\"/></svg>",
+        "text": "<strong>Eine eigenständige Seite mit genau einem Ziel:</strong> Opt-in, Buchung oder Kauf.<br><br><strong>Warum das wichtig ist:</strong> Dedizierte Landing Pages konvertieren 3- bis 5-mal besser als eine Homepage.<ul><li>Klare Headline mit konkretem Nutzenversprechen</li><li>Social Proof (Testimonials, Logos, Zahlen)</li><li>Ein einziges Conversion-Ziel, keine Ablenkung</li><li>Starkes visuelles Element above the fold</li><li>Mobile-optimiert mit Ladezeit unter 3 Sekunden</li></ul><span class='fq-info-benchmark'>Benchmark: Gute Landing Pages konvertieren 20–40% des Traffics</span>"
+      },
+      "options": [
+        { "text": "Ich habe keine dedizierte Landing Page, ich leite auf meine Website", "scores": { "LP": 1 } },
+        { "text": "Ich habe eine Landing Page, aber sie wurde seit Monaten nicht optimiert", "scores": { "LP": 2 } },
+        { "text": "Ich habe eine Landing Page mit klarem Aufbau, die regelmäßig überarbeitet wird", "scores": { "LP": 4 } },
+        { "text": "Ich teste verschiedene Varianten und kenne meine Conversion Rate genau", "scores": { "LP": 6 } }
+      ]
+    },
+    {
+      "id": "g3",
+      "type": "multi",
+      "question": "Welche dieser Elemente hat deine Landing Page?",
+      "hint": "Wähle alle aus, die zutreffen.",
+      "options": [
+        { "text": "Klare Headline, die den Nutzen kommuniziert", "scores": { "LP": 1 } },
+        { "text": "Social Proof (Testimonials, Logos, Zahlen)", "scores": { "LP": 1 } },
+        { "text": "Nur EIN klarer Call-to-Action", "scores": { "LP": 1 } },
+        { "text": "Mobile-optimiert", "scores": { "LP": 1 } },
+        { "text": "Video oder visueller Hook", "scores": { "LP": 1 } },
+        { "text": "Konkrete Ergebnis-Versprechen statt vage Aussagen", "scores": { "LP": 1 } }
+      ]
+    },
+    {
+      "id": "g4",
+      "type": "single",
+      "question": "Wie überzeugst du Leads, bevor sie ein Gespräch buchen?",
+      "info": {
+        "label": "Webinar und VSL erklärt",
+        "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"2\" y=\"3\" width=\"16\" height=\"12\" rx=\"2\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><path d=\"M8.5 7L13 9.5L8.5 12V7Z\" fill=\"#193F3B\"/><line x1=\"7\" y1=\"17\" x2=\"13\" y2=\"17\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>",
+        "text": "<strong>Webinar:</strong> Live- oder aufgezeichnetes Online-Seminar, in dem du Expertise zeigst und dann ein Angebot machst.<br><strong>VSL (Video Sales Letter):</strong> Kürzeres, strukturiertes Verkaufsvideo, das den Zuschauer Schritt für Schritt durch Problem, Lösung und Angebot führt.<br><br><strong>Wann was einsetzen:</strong><ul><li>Webinare: Ideal für Angebote ab 1.000€ (Vertrauensaufbau)</li><li>VSLs: Besser für Angebote unter 1.000€ oder als Vorqualifizierung</li></ul><strong>Benchmarks:</strong><ul><li>Webinar Show-up-Rate: <span class='fq-info-benchmark'>40–56%</span></li><li>Webinar Buchungsrate: <span class='fq-info-benchmark'>10–20%</span></li><li>VSL Watch-Through: <span class='fq-info-benchmark'>30–50%</span></li><li>VSL Buchungsrate: <span class='fq-info-benchmark'>5–15%</span></li></ul>"
+      },
+      "options": [
+        { "text": "Gar nicht, sie buchen direkt über die Landing Page", "scores": { "CO": 2 } },
+        { "text": "Ich habe ein Webinar oder eine Aufzeichnung, aber die Buchungsrate ist niedrig", "scores": { "CO": 3 } },
+        { "text": "Ich habe ein Webinar oder VSL mit klarem Pitch und solider Buchungsrate", "scores": { "CO": 5 } },
+        { "text": "Ich nutze ein mehrstufiges System (Webinar + Replay + Follow-up)", "scores": { "CO": 6 } }
+      ]
+    },
+    {
+      "id": "g5",
+      "type": "single",
+      "question": "Was passiert, nachdem sich jemand bei dir eingetragen hat?",
+      "options": [
+        { "text": "Eine Bestätigungsmail. Das war's.", "scores": { "FU": 1 } },
+        { "text": "Eine kurze E-Mail-Sequenz (2 bis 3 Mails)", "scores": { "FU": 3 } },
+        { "text": "Eine durchdachte Sequenz mit Reminder, Social Proof und klarem CTA", "scores": { "FU": 5 } },
+        { "text": "Automatisierte Sequenz über E-Mail UND WhatsApp mit segmentiertem Follow-up", "scores": { "FU": 6 } }
+      ]
+    },
+    {
+      "id": "g6",
+      "type": "single",
+      "question": "Kennst du deine wichtigsten Funnel-Zahlen?",
+      "info": {
+        "label": "Die wichtigsten Funnel-KPIs",
+        "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"3\" y=\"12\" width=\"3\" height=\"5\" rx=\"0.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><rect x=\"8.5\" y=\"8\" width=\"3\" height=\"9\" rx=\"0.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><rect x=\"14\" y=\"4\" width=\"3\" height=\"13\" rx=\"0.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/></svg>",
+        "text": "<strong>CPL (Cost per Lead):</strong> Was du pro neuem Kontakt bezahlst.<br><span class='fq-info-benchmark'>Benchmark: 5–50€ je nach Branche, Coaching 15–30€</span><br><br><strong>Conversion Rate:</strong> Anteil der Besucher, die sich eintragen.<br><span class='fq-info-benchmark'>Benchmark: Gute Landing Pages 20–40%, unter 15% = dringend optimieren</span><br><br><strong>Show-up-Rate:</strong> Anteil der Leads, die zum Gespräch erscheinen.<br><span class='fq-info-benchmark'>Benchmark: Zielwert 60–80%, unter 50% = Follow-up verbessern</span><br><br><strong>ROAS (Return on Ad Spend):</strong> Umsatz pro investiertem Werbe-Euro.<br><span class='fq-info-benchmark'>Benchmark: 3–5x ist gesund, unter 2x = schwer profitabel skalierbar</span>"
+      },
+      "options": [
+        { "text": "Ehrlich gesagt: nein.", "scores": {} },
+        { "text": "Ich kenne meine ungefähren Kosten pro Lead", "scores": { "TR": 1 } },
+        { "text": "Ich kenne CPL, Conversion Rate und Show-up-Rate", "scores": { "TR": 1, "LP": 1 } },
+        { "text": "Ich tracke den gesamten Funnel und kenne meinen ROAS", "scores": { "TR": 2, "LP": 1 } }
+      ]
+    },
+    {
+      "id": "g7",
+      "type": "single",
+      "question": "Wie läuft dein Verkaufsgespräch ab?",
+      "options": [
+        { "text": "Ich mache das spontan, jedes Gespräch ist anders", "scores": { "SA": 1 } },
+        { "text": "Ich habe einen groben Leitfaden, aber keinen festen Prozess", "scores": { "SA": 3 } },
+        { "text": "Ich habe ein Skript und eine klare Struktur für jeden Call", "scores": { "SA": 5 } },
+        { "text": "Systematischer Sales-Prozess mit Einwandbehandlung, Follow-up und CRM", "scores": { "SA": 6 } }
+      ]
+    }
+  ],
+  "icpQuestions": {
+    "coach": [
+      {
+        "id": "c1",
+        "type": "single",
+        "question": "Wie klar ist deine Positionierung?",
+        "hint": "Könntest du einem Fremden in einem Satz sagen, wem du wobei hilfst?",
+        "options": [
+          { "text": "Ich helfe \u201eigendwie allen\u201c, je nachdem, wer anfragt, passe ich mein Angebot an", "scores": { "CO": 1 } },
+          { "text": "Ich habe eine grobe Zielgruppe, aber mein Messaging wechselt ständig", "scores": { "CO": 2 } },
+          { "text": "Ich habe eine klare Nische und ein konkretes Versprechen, das ich konsistent kommuniziere", "scores": { "CO": 4 } },
+          { "text": "Meine Positionierung ist so spitz, dass Leads sich sofort angesprochen fühlen", "scores": { "CO": 6 } }
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "single",
+        "question": "Wie sieht deine Angebotsstruktur aus?",
+        "info": {
+          "label": "Was ist eine Value Ladder?",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 16H9V13H12V10H16V7\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"4\" y1=\"16\" x2=\"4\" y2=\"13\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"9\" y1=\"13\" x2=\"9\" y2=\"10\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"12\" y1=\"10\" x2=\"12\" y2=\"7\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><line x1=\"16\" y1=\"7\" x2=\"16\" y2=\"4\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>",
+          "text": "<strong>Eine Angebotsleiter, die Vertrauen aufbaut und den Kundenwert steigert.</strong><br><br>Ohne Value Ladder versuchst du, kalten Leads direkt dein teuerstes Angebot zu verkaufen.<br><br><strong>Beispiel für ein Coaching-Business:</strong><ul><li><strong>Stufe 1 (kostenlos):</strong> E-Book oder Checkliste als Lead Magnet</li><li><strong>Stufe 2 (47–97€):</strong> Mini-Workshop oder Selbstlernkurs</li><li><strong>Stufe 3 (497–1.497€):</strong> Gruppenprogramm über 8–12 Wochen</li><li><strong>Stufe 4 (3.000–10.000€):</strong> 1:1 Coaching oder Done-with-you Begleitung</li></ul>Jede Stufe liefert ein konkretes Ergebnis und macht Lust auf die nächste.<br><span class='fq-info-benchmark'>Coaches mit Value Ladder verdienen im Schnitt 2–3x mehr als Coaches mit nur einem Angebot</span>"
+        },
+        "options": [
+          { "text": "Ich habe nur ein einziges Angebot (meistens 1:1 Coaching), keine Stufen", "scores": { "SA": 1 } },
+          { "text": "Ich habe zwei Angebote (z. B. 1:1 und einen Kurs), aber sie sind nicht strategisch verknüpft", "scores": { "SA": 3 } },
+          { "text": "Ich habe eine klare Angebotsleiter mit einem Einstiegsangebot, das zum Hauptangebot führt", "scores": { "SA": 5 } },
+          { "text": "Durchdachte Value Ladder mit Low-Ticket, Mid-Ticket und High-Ticket, jede Stufe verkauft die nächste", "scores": { "SA": 6 } }
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "single",
+        "question": "Wie führst du kalte Leads an ein Erstgespräch heran?",
+        "info": {
+          "label": "Conversion Event erklärt",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"10\" cy=\"10\" r=\"7.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><circle cx=\"10\" cy=\"10\" r=\"4.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><circle cx=\"10\" cy=\"10\" r=\"1.5\" fill=\"#193F3B\"/></svg>",
+          "text": "<strong>Der Moment, in dem ein kalter Lead erstmals echtes Kaufinteresse zeigt.</strong><br><br>Ohne Conversion Event springst du direkt von der Anzeige zum Erstgespräch. Ergebnis: nur 1–3% Buchungsrate.<br><br><strong>Der bessere Ablauf:</strong><ul><li>Ad → Opt-in-Seite <span class='fq-info-benchmark'>Conversion Rate: 20–40%</span></li><li>Lead nimmt an Event teil (Webinar, Workshop, Challenge) <span class='fq-info-benchmark'>Teilnahmerate: 40–56%</span></li><li>Im Event: Vertrauen aufbauen, dann Angebot <span class='fq-info-benchmark'>Buchungsrate: 10–20%</span></li></ul><strong>Ergebnis:</strong> 3- bis 5-fache Gesamtkonversion und deutlich bessere Gesprächsqualität."
+        },
+        "options": [
+          { "text": "Ich habe keinen Lead Magneten, Leute sollen direkt ein Gespräch buchen", "scores": { "LP": 1 } },
+          { "text": "Ich biete ein PDF oder eine Checkliste an, aber wenige laden es runter", "scores": { "LP": 2 } },
+          { "text": "Ich habe ein Webinar, einen Mini-Kurs oder eine Challenge, die Leads aufwärmt", "scores": { "LP": 4 } },
+          { "text": "Ich habe ein bewährtes Conversion Event mit guter Opt-in-Rate und klarem Pitch zum Erstgespräch", "scores": { "LP": 6 } }
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "single",
+        "question": "Wie nutzt du Kundenergebnisse und Testimonials?",
+        "options": [
+          { "text": "Ich habe kaum Testimonials und frage auch selten danach", "scores": { "CO": 1 } },
+          { "text": "Ich habe ein paar Screenshots oder Texte, die irgendwo auf meiner Seite stehen", "scores": { "CO": 2 } },
+          { "text": "Ich sammle systematisch Video-Testimonials und setze sie gezielt auf der Landing Page und in Ads ein", "scores": { "CO": 4 } },
+          { "text": "Dokumentierte Case Studies mit konkreten Vorher/Nachher-Ergebnissen in jedem Funnel-Schritt", "scores": { "CO": 6 } }
+        ]
+      },
+      {
+        "id": "c5",
+        "type": "single",
+        "question": "Wie konsistent ist dein Content-Marketing?",
+        "options": [
+          { "text": "Ich poste, wenn mir etwas einfällt, mal mehr, mal wochenlang gar nicht", "scores": { "TR": 1 } },
+          { "text": "Ich poste regelmäßig, aber ohne klaren Plan oder roten Faden", "scores": { "TR": 2 } },
+          { "text": "Ich habe einen Content-Plan mit klaren Themen-Säulen, der auf mein Angebot einzahlt", "scores": { "TR": 4 } },
+          { "text": "Mein Content ist Teil eines Systems: Er baut Autorität auf und leitet direkt in meinen Funnel", "scores": { "TR": 6 } }
+        ]
+      },
+      {
+        "id": "c6",
+        "type": "single",
+        "question": "Wie qualifizierst du Leads, bevor sie ins Gespräch kommen?",
+        "options": [
+          { "text": "Gar nicht, jeder der bucht bekommt einen Termin", "scores": { "SA": 1, "FU": 1 } },
+          { "text": "Ich schaue mir das Profil vorher kurz an, aber es gibt keine festen Kriterien", "scores": { "SA": 2, "FU": 2 } },
+          { "text": "Ich habe einen Fragebogen oder ein Bewerbungsformular, das Leads vor dem Call ausfüllen", "scores": { "SA": 4, "FU": 4 } },
+          { "text": "Automatisierte Vorqualifizierung mit Scoring, nur passende Leads bekommen einen Terminslot", "scores": { "SA": 6, "FU": 5 } }
+        ]
+      },
+      {
+        "id": "c7",
+        "type": "single",
+        "question": "Was passiert mit Leads, die NICHT sofort buchen?",
+        "info": {
+          "label": "Speed-to-Lead: Warum Minuten zählen",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"10\" cy=\"10\" r=\"7.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><path d=\"M10 5.5V10L13 12.5\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+          "text": "<strong>Je schneller du reagierst, desto höher die Conversion.</strong><br><br><strong>Die Zahlen sind eindeutig:</strong><ul><li>Reaktion innerhalb von <strong>5 Minuten:</strong> <span class='fq-info-benchmark'>21x höhere Qualifizierungsrate</span></li><li>Nach 30 Minuten sinkt die Wahrscheinlichkeit drastisch</li><li>Nach 24 Stunden ist der Lead praktisch kalt</li></ul><strong>Was du tun kannst:</strong><ul><li>Automatische Bestätigung sofort nach Eintragung</li><li>WhatsApp-Nachricht innerhalb von 5 Minuten</li><li>Persönliche Sprachnachricht innerhalb von 1 Stunde</li></ul>"
+        },
+        "options": [
+          { "text": "Ehrlich gesagt: nichts. Wenn sie nicht buchen, höre ich nichts mehr von ihnen.", "scores": { "FU": 1 } },
+          { "text": "Ich poste weiter auf Social Media und hoffe, dass sie irgendwann wieder auftauchen", "scores": { "FU": 2 } },
+          { "text": "Ich habe eine E-Mail-Sequenz, die über mehrere Tage Vertrauen aufbaut und zur Buchung führt", "scores": { "FU": 4 } },
+          { "text": "Multi-Channel-System (E-Mail + WhatsApp + Retargeting), das Leads segmentiert nachfasst", "scores": { "FU": 6 } }
+        ]
+      },
+      {
+        "id": "c8",
+        "type": "single",
+        "question": "Wie gehst du mit deiner Preisgestaltung um?",
+        "options": [
+          { "text": "Ich nenne meinen Preis ungern und passe ihn je nach Kunde an", "scores": { "SA": 1, "CO": 1 } },
+          { "text": "Ich habe feste Preise, bin aber unsicher, ob sie angemessen sind", "scores": { "SA": 2, "CO": 2 } },
+          { "text": "Klare Preisstruktur, die ich selbstbewusst kommuniziere", "scores": { "SA": 4, "CO": 3 } },
+          { "text": "Wert-basiertes Pricing mit klarer Argumentation, warum der Preis gerechtfertigt ist", "scores": { "SA": 5, "CO": 4 } }
+        ]
+      },
+      {
+        "id": "c9",
+        "type": "multi",
+        "question": "Welche Elemente hat deine Buchungsseite?",
+        "hint": "Wähle alle aus, die zutreffen.",
+        "options": [
+          { "text": "Klare Headline, die das Ergebnis für den Klienten kommuniziert", "scores": { "LP": 1 } },
+          { "text": "Klienten-Testimonials mit konkreten Ergebnissen", "scores": { "LP": 1 } },
+          { "text": "Nur EIN klarer Call-to-Action (Buchen oder Eintragen)", "scores": { "LP": 1 } },
+          { "text": "Vorher/Nachher-Ergebnisse oder Case Studies", "scores": { "LP": 1 } },
+          { "text": "Video, in dem du persönlich sprichst", "scores": { "LP": 1 } },
+          { "text": "FAQ-Bereich, der typische Einwände vorwegnimmt", "scores": { "LP": 1 } }
+        ]
+      },
+      {
+        "id": "c10",
+        "type": "multi",
+        "question": "Bei welchen typischen Einwänden hast du eine gute Antwort?",
+        "hint": "Wähle alle aus, bei denen du eine klare Antwort hast.",
+        "options": [
+          { "text": "\u201eDas ist mir zu teuer.\u201c", "scores": { "SA": 1 } },
+          { "text": "\u201eIch muss noch mal drüber nachdenken.\u201c", "scores": { "SA": 1 } },
+          { "text": "\u201eIch habe gerade keine Zeit.\u201c", "scores": { "SA": 1 } },
+          { "text": "\u201eIch bin mir nicht sicher, ob das bei mir funktioniert.\u201c", "scores": { "SA": 1 } },
+          { "text": "\u201eMein Partner muss noch zustimmen.\u201c", "scores": { "SA": 1 } },
+          { "text": "\u201eIch habe schon mal ein Coaching gemacht und es hat nicht funktioniert.\u201c", "scores": { "SA": 1 } }
+        ]
+      },
+      {
+        "id": "c11",
+        "type": "multi",
+        "question": "Über welche Kanäle pflegst du den Kontakt zu Leads?",
+        "hint": "Wähle alle aus, die du aktiv nutzt.",
+        "options": [
+          { "text": "E-Mail-Sequenzen", "scores": { "FU": 1 } },
+          { "text": "WhatsApp oder SMS", "scores": { "FU": 1 } },
+          { "text": "Retargeting Ads", "scores": { "FU": 1, "TR": 1 } },
+          { "text": "Community (Facebook-Gruppe, Skool, Circle o. ä.)", "scores": { "FU": 1 } },
+          { "text": "Persönliche DMs oder Voice Messages", "scores": { "FU": 1 } },
+          { "text": "Regelmäßiger Newsletter mit Mehrwert", "scores": { "FU": 1, "CO": 1 } }
+        ]
+      },
+      {
+        "id": "c12",
+        "type": "single",
+        "question": "Wie baust du deine persönliche Marke auf?",
+        "options": [
+          { "text": "Ich habe keine bewusste Personal-Brand-Strategie", "scores": { "TR": 1, "CO": 1 } },
+          { "text": "Ich bin auf einer Plattform aktiv, aber es fühlt sich zufällig an", "scores": { "TR": 2, "CO": 2 } },
+          { "text": "Ich habe eine klare Markenidentität und bin auf 2-3 Kanälen konsistent sichtbar", "scores": { "TR": 4, "CO": 4 } },
+          { "text": "Meine Personal Brand generiert organisch Anfragen und öffnet Türen", "scores": { "TR": 6, "CO": 5 } }
+        ]
+      }
+    ],
+    "marketer": [
+      {
+        "id": "m1",
+        "type": "single",
+        "question": "Wie trackst du die Performance deiner Marketing-Kanäle?",
+        "info": {
+          "label": "First-Party Data: Der neue Wettbewerbsvorteil",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"3\" y=\"2\" width=\"14\" height=\"16\" rx=\"2\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><path d=\"M7 6h6M7 9h6M7 12h4\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>",
+          "text": "<strong>Mit dem Ende der Third-Party-Cookies wird eigene Datenerhebung zum entscheidenden Vorteil.</strong><br><br><strong>Die drei Datentypen:</strong><ul><li><strong>Third-Party (stirbt aus):</strong> Cookies von Drittanbietern, immer unzuverlässiger</li><li><strong>First-Party (Pflicht):</strong> Daten, die du auf deiner eigenen Website sammelst (Analytics, CRM, Formulare)</li><li><strong>Zero-Party (Gold):</strong> Daten, die Nutzer dir freiwillig geben (Quiz-Antworten, Präferenzen, Umfragen)</li></ul><strong>Was das für dich bedeutet:</strong><ul><li>Server-Side Tracking aufsetzen (Meta CAPI, Google Enhanced Conversions)</li><li>Eigene Audiences aufbauen statt auf Plattform-Targeting zu vertrauen</li><li>Interaktive Formate (Quizzes, Assessments) für Zero-Party Data nutzen</li></ul><span class='fq-info-benchmark'>73% der Marketer haben signifikante Attribution-Probleme seit iOS 14.5</span>"
+        },
+        "options": [
+          { "text": "Ich schaue hauptsächlich in die nativen Plattform-Dashboards (Meta, Google etc.)", "scores": { "TR": 1 } },
+          { "text": "Ich nutze GA4, aber mein Tracking hat Lücken", "scores": { "TR": 2 } },
+          { "text": "Sauberes Event-Tracking und UTM-Struktur über alle Kanäle", "scores": { "TR": 4 } },
+          { "text": "Server-Side Tracking, zentrales Attribution-Modell und nachweisbarer ROAS pro Kanal", "scores": { "TR": 6 } }
+        ]
+      },
+      {
+        "id": "m2",
+        "type": "single",
+        "question": "Wie strukturiert testest du deine Ad Creatives?",
+        "info": {
+          "label": "Creative Testing Framework",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"2\" y=\"3\" width=\"7\" height=\"14\" rx=\"1.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><rect x=\"11\" y=\"3\" width=\"7\" height=\"14\" rx=\"1.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><text x=\"5.5\" y=\"11.5\" text-anchor=\"middle\" font-size=\"7\" font-weight=\"700\" fill=\"#193F3B\" font-family=\"sans-serif\">A</text><text x=\"14.5\" y=\"11.5\" text-anchor=\"middle\" font-size=\"7\" font-weight=\"700\" fill=\"#193F3B\" font-family=\"sans-serif\">B</text></svg>",
+          "text": "<strong>Ein systematischer Prozess, um herauszufinden, welche Ads wirklich funktionieren.</strong><br><br><strong>Die Testing-Hierarchie</strong> (in dieser Reihenfolge testen):<ul><li><strong>1. Hook:</strong> Die ersten 1–3 Sekunden. Entscheiden, ob jemand stoppt.</li><li><strong>2. Angle:</strong> Die Perspektive (Angst vor Verlust vs. Chance auf Gewinn)</li><li><strong>3. Format:</strong> Bild, Video, Karussell oder UGC</li><li><strong>4. CTA:</strong> Welche Handlungsaufforderung konvertiert am besten?</li></ul><strong>Typische Teststruktur:</strong><ul><li>3–5 neue Varianten pro Woche, jeweils nur eine Variable ändern</li><li>Mindestens 50–100€ Budget pro Variante für Relevanz</li><li>Winner nach 3–5 Tagen identifizieren</li></ul><span class='fq-info-benchmark'>Creative Fatigue 2026: Ads verfallen in Tagen statt Wochen, daher ist ein Testing-System überlebenswichtig</span>"
+        },
+        "options": [
+          { "text": "Ich erstelle neue Ads nach Bauchgefühl, wenn die alten nicht mehr laufen", "scores": { "TR": 1, "CO": 1 } },
+          { "text": "Ich teste ab und zu neue Creatives, aber ohne klare Struktur", "scores": { "TR": 2, "CO": 2 } },
+          { "text": "Fester Testing-Rhythmus mit isolierten Variablen (Hook, Angle, Format)", "scores": { "TR": 5, "CO": 4 } },
+          { "text": "Creative Scorecard-System mit KPI-Benchmarks, systematische Iteration auf Winnern", "scores": { "TR": 6, "CO": 5 } }
+        ]
+      },
+      {
+        "id": "m3",
+        "type": "single",
+        "question": "Wie optimierst du deine Landing Pages?",
+        "options": [
+          { "text": "Einmal erstellt, seitdem kaum etwas verändert", "scores": { "LP": 1 } },
+          { "text": "Ich passe Texte und Design gelegentlich an, aber ohne A/B-Tests", "scores": { "LP": 2 } },
+          { "text": "Regelmäßige A/B-Tests und bekannte Conversion Rate pro Traffic-Quelle", "scores": { "LP": 4 } },
+          { "text": "CRO-Programm mit Heatmaps, Session Recordings und segmentierten A/B-Tests", "scores": { "LP": 6 } }
+        ]
+      },
+      {
+        "id": "m4",
+        "type": "single",
+        "question": "Wie sieht deine Retargeting-Strategie aus?",
+        "options": [
+          { "text": "Ich mache kein gezieltes Retargeting", "scores": { "TR": 1, "FU": 1 } },
+          { "text": "Ich retargete alle Website-Besucher mit den gleichen Anzeigen", "scores": { "TR": 2, "FU": 1 } },
+          { "text": "Unterschiedliche Audiences basierend auf Funnel-Stufe (Besucher vs. Webinar-Teilnehmer etc.)", "scores": { "TR": 4, "FU": 3 } },
+          { "text": "Multi-Touch Retargeting mit dynamischen Creatives, Frequency Caps und Exclusion-Audiences", "scores": { "TR": 5, "FU": 4 } }
+        ]
+      },
+      {
+        "id": "m5",
+        "type": "single",
+        "question": "Wie setzt du Content ein, um kalte Leads aufzuwärmen?",
+        "options": [
+          { "text": "Kein systematischer Content. Leads sehen nur Ads und Landing Page", "scores": { "CO": 1 } },
+          { "text": "Ich poste auf Social Media, aber es gibt keine Verbindung zu meinem Funnel", "scores": { "CO": 2 } },
+          { "text": "Content-Formate (Blog, Video, Podcast), die gezielt in meinen Funnel eingebunden sind", "scores": { "CO": 4, "FU": 1 } },
+          { "text": "Content-Ökosystem mit Thought Leadership, über Retargeting und Nurturing strategisch ausgespielt", "scores": { "CO": 6, "FU": 2 } }
+        ]
+      },
+      {
+        "id": "m6",
+        "type": "single",
+        "question": "Wie automatisiert ist dein Marketing nach dem Opt-in?",
+        "info": {
+          "label": "Marketing Automation erklärt",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"10\" cy=\"10\" r=\"2.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><path d=\"M10 2v2M10 16v2M2 10h2M16 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M15.8 4.2l-1.4 1.4M5.6 14.4l-1.4 1.4\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>",
+          "text": "<strong>Leads bekommen automatisch die richtigen Nachrichten zur richtigen Zeit, basierend auf ihrem Verhalten.</strong><br><br><strong>Unterschied zu E-Mail-Blasts:</strong> Beim Newsletter bekommt jeder das Gleiche. Bei Automation reagiert das System auf Aktionen.<br><br><strong>Beispiele für verhaltensbasierte Triggers:</strong><ul><li>Lead klickt Link in E-Mail → sofort Follow-up zum Thema</li><li>Lead besucht Pricing-Seite → Testimonials + Buchungslink</li><li>Lead öffnet 3 Mails, bucht nicht → persönliche WhatsApp</li><li>Lead erscheint nicht zum Termin → automatisch neuer Vorschlag</li></ul><span class='fq-info-benchmark'>Ergebnis: 8–15% Buchungsrate statt 2–3% bei Standard-Mails</span>"
+        },
+        "options": [
+          { "text": "Nach dem Opt-in passiert wenig, vielleicht eine Bestätigungsmail", "scores": { "FU": 1 } },
+          { "text": "Standard-E-Mail-Sequenz, die jeder Lead durchläuft", "scores": { "FU": 3 } },
+          { "text": "Verhaltensbasierte Automationen, die auf Aktionen der Leads reagieren", "scores": { "FU": 5 } },
+          { "text": "Multichannel-Automation (E-Mail, SMS, WhatsApp) mit Lead Scoring und automatischer Übergabe an Sales", "scores": { "FU": 6 } }
+        ]
+      },
+      {
+        "id": "m7",
+        "type": "single",
+        "question": "Was passiert, wenn du dein Werbebudget verdoppeln willst?",
+        "options": [
+          { "text": "Ich erhöhe das Budget und hoffe, dass die Ergebnisse mitskalieren", "scores": { "TR": 1, "SA": 1 } },
+          { "text": "Ich skaliere vertikal (mehr Budget auf das, was läuft), aber irgendwann steigen die CPAs", "scores": { "TR": 2, "SA": 2 } },
+          { "text": "Horizontale Skalierung (neue Audiences, Plattformen, Creatives) mit klarem Prozess", "scores": { "TR": 4, "SA": 3 } },
+          { "text": "Skalierungsframework mit definierten Schwellenwerten und bekanntem marginalem ROAS pro Kanal", "scores": { "TR": 5, "SA": 4 } }
+        ]
+      },
+      {
+        "id": "m8",
+        "type": "single",
+        "question": "Wie misst du den Erfolg deines Funnels?",
+        "options": [
+          { "text": "Umsatz am Monatsende und Bauchgefühl", "scores": { "SA": 1, "LP": 1 } },
+          { "text": "Einfaches Reporting mit Ad-Metriken (CTR, CPL, CPA)", "scores": { "SA": 2, "LP": 2 } },
+          { "text": "Dashboard mit End-to-End Funnel-KPIs von Ad Impression bis Abschluss", "scores": { "SA": 4, "LP": 3 } },
+          { "text": "Automatisierte Dashboards mit Cohort-Analysen, LTV-Berechnung und ROI pro Creative", "scores": { "SA": 6, "LP": 4 } }
+        ]
+      },
+      {
+        "id": "m9",
+        "type": "multi",
+        "question": "Welche CRO-Elemente setzt du auf deinen Landing Pages ein?",
+        "hint": "Wähle alle aus, die zutreffen.",
+        "options": [
+          { "text": "Dynamische Headlines basierend auf Ad-Kampagne oder Zielgruppe", "scores": { "LP": 1 } },
+          { "text": "Social Proof mit konkreten Zahlen (ROI, Ergebnisse, Case Studies)", "scores": { "LP": 1 } },
+          { "text": "Exit-Intent oder Scroll-Trigger Elemente", "scores": { "LP": 1 } },
+          { "text": "Mobile-first Design mit Ladezeit unter 3 Sekunden", "scores": { "LP": 1 } },
+          { "text": "Video-Testimonials oder VSL above the fold", "scores": { "LP": 1 } },
+          { "text": "Segmentierte Varianten für unterschiedliche Audiences", "scores": { "LP": 1 } }
+        ]
+      },
+      {
+        "id": "m10",
+        "type": "multi",
+        "question": "Welche Tools nutzt du aktiv in deinem Marketing Stack?",
+        "hint": "Wähle alle aus, die du regelmäßig nutzt.",
+        "options": [
+          { "text": "Conversion API / Server-Side Tracking (z. B. Meta CAPI)", "scores": { "TR": 1 } },
+          { "text": "Heatmap & Session Recording Tool (z. B. Hotjar, Clarity)", "scores": { "LP": 1 } },
+          { "text": "Marketing Automation mit Behavioral Triggers", "scores": { "FU": 1 } },
+          { "text": "CRM mit Pipeline-Tracking und Lead Scoring", "scores": { "SA": 1 } },
+          { "text": "A/B-Testing Tool für Landing Pages", "scores": { "LP": 1 } },
+          { "text": "Attribution- oder BI-Tool (z. B. Hyros, TripleWhale, Looker Studio)", "scores": { "TR": 1 } }
+        ]
+      },
+      {
+        "id": "m11",
+        "type": "single",
+        "question": "Wie verteilst du dein Budget auf verschiedene Kanäle?",
+        "options": [
+          { "text": "Alles auf einem Kanal (meistens Meta oder Google)", "scores": { "TR": 1 } },
+          { "text": "Ich teste gelegentlich neue Kanäle, aber ohne klaren Vergleich", "scores": { "TR": 2 } },
+          { "text": "Budgetverteilung basierend auf Performance-Daten über 2-3 Kanäle", "scores": { "TR": 4 } },
+          { "text": "Dynamische Allokation über 3+ Kanäle basierend auf marginalem ROAS", "scores": { "TR": 6 } }
+        ]
+      },
+      {
+        "id": "m12",
+        "type": "single",
+        "question": "Wie ist dein Marketing-Team aufgestellt?",
+        "options": [
+          { "text": "Ich mache alles alleine", "scores": { "SA": 1, "CO": 1 } },
+          { "text": "Kleine Unterstützung durch Freelancer, aber kein festes Team", "scores": { "SA": 2, "CO": 2 } },
+          { "text": "Festes Team mit klaren Rollen (Ads, Content, Design)", "scores": { "SA": 4, "CO": 4 } },
+          { "text": "Spezialisiertes Team mit Prozessen, SOPs und regelmäßigem Skill-Upgrade", "scores": { "SA": 5, "CO": 5 } }
+        ]
+      }
+    ],
+    "mittelstand": [
+      {
+        "id": "ms1",
+        "type": "single",
+        "question": "Welche Rolle spielt eure Website bei der Kundengewinnung?",
+        "options": [
+          { "text": "Sie ist im Grunde eine digitale Visitenkarte: Über uns, Leistungen, Kontaktformular", "scores": { "LP": 1 } },
+          { "text": "Guter Content vorhanden, aber keine klare Conversion-Strategie", "scores": { "LP": 2 } },
+          { "text": "Gezielte Landing Pages für bestimmte Angebote oder Kampagnen mit klaren CTAs", "scores": { "LP": 4 } },
+          { "text": "Die Website ist ein Lead-Magnet: A/B-Tests, Conversion-Tracking, verschiedene Funnels für verschiedene Zielgruppen", "scores": { "LP": 6 } }
+        ]
+      },
+      {
+        "id": "ms2",
+        "type": "single",
+        "question": "Wie verwaltet ihr eure Kontakte und Anfragen?",
+        "info": {
+          "label": "Was ist ein CRM?",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"7\" cy=\"6\" r=\"2.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><circle cx=\"13\" cy=\"6\" r=\"2.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><path d=\"M3 15.5C3 13 4.8 11 7 11C8.2 11 9.3 11.6 10 12.5C10.7 11.6 11.8 11 13 11C15.2 11 17 13 17 15.5\" stroke=\"#193F3B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>",
+          "text": "<strong>Eine zentrale Software für alle Kundenkontakte, Anfragen und Kommunikation.</strong> Beispiele: HubSpot, Salesforce, Pipedrive.<br><br><strong>Das größte Problem ohne CRM:</strong> Kundenwissen steckt im Kopf einzelner Vertriebler. Wenn jemand krank ist oder kündigt, ist dieses Wissen weg.<br><br><strong>Was ein CRM konkret bringt:</strong><ul><li>Reaktionszeit auf Anfragen unter 1 Stunde statt 1–2 Tage</li><li>Automatische Erinnerungen: kein Lead fällt durch</li><li>Transparente Pipeline mit klaren Stages und Forecasting</li><li>Saubere Übergabe zwischen Marketing und Vertrieb</li></ul><span class='fq-info-benchmark'>Durchschnittlicher ROI: 8,71€ pro investiertem Euro (Nucleus Research)</span><br><span class='fq-info-benchmark'>Ohne CRM gehen bis zu 30% der Leads verloren</span>"
+        },
+        "options": [
+          { "text": "Excel-Listen, Outlook-Ordner oder im Kopf vom Vertriebler", "scores": { "FU": 1, "SA": 1 } },
+          { "text": "Wir haben ein CRM, aber es wird nicht konsequent gepflegt", "scores": { "FU": 2, "SA": 2 } },
+          { "text": "CRM ist im Einsatz mit klaren Regeln, wann und wie Kontakte gepflegt werden", "scores": { "FU": 4, "SA": 4 } },
+          { "text": "CRM mit Lead-Scoring, automatisierten Workflows und sauberer Übergabe zwischen Marketing und Vertrieb", "scores": { "FU": 6, "SA": 5 } }
+        ]
+      },
+      {
+        "id": "ms3",
+        "type": "single",
+        "question": "Wie positioniert ihr euch als Experte in eurem Markt?",
+        "options": [
+          { "text": "Unsere Referenzen sprechen für sich, wir machen kein aktives Content-Marketing", "scores": { "CO": 1 } },
+          { "text": "Wir posten gelegentlich auf LinkedIn oder im Blog, aber ohne festen Plan", "scores": { "CO": 2 } },
+          { "text": "Regelmäßig Fachbeiträge, Case Studies oder Whitepaper für unsere Zielgruppe", "scores": { "CO": 4 } },
+          { "text": "Content-Strategie entlang der Customer Journey mit Lead-Magneten, die in Nurturing-Sequenzen führen", "scores": { "CO": 6 } }
+        ]
+      },
+      {
+        "id": "ms4",
+        "type": "single",
+        "question": "Was passiert, wenn eine Anfrage über die Website reinkommt?",
+        "options": [
+          { "text": "Die landet in einem Sammelpostfach, manchmal dauert es Tage, bis jemand antwortet", "scores": { "FU": 1 } },
+          { "text": "Innerhalb von 24 Stunden meldet sich jemand, aber es gibt keinen festen Prozess danach", "scores": { "FU": 2 } },
+          { "text": "Automatische Bestätigung sofort, persönliche Kontaktaufnahme innerhalb weniger Stunden", "scores": { "FU": 4 } },
+          { "text": "Sofort automatisierte Sequenz (E-Mail + Kalender-Link), Lead wird im CRM qualifiziert und zugewiesen", "scores": { "FU": 6 } }
+        ]
+      },
+      {
+        "id": "ms5",
+        "type": "single",
+        "question": "Wie strukturiert ist euer Vertriebsprozess vom Erstkontakt bis zum Abschluss?",
+        "info": {
+          "label": "Buying Center und Account Based Marketing",
+          "icon": "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"10\" cy=\"5\" r=\"2.5\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><circle cx=\"4.5\" cy=\"12\" r=\"2\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><circle cx=\"15.5\" cy=\"12\" r=\"2\" stroke=\"#193F3B\" stroke-width=\"1.5\"/><path d=\"M10 7.5v2M6.5 10.5L8.5 9M13.5 10.5L11.5 9\" stroke=\"#193F3B\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>",
+          "text": "<strong>Im B2B kauft selten eine einzelne Person. Typisch: 3 bis 5 Entscheider über 3 bis 6 Monate.</strong><br><br><strong>Das Buying Center besteht aus:</strong><ul><li><strong>Geschäftsführung:</strong> Will ROI und strategischen Nutzen sehen</li><li><strong>IT/Technik:</strong> Braucht technische Specs und Integrations-Details</li><li><strong>Einkauf:</strong> Will Vergleiche, Referenzen und Konditionen</li><li><strong>Fachabteilung:</strong> Will wissen, ob es im Alltag funktioniert</li></ul><strong>Account Based Marketing (ABM) als Lösung:</strong><br>Statt breit zu streuen, fokussiert ABM eure Marketing-Ressourcen auf die wichtigsten Zielunternehmen mit maßgeschneiderten Inhalten für jede Rolle im Buying Center.<br><br><span class='fq-info-benchmark'>Unstrukturierte Prozesse kosten bis zu 67% der potenziellen Kunden</span>"
+        },
+        "options": [
+          { "text": "Jeder Vertriebler macht es auf seine Art, kein einheitlicher Prozess", "scores": { "SA": 1 } },
+          { "text": "Phasen definiert (Erstgespräch, Angebot, Verhandlung), aber die Umsetzung ist unterschiedlich", "scores": { "SA": 3 } },
+          { "text": "Standardisierter Prozess mit klaren Stages, Gesprächsleitfäden und Pipeline-Review", "scores": { "SA": 5 } },
+          { "text": "Datengetriebener Sales-Prozess: Win/Loss-Analyse, Conversion Rates pro Stage, Forecasting", "scores": { "SA": 6 } }
+        ]
+      },
+      {
+        "id": "ms6",
+        "type": "single",
+        "question": "Wie verteilt sich euer Marketing-Budget zwischen klassischen und digitalen Maßnahmen?",
+        "options": [
+          { "text": "Fast alles geht in Messen, Printwerbung und Sponsoring, digital kaum Budget", "scores": { "TR": 1 } },
+          { "text": "Etwas in Website und Social Media, aber Messen und Events dominieren", "scores": { "TR": 2 } },
+          { "text": "Ungefähr 50/50: Wir testen digitale Kanäle gezielt und messen die Ergebnisse", "scores": { "TR": 4 } },
+          { "text": "Der Großteil fließt in digitale Kanäle mit klarem ROI-Tracking", "scores": { "TR": 6 } }
+        ]
+      },
+      {
+        "id": "ms7",
+        "type": "single",
+        "question": "Wie messt ihr den Erfolg eurer Marketing- und Vertriebsmaßnahmen?",
+        "options": [
+          { "text": "Bauchgefühl und Umsatz am Jahresende, konkrete Kennzahlen tracken wir nicht", "scores": {} },
+          { "text": "Wir schauen auf Website-Besucher und Anfragen, können aber nicht zuordnen, woher sie kommen", "scores": { "TR": 1, "LP": 1 } },
+          { "text": "Wir kennen unsere Kosten pro Lead, Conversion Rates und wissen, welche Kanäle funktionieren", "scores": { "TR": 2, "LP": 2 } },
+          { "text": "End-to-End-Tracking: Von der Anzeige über den Lead bis zum gewonnenen Kunden, jeder Euro ist zuordenbar", "scores": { "TR": 3, "LP": 3 } }
+        ]
+      },
+      {
+        "id": "ms8",
+        "type": "single",
+        "question": "Wie arbeiten Marketing und Vertrieb bei euch zusammen?",
+        "options": [
+          { "text": "Marketing und Vertrieb sind getrennte Welten, kaum Austausch", "scores": { "SA": 1, "FU": 1 } },
+          { "text": "Gelegentliche Abstimmung, aber keine festen Prozesse oder gemeinsamen Ziele", "scores": { "SA": 2, "FU": 2 } },
+          { "text": "Regelmäßige Meetings, gemeinsame KPIs und definierte Lead-Übergabe", "scores": { "SA": 4, "FU": 4 } },
+          { "text": "Voll integriert: gemeinsames CRM, Lead Scoring, automatisierte Workflows und Feedback-Loop", "scores": { "SA": 5, "FU": 5 } }
+        ]
+      },
+      {
+        "id": "ms9",
+        "type": "multi",
+        "question": "Welche Tools und Systeme nutzt ihr aktiv?",
+        "hint": "Wähle alle aus, die bei euch im Einsatz sind.",
+        "options": [
+          { "text": "CRM-System (z. B. HubSpot, Salesforce, Pipedrive)", "scores": { "FU": 1, "SA": 1 } },
+          { "text": "Marketing-Automation (z. B. ActiveCampaign, HubSpot, Mailchimp)", "scores": { "FU": 1, "CO": 1 } },
+          { "text": "Analytics & Tracking (z. B. Google Analytics, Matomo)", "scores": { "TR": 1, "LP": 1 } },
+          { "text": "LinkedIn Sales Navigator oder Social-Selling-Tools", "scores": { "TR": 1, "CO": 1 } },
+          { "text": "Kalender- oder Buchungstool (z. B. Calendly, HubSpot Meetings)", "scores": { "SA": 1 } },
+          { "text": "Nichts davon, wir arbeiten hauptsächlich mit E-Mail und Telefon", "scores": {} }
+        ]
+      },
+      {
+        "id": "ms10",
+        "type": "multi",
+        "question": "Welche Inhalte erstellt ihr regelmäßig für eure Zielgruppe?",
+        "hint": "Wähle alle aus, die ihr mindestens pro Quartal produziert.",
+        "options": [
+          { "text": "Case Studies oder Referenzberichte", "scores": { "CO": 1, "SA": 1 } },
+          { "text": "Fachbeiträge oder Blog-Artikel", "scores": { "CO": 1, "TR": 1 } },
+          { "text": "LinkedIn-Posts (Unternehmensseite oder persönlich)", "scores": { "TR": 1 } },
+          { "text": "Webinare oder Online-Präsentationen", "scores": { "CO": 1, "LP": 1 } },
+          { "text": "Whitepaper, Leitfäden oder Checklisten als Download", "scores": { "LP": 1, "FU": 1 } },
+          { "text": "Video-Content (Erklärvideos, Testimonials, Behind the Scenes)", "scores": { "CO": 1 } }
+        ]
+      },
+      {
+        "id": "ms11",
+        "type": "multi",
+        "question": "Wie ist Marketing bei euch organisiert?",
+        "hint": "Wähle alle aus, die zutreffen.",
+        "options": [
+          { "text": "Dedizierte Marketing-Abteilung (2+ Personen)", "scores": { "CO": 1, "TR": 1 } },
+          { "text": "Eine Person kümmert sich um \u201ealles Marketing\u201c neben anderen Aufgaben", "scores": { "CO": 1 } },
+          { "text": "Zusammenarbeit mit einer externen Agentur", "scores": { "TR": 1 } },
+          { "text": "Festes monatliches Marketing-Budget definiert", "scores": { "TR": 1 } },
+          { "text": "Marketing und Vertrieb haben regelmäßige gemeinsame Meetings", "scores": { "SA": 1, "FU": 1 } },
+          { "text": "Klare Marketing-Strategie mit dokumentierten Zielen und KPIs", "scores": { "CO": 1, "TR": 1 } }
+        ]
+      },
+      {
+        "id": "ms12",
+        "type": "single",
+        "question": "Wie digital ist euer gesamter Vertriebsprozess?",
+        "options": [
+          { "text": "Fast alles läuft über persönliche Kontakte, Messen und Telefon", "scores": { "TR": 1, "LP": 1 } },
+          { "text": "Website und E-Mail sind dabei, aber der Kern ist immer noch persönlicher Vertrieb", "scores": { "TR": 2, "LP": 2 } },
+          { "text": "Digitale Touchpoints an jedem Schritt: Website, Ads, E-Mail-Automation, Online-Demos", "scores": { "TR": 4, "LP": 4 } },
+          { "text": "Vollständig digitaler Funnel mit Self-Service-Elementen und persönlichem Vertrieb nur für High-Value-Deals", "scores": { "TR": 6, "LP": 5 } }
+        ]
+      }
+    ]
+  },
+  "leverDetails": {
+    "TR": {
+      "diagnosis": "Du verlässt dich zu stark auf einen einzigen Kanal oder auf organische Reichweite. Das macht deinen Leadflow unvorhersehbar und schwer skalierbar.",
+      "actions": [
+        "Starte mit einem einzigen Paid-Kanal (Meta oder Google) und teste 3–5 verschiedene Anzeigen mit je 10–20€ Tagesbudget.",
+        "Baue eine Retargeting-Audience auf: Jeder Website-Besucher der letzten 30 Tage sollte deine Ads sehen.",
+        "Definiere deinen Ziel-CPL (Cost per Lead) und tracke ihn wöchentlich."
+      ]
+    },
+    "LP": {
+      "diagnosis": "Deine Landing Page arbeitet nicht hart genug für dich. Besucher kommen, schauen sich um und gehen wieder, ohne eine Aktion auszuführen.",
+      "actions": [
+        "Fokussiere deine Landing Page auf EINE einzige Handlung. Entferne Navigation, Sidebar und alles, was ablenkt.",
+        "Teste eine neue Headline: Sie muss das konkrete Ergebnis kommunizieren, das dein Besucher bekommt.",
+        "Füge mindestens 3 Testimonials hinzu. Video-Testimonials konvertieren bis zu 80% besser als Text."
+      ]
+    },
+    "CO": {
+      "diagnosis": "Deine Leads bekommen nicht genug Überzeugungsarbeit, bevor sie eine Entscheidung treffen. Es fehlt an Vertrauensaufbau zwischen Erstkontakt und Gespräch.",
+      "actions": [
+        "Erstelle ein Conversion-Event (Webinar, Workshop oder Video), das deine Expertise demonstriert und einen klaren Pitch enthält.",
+        "Entwickle 3–5 Content-Säulen, die direkt auf dein Angebot einzahlen, und poste mindestens 3x pro Woche.",
+        "Sammle systematisch Kundenergebnisse: Frage nach jedem Abschluss nach einem kurzen Video-Testimonial."
+      ]
+    },
+    "FU": {
+      "diagnosis": "Du verlierst den Großteil deiner Leads nach dem Erstkontakt. Ohne systematisches Follow-up bleiben 80–90% deiner Leads ungenutzt.",
+      "actions": [
+        "Baue eine 5–7-teilige E-Mail-Sequenz auf, die über 10–14 Tage Vertrauen aufbaut und zum nächsten Schritt führt.",
+        "Setze Reminder für No-Shows: Ein automatischer WhatsApp-Reminder 1h vor dem Termin kann die Show-up-Rate um 30% steigern.",
+        "Implementiere Lead-Scoring: Nicht jeder Lead ist gleich. Priorisiere die, die am meisten Engagement zeigen."
+      ]
+    },
+    "SA": {
+      "diagnosis": "Dein Verkaufsprozess ist nicht systematisiert. Ohne klare Struktur und Einwandbehandlung lässt du abschlussbereite Leads auf dem Tisch liegen.",
+      "actions": [
+        "Erstelle ein Sales-Skript mit klarer Struktur: Diagnose (70% des Gesprächs), Pitch (20%) und Abschluss (10%).",
+        "Dokumentiere die 5 häufigsten Einwände und formuliere für jeden eine souveräne Antwort.",
+        "Führe ein CRM ein und tracke deine Conversion Rate vom Gespräch zum Abschluss. Ziel: mindestens 20–30%."
+      ]
+    }
+  },
+  "icpLeverTips": {
+    "coach": {
+      "TR": "Paid Challenge Funnel: Statt kostenloser Webinare eine bezahlte Challenge (47–197€) anbieten. Das filtert Freebie-Seeker raus und du gewinnst Leads, die bereit sind zu investieren.",
+      "LP": "Quiz-Funnels steigern die Conversion um bis zu 30%, weil die Ergebnisse personalisiert sind. Dein Lead Magnet sollte sich wie eine individuelle Beratung anfühlen, nicht wie ein generisches PDF.",
+      "CO": "Ersetze das einzelne 60-Minuten-Webinar durch eine 5-teilige Serie über 3–5 Tage. Die Completion Rate steigt deutlich und du baust mehr Vertrauen auf als in einer einzigen Session.",
+      "FU": "Speed-to-Lead ist entscheidend: Die Wahrscheinlichkeit einer Qualifizierung sinkt um das 21-fache, wenn deine Reaktionszeit von 5 auf 30 Minuten steigt. Automatisiere die erste Antwort.",
+      "SA": "Bewerbungsprozess statt offene Buchung: Lass Leads sich bei dir bewerben statt umgekehrt. Das steigert den wahrgenommenen Wert deines Angebots und filtert unpassende Leads automatisch."
+    },
+    "marketer": {
+      "TR": "Evergreen-Webinar-Funnels: Automatisierte Webinare mit mehreren täglichen Showings erreichen 60–70% Teilnahmerate statt 35–45% bei Live-Formaten. Skaliert ohne zusätzlichen Aufwand.",
+      "LP": "De-Anonymisierung einsetzen: Tools wie Leadinfo zeigen dir, welche Firmen deine Seite besuchen, auch ohne Formulareingabe. So identifizierst du warme Leads, die du sonst nie gesehen hättest.",
+      "CO": "Generative Engine Optimization (GEO): Strukturiere deinen Content mit eindeutigen Definitionen und belegbaren Aussagen, damit KI-Modelle (ChatGPT, Google AI) dich als Quelle zitieren.",
+      "FU": "2-dimensionales Lead Scoring: Bewerte Leads nach Firmografie (Jobtitel, Firmengröße) UND Verhalten (Pricing-Seite besucht, Webinar angesehen). So priorisierst du die wirklich kaufbereiten Kontakte.",
+      "SA": "B2B Visitor Identification: Nutze De-Anonymisierungs-Tools, um zu sehen, welche Firmen deine Pricing-Seite besuchen. Triggere sofortige Alerts an dein Sales-Team, wenn ICP-Firmen aktiv sind."
+    },
+    "mittelstand": {
+      "TR": "LinkedIn Thought Leadership als messeunabhängigen Lead-Kanal aufbauen. Entscheidungsträger im B2B sind auf LinkedIn aktiv. Regelmäßige Fachbeiträge positionieren euch als Branchenexperten.",
+      "LP": "Lead Velocity Rate (LVR) als Frühindikator tracken: Statt nur abgeschlossene Deals zu zählen, messt die Wachstumsrate eurer qualifizierten Leads. Das gibt euch 3–6 Monate Vorwarnung für Pipeline-Probleme.",
+      "CO": "Rollenspezifischen Content für das Buying Center erstellen: IT-Leiter brauchen technische Specs, Geschäftsführer wollen ROI-Zahlen, Einkäufer wollen Vergleiche. Ein Whitepaper für alle funktioniert nicht.",
+      "FU": "Lost-Deal Win-Back Automation: Schickt automatisch 60 Tage nach einem verlorenen Deal eine E-Mail: \u201eWas hat sich bei Ihnen ver\u00e4ndert?\u201c Bis zu 15% der verlorenen Deals lassen sich so reaktivieren.",
+      "SA": "Marketing-Sales SLA definieren: Legt exakt fest, wann ein Marketing-Lead (MQL) zum Sales-Lead (SQL) wird. Ohne klare Kriterien sterben Leads im Niemandsland zwischen den Abteilungen."
+    }
+  },
+  "icpNextLevel": {
+    "coach": [
+      {
+        "title": "Paid Challenge statt Freebie",
+        "text": "Biete eine 5- bis 7-tägige Challenge für 47–197€ an. Du filterst Freebie-Seeker raus, lieferst Quick Wins auf WhatsApp oder Discord, und die Challenge selbst wird zum Conversion-Event für dein High-Ticket-Angebot."
+      },
+      {
+        "title": "Sell before you build",
+        "text": "Bevor du einen automatisierten Funnel baust: Verkaufe dein Angebot erst manuell an 5–10 Kunden. So validierst du Messaging, Pricing und Zielgruppe, bevor du in Technik investierst."
+      },
+      {
+        "title": "Personalisierte Follow-ups",
+        "text": "Personalisierte E-Mail-Sequenzen basierend auf Quiz- oder Webinar-Antworten steigern die Conversion um bis zu 30%. Segmentiere nach Problem, nicht nach Demografie."
+      }
+    ],
+    "marketer": [
+      {
+        "title": "Evergreen-Webinar-Funnel",
+        "text": "Automatisierte Webinare mit mehreren täglichen Showings erreichen 60–70% Teilnahmerate statt 35–45% bei Live-Events. Nutze verhaltensbasierte E-Mails: unterschiedliche Sequenzen für Abbrecher vs. Pitch-Zuschauer."
+      },
+      {
+        "title": "First-Party Data Strategie",
+        "text": "Mit dem Ende der Third-Party-Cookies wird eigene Datenerhebung (Website, CRM, interaktive Funnels) zum wichtigsten Wettbewerbsvorteil. Investiere jetzt in Server-Side Tracking und Zero-Party Data Collection."
+      },
+      {
+        "title": "Full-Stack Konsolidierung",
+        "text": "Isolierte Kanäle verursachen doppelte Kosten. SEO, Paid, CRO und E-Mail unter einem Measurement-Framework zusammenführen senkt den CPA drastisch und gibt dir ein echtes Gesamtbild."
+      }
+    ],
+    "mittelstand": [
+      {
+        "title": "Buying-Center-Strategie",
+        "text": "Kaufentscheidungen im Mittelstand involvieren 3 bis 5 Stakeholder über 3 bis 6 Monate. Erstellt rollenspezifische Inhalte: technische Specs für die IT, ROI-Berechnungen für die Geschäftsführung, Vergleiche für den Einkauf."
+      },
+      {
+        "title": "Marketing-Sales SLA",
+        "text": "Definiert einen klaren Service Level Agreement zwischen Marketing und Vertrieb: Wann wird ein Lead zum MQL? Wann zum SQL? Wie schnell muss Sales reagieren? Ohne diese Regeln sterben Leads im Niemandsland."
+      },
+      {
+        "title": "Lost-Deal Reaktivierung",
+        "text": "Automatisiert eine E-Mail 60 Tage nach jedem verlorenen Deal: \u201eWas hat sich bei Ihnen ver\u00e4ndert?\u201c Bis zu 15% der verlorenen Deals k\u00f6nnen so reaktiviert werden, weil sich Budgets, Priorit\u00e4ten oder Ansprechpartner ge\u00e4ndert haben."
+      }
+    ]
+  },
+  "resultContent": {
+    "A": {
+      "headline": "Dein Funnel hat Fundament-Probleme. Aber genau das ist die Chance.",
+      "p1": "Dein Ergebnis zeigt: Die Grundlagen deines Funnels fehlen oder sind nicht aufeinander abgestimmt. Das ist keine Seltenheit. Die meisten starten mit Einzelmaßnahmen statt mit einem System.",
+      "p2": "Das Problem ist nicht, dass du zu wenig machst. Das Problem ist, dass die Teile nicht ineinandergreifen.",
+      "leverTitle": "Deine größten Hebel:",
+      "ctaP": "Was wäre, wenn du in 60 Minuten einen klaren Fahrplan hättest: welche Baustellen du in welcher Reihenfolge angehst?\n\nGenau das machen wir im kostenlosen Erstgespräch. Kein Pitch, sondern eine echte Analyse deiner Situation mit konkreten nächsten Schritten.",
+      "ctaBtn": "Kostenloses Erstgespräch sichern →",
+      "hebelTag": "GRÖSSTER HEBEL"
+    },
+    "B": {
+      "headline": "Dein Funnel funktioniert, aber er lässt Umsatz liegen.",
+      "p1": "Du hast bereits ein funktionierendes System. Ads laufen, eine Landing Page steht, Gespräche kommen rein. Aber dein Funnel hat Lücken, die dich jeden Monat bares Geld kosten.",
+      "p2": "Ein Beispiel: Ein 4% Uplift in der Conversion Rate kann fast 10.000€ mehr Gewinn bedeuten. Die Hebel liegen oft in den Details.",
+      "leverTitle": "Deine größten Hebel:",
+      "ctaP": "Du brauchst keinen komplett neuen Funnel. Du brauchst jemanden, der mit dir drüberschaut und die 2 bis 3 Stellschrauben findet, die den größten Unterschied machen.",
+      "ctaBtn": "Erstgespräch vereinbaren →",
+      "hebelTag": "GRÖSSTER HEBEL"
+    },
+    "C": {
+      "headline": "Dein Funnel ist stark. Jetzt geht es um Skalierung.",
+      "p1": "Du gehörst zu den wenigen, die ihr Marketing ernst nehmen und ein solides System aufgebaut haben.",
+      "p2": "Die Frage ist nicht mehr, ob dein Funnel funktioniert, sondern wie du von hier aus skalierst, ohne dass die Kosten proportional mitsteigen.",
+      "leverTitle": "Optimierungs-Potenzial:",
+      "ctaP": "Du bist an einem Punkt, an dem generische Tipps nicht mehr weiterhelfen. Was du brauchst, ist ein Sparring auf Augenhöhe mit jemandem, der selbst bei 65M€+ Ad Spend operiert hat.",
+      "ctaBtn": "Sparring-Gespräch buchen →",
+      "hebelTag": "OPTIMIERUNGS-POTENZIAL"
+    }
+  },
+  "icpStats": {
+    "A": {
+      "coach": "82% der Coaching-Businesses scheitern in den ersten zwei Jahren. Der häufigste Grund: kein systematischer Funnel.",
+      "marketer": "73% der Marketer haben signifikante Tracking-Probleme seit iOS 14.5. Du bist nicht allein.",
+      "mittelstand": "53% der deutschen B2B-Unternehmen haben noch keine Digitalisierungsstrategie. Du hast mit diesem Quiz bereits den ersten Schritt gemacht."
+    },
+    "B": {
+      "coach": "Coaches mit optimiertem Funnel verdienen im Schnitt 2,4x mehr als Coaches mit dem gleichen Angebot, aber ohne System.",
+      "marketer": "Marketer, die systematisch testen, senken ihren CPL im Durchschnitt um 37% innerhalb von 90 Tagen.",
+      "mittelstand": "B2B-Unternehmen mit digitalem Vertriebsfunnel generieren 67% mehr qualifizierte Leads als Unternehmen ohne."
+    },
+    "C": {
+      "coach": "Nur 4% der Coaches erreichen sechsstellige Jahresumsätze. Dein Funnel-Score zeigt: Du gehörst dazu oder bist auf dem besten Weg.",
+      "marketer": "Top-Performer im Marketing optimieren wöchentlich. Der Unterschied zwischen gut und exzellent liegt oft bei 15–20% mehr Marge.",
+      "mittelstand": "Deutsche Mittelständler mit datengetriebenem Vertrieb wachsen 2,3x schneller als der Branchendurchschnitt."
+    }
+  },
+  "ctaCard": {
+    "badge": "Limitierte Plätze",
+    "headline": "Dein <em>persönlicher</em> Funnel-Fahrplan",
+    "nextLevelTitle": "Nächstes Level: Fortgeschrittene Strategien"
+  },
+  "shareText": "Ich habe gerade meinen Funnel analysiert und einen Score von {score}/{max} bekommen ({segment}). Probier es auch: {url}",
+  "waDebugIntro": "Hier ist deine Funnel-Analyse auf einen Blick:"
+}
