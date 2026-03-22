@@ -1292,36 +1292,19 @@ function initQuiz(quizData) {
     percentile = Math.min(percentile, 99);
 
     var benchBar = document.createElement('div'); benchBar.className = 'fq-benchmark-bar fq-reveal';
-    var benchLabel = document.createElement('div'); benchLabel.className = 'fq-benchmark-label';
-    benchLabel.textContent = 'Dein Vergleich';
-    var benchTrackWrap = document.createElement('div'); benchTrackWrap.className = 'fq-benchmark-track-wrap';
     var benchTrackEl = document.createElement('div'); benchTrackEl.className = 'fq-benchmark-track';
     var benchFill = document.createElement('div'); benchFill.className = 'fq-benchmark-fill';
     benchTrackEl.appendChild(benchFill);
-    [25, 50, 75].forEach(function(p) {
-      var tick = document.createElement('div'); tick.className = 'fq-benchmark-tick';
-      tick.style.left = p + '%'; benchTrackEl.appendChild(tick);
-    });
-    var benchMarkerWrap = document.createElement('div'); benchMarkerWrap.className = 'fq-benchmark-marker-wrap';
-    benchMarkerWrap.style.left = '0%';
-    var benchPctLabel = document.createElement('span'); benchPctLabel.className = 'fq-benchmark-pct';
-    benchPctLabel.textContent = 'Top ' + (100 - percentile) + '%';
-    benchMarkerWrap.appendChild(benchPctLabel);
-    benchTrackWrap.appendChild(benchTrackEl);
-    benchTrackWrap.appendChild(benchMarkerWrap);
     var benchText = document.createElement('div'); benchText.className = 'fq-benchmark-text';
-    benchText.textContent = '';
-    var benchBefore = document.createTextNode('Du liegst vor ');
     var benchStrong = document.createElement('strong');
-    benchStrong.textContent = percentile + '%';
-    var benchAfter = document.createTextNode(' aller bisherigen Teilnehmer.');
-    benchText.appendChild(benchBefore); benchText.appendChild(benchStrong); benchText.appendChild(benchAfter);
-    benchBar.appendChild(benchLabel);
-    benchBar.appendChild(benchTrackWrap);
+    benchStrong.textContent = 'Top ' + (100 - percentile) + '%';
+    benchText.appendChild(document.createTextNode('Du liegst im '));
+    benchText.appendChild(benchStrong);
+    benchText.appendChild(document.createTextNode(' aller bisherigen Teilnehmer.'));
+    benchBar.appendChild(benchTrackEl);
     benchBar.appendChild(benchText);
     resultRoot.appendChild(benchBar);
     setTimeout(function() {
-      benchMarkerWrap.style.left = percentile + '%';
       benchFill.style.width = percentile + '%';
     }, 500);
 
