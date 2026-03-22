@@ -6,9 +6,17 @@
     "title": "KI-Marketing Assessment",
     "totalQuestions": 20,
     "generalEndIndex": 8,
-    "part2EndIndex": 14
+    "part2EndIndex": 14,
+    "webhookUrl": "https://DEIN-WEBHOOK-ENDPOINT.com",
+    "bookingUrl": "https://DEIN-CALENDLY-LINK.com"
   },
-  "dimOrder": ["SV", "CK", "LQ", "AW", "DP"],
+  "dimOrder": [
+    "SV",
+    "CK",
+    "LQ",
+    "AW",
+    "DP"
+  ],
   "dimensions": {
     "SV": "KI-Strategie & Vision",
     "CK": "KI-Content & Kreation",
@@ -17,9 +25,18 @@
     "DP": "KI-Daten & Personalisierung"
   },
   "segments": {
-    "A": { "label": "KI-Einsteiger", "maxPct": 0.35 },
-    "B": { "label": "KI-Anwender", "maxPct": 0.70 },
-    "C": { "label": "KI-Vorreiter", "maxPct": 1.0 }
+    "A": {
+      "label": "KI-Einsteiger",
+      "maxPct": 0.35
+    },
+    "B": {
+      "label": "KI-Anwender",
+      "maxPct": 0.7
+    },
+    "C": {
+      "label": "KI-Vorreiter",
+      "maxPct": 1.0
+    }
   },
   "landing": {
     "badge": "Kostenloses KI-Marketing Assessment",
@@ -83,10 +100,30 @@
       "type": "single",
       "question": "Wie würdest du deinen aktuellen KI-Einsatz im Marketing beschreiben?",
       "options": [
-        { "text": "Ich nutze kaum oder keine KI-Tools im Marketing", "scores": { "SV": 1 } },
-        { "text": "Ich nutze ChatGPT oder ähnliche Tools gelegentlich für einzelne Aufgaben", "scores": { "SV": 2 } },
-        { "text": "Ich habe feste KI-Workflows für bestimmte Marketing-Bereiche", "scores": { "SV": 4 } },
-        { "text": "KI ist systematisch in meine gesamte Marketing-Strategie integriert", "scores": { "SV": 6 } }
+        {
+          "text": "Ich nutze kaum oder keine KI-Tools im Marketing",
+          "scores": {
+            "SV": 1
+          }
+        },
+        {
+          "text": "Ich nutze ChatGPT oder ähnliche Tools gelegentlich für einzelne Aufgaben",
+          "scores": {
+            "SV": 2
+          }
+        },
+        {
+          "text": "Ich habe feste KI-Workflows für bestimmte Marketing-Bereiche",
+          "scores": {
+            "SV": 4
+          }
+        },
+        {
+          "text": "KI ist systematisch in meine gesamte Marketing-Strategie integriert",
+          "scores": {
+            "SV": 6
+          }
+        }
       ]
     },
     {
@@ -98,10 +135,30 @@
         "text": "<strong>KI-gestützte Content-Erstellung bedeutet nicht, alles von der KI schreiben zu lassen.</strong><br><br>Der strategische Ansatz:<ul><li><strong>Stufe 1:</strong> KI als Ideengeber und Recherche-Assistent</li><li><strong>Stufe 2:</strong> KI erstellt Entwürfe mit Brand-Voice-Vorgaben</li><li><strong>Stufe 3:</strong> Automatisierte Multi-Format-Produktion aus einem Source-Asset</li><li><strong>Stufe 4:</strong> Selbstoptimierender Content-Workflow mit Performance-Feedback</li></ul><span class='fq-info-benchmark'>Benchmark: KI-unterstützte Teams produzieren 3 bis 5x mehr Content bei gleicher Qualität</span>"
       },
       "options": [
-        { "text": "Gar nicht — ich erstelle alles manuell", "scores": { "CK": 1 } },
-        { "text": "Als Ideengeber oder für erste Entwürfe, die ich komplett überarbeite", "scores": { "CK": 2 } },
-        { "text": "KI erstellt regelmäßig Entwürfe mit meinen Vorgaben, die ich feinschliffe", "scores": { "CK": 4 } },
-        { "text": "Systematischer KI-Workflow: Briefing → Entwurf → Brand-Check → Multi-Format-Output", "scores": { "CK": 6 } }
+        {
+          "text": "Gar nicht — ich erstelle alles manuell",
+          "scores": {
+            "CK": 1
+          }
+        },
+        {
+          "text": "Als Ideengeber oder für erste Entwürfe, die ich komplett überarbeite",
+          "scores": {
+            "CK": 2
+          }
+        },
+        {
+          "text": "KI erstellt regelmäßig Entwürfe mit meinen Vorgaben, die ich feinschliffe",
+          "scores": {
+            "CK": 4
+          }
+        },
+        {
+          "text": "Systematischer KI-Workflow: Briefing → Entwurf → Brand-Check → Multi-Format-Output",
+          "scores": {
+            "CK": 6
+          }
+        }
       ]
     },
     {
@@ -110,12 +167,43 @@
       "question": "Für welche Marketing-Aufgaben nutzt du bereits KI?",
       "hint": "Wähle alle aus, die zutreffen.",
       "options": [
-        { "text": "Texterstellung (Blog, Social Media, E-Mail)", "scores": { "CK": 1 } },
-        { "text": "Bild- oder Video-Erstellung (Midjourney, Canva AI, Runway)", "scores": { "CK": 1 } },
-        { "text": "Datenanalyse und Reporting", "scores": { "DP": 1 } },
-        { "text": "Lead-Qualifizierung oder Chatbots", "scores": { "LQ": 1 } },
-        { "text": "E-Mail-Automatisierung und Personalisierung", "scores": { "AW": 1, "DP": 1 } },
-        { "text": "Recherche und Wettbewerbsanalyse", "scores": { "SV": 1 } }
+        {
+          "text": "Texterstellung (Blog, Social Media, E-Mail)",
+          "scores": {
+            "CK": 1
+          }
+        },
+        {
+          "text": "Bild- oder Video-Erstellung (Midjourney, Canva AI, Runway)",
+          "scores": {
+            "CK": 1
+          }
+        },
+        {
+          "text": "Datenanalyse und Reporting",
+          "scores": {
+            "DP": 1
+          }
+        },
+        {
+          "text": "Lead-Qualifizierung oder Chatbots",
+          "scores": {
+            "LQ": 1
+          }
+        },
+        {
+          "text": "E-Mail-Automatisierung und Personalisierung",
+          "scores": {
+            "AW": 1,
+            "DP": 1
+          }
+        },
+        {
+          "text": "Recherche und Wettbewerbsanalyse",
+          "scores": {
+            "SV": 1
+          }
+        }
       ]
     },
     {
@@ -123,10 +211,31 @@
       "type": "single",
       "question": "Wie gehst du mit der Qualitätssicherung von KI-generierten Inhalten um?",
       "options": [
-        { "text": "Ich poste KI-Output meistens direkt ohne große Überarbeitung", "scores": { "CK": 1 } },
-        { "text": "Ich überarbeite Texte, aber ohne festen Prozess oder Checkliste", "scores": { "CK": 2 } },
-        { "text": "Fester Review-Prozess: Fact-Check, Brand-Voice-Abgleich und Anpassung vor jeder Veröffentlichung", "scores": { "CK": 4 } },
-        { "text": "Mehrstufiger QA-Workflow mit KI-gestütztem Brand-Check und menschlichem Final Review", "scores": { "CK": 5, "SV": 1 } }
+        {
+          "text": "Ich poste KI-Output meistens direkt ohne große Überarbeitung",
+          "scores": {
+            "CK": 1
+          }
+        },
+        {
+          "text": "Ich überarbeite Texte, aber ohne festen Prozess oder Checkliste",
+          "scores": {
+            "CK": 2
+          }
+        },
+        {
+          "text": "Fester Review-Prozess: Fact-Check, Brand-Voice-Abgleich und Anpassung vor jeder Veröffentlichung",
+          "scores": {
+            "CK": 4
+          }
+        },
+        {
+          "text": "Mehrstufiger QA-Workflow mit KI-gestütztem Brand-Check und menschlichem Final Review",
+          "scores": {
+            "CK": 5,
+            "SV": 1
+          }
+        }
       ]
     },
     {
@@ -138,10 +247,32 @@
         "text": "<strong>Marketing-Automatisierung entwickelt sich in drei Stufen:</strong><br><br><ul><li><strong>Stufe 1 — Regel-basiert:</strong> Wenn X, dann Y (z. B. Autoresponder)</li><li><strong>Stufe 2 — KI-unterstützt:</strong> KI optimiert Timing, Inhalte und Segmentierung</li><li><strong>Stufe 3 — Agentic:</strong> KI-Agenten handeln autonom, erkennen Anomalien und passen Kampagnen an</li></ul><span class='fq-info-benchmark'>Benchmark: KI-automatisierte Workflows sparen durchschnittlich 10 bis 15 Stunden pro Woche</span>"
       },
       "options": [
-        { "text": "Fast nichts ist automatisiert, ich mache das meiste manuell", "scores": { "AW": 1 } },
-        { "text": "Einfache Automationen (Autoresponder, Zapier), aber ohne KI-Komponente", "scores": { "AW": 2 } },
-        { "text": "KI-gestützte Automationen in mehreren Bereichen (E-Mail, Posting, Nurturing)", "scores": { "AW": 4, "LQ": 1 } },
-        { "text": "Agentic Workflows: KI-Agenten handeln autonom und eskalieren nur bei Bedarf", "scores": { "AW": 6, "LQ": 2 } }
+        {
+          "text": "Fast nichts ist automatisiert, ich mache das meiste manuell",
+          "scores": {
+            "AW": 1
+          }
+        },
+        {
+          "text": "Einfache Automationen (Autoresponder, Zapier), aber ohne KI-Komponente",
+          "scores": {
+            "AW": 2
+          }
+        },
+        {
+          "text": "KI-gestützte Automationen in mehreren Bereichen (E-Mail, Posting, Nurturing)",
+          "scores": {
+            "AW": 4,
+            "LQ": 1
+          }
+        },
+        {
+          "text": "Agentic Workflows: KI-Agenten handeln autonom und eskalieren nur bei Bedarf",
+          "scores": {
+            "AW": 6,
+            "LQ": 2
+          }
+        }
       ]
     },
     {
@@ -149,10 +280,32 @@
       "type": "single",
       "question": "Wie nutzt du Daten und KI für Personalisierung?",
       "options": [
-        { "text": "Alle Kontakte bekommen die gleichen Inhalte", "scores": { "DP": 1 } },
-        { "text": "Grobe Segmentierung (z. B. nach Interesse), aber manuell", "scores": { "DP": 2 } },
-        { "text": "KI-basierte Segmentierung mit automatisch angepassten Inhalten pro Gruppe", "scores": { "DP": 4, "LQ": 1 } },
-        { "text": "Hyper-Personalisierung: Jeder Kontakt bekommt individuelle KI-generierte Inhalte basierend auf Verhalten", "scores": { "DP": 6, "LQ": 2 } }
+        {
+          "text": "Alle Kontakte bekommen die gleichen Inhalte",
+          "scores": {
+            "DP": 1
+          }
+        },
+        {
+          "text": "Grobe Segmentierung (z. B. nach Interesse), aber manuell",
+          "scores": {
+            "DP": 2
+          }
+        },
+        {
+          "text": "KI-basierte Segmentierung mit automatisch angepassten Inhalten pro Gruppe",
+          "scores": {
+            "DP": 4,
+            "LQ": 1
+          }
+        },
+        {
+          "text": "Hyper-Personalisierung: Jeder Kontakt bekommt individuelle KI-generierte Inhalte basierend auf Verhalten",
+          "scores": {
+            "DP": 6,
+            "LQ": 2
+          }
+        }
       ]
     },
     {
@@ -160,10 +313,32 @@
       "type": "single",
       "question": "Wie misst du den ROI deines KI-Einsatzes im Marketing?",
       "options": [
-        { "text": "Gar nicht — ich habe kein Gefühl dafür, ob sich KI für mich lohnt", "scores": { "SV": 1 } },
-        { "text": "Ich schätze grob die Zeitersparnis, tracke aber nichts systematisch", "scores": { "SV": 2 } },
-        { "text": "Ich tracke Zeitersparnis und Output-Menge pro KI-Workflow", "scores": { "SV": 4, "DP": 1 } },
-        { "text": "Klares KI-ROI-Dashboard: Zeitersparnis, Qualitätsvergleich, Cost-per-Output und Business-Impact", "scores": { "SV": 6, "DP": 1 } }
+        {
+          "text": "Gar nicht — ich habe kein Gefühl dafür, ob sich KI für mich lohnt",
+          "scores": {
+            "SV": 1
+          }
+        },
+        {
+          "text": "Ich schätze grob die Zeitersparnis, tracke aber nichts systematisch",
+          "scores": {
+            "SV": 2
+          }
+        },
+        {
+          "text": "Ich tracke Zeitersparnis und Output-Menge pro KI-Workflow",
+          "scores": {
+            "SV": 4,
+            "DP": 1
+          }
+        },
+        {
+          "text": "Klares KI-ROI-Dashboard: Zeitersparnis, Qualitätsvergleich, Cost-per-Output und Business-Impact",
+          "scores": {
+            "SV": 6,
+            "DP": 1
+          }
+        }
       ]
     }
   ],
@@ -179,10 +354,30 @@
           "text": "<strong>94% der Marketer nutzen bereits KI-Tools — aber ohne Strategie bleibt es Flickwerk.</strong><br><br>Eine KI-Strategie definiert:<ul><li>Welche Prozesse du zuerst automatisierst (höchster Hebel, geringste Komplexität)</li><li>Wie du KI-Output an deine Markensprache anpasst</li><li>Welche Daten du systematisch sammelst, um die KI zu verbessern</li></ul><span class='fq-info-benchmark'>Benchmark: Coaches mit KI-Strategie sparen durchschnittlich 10+ Stunden pro Woche</span>"
         },
         "options": [
-          { "text": "Ich nutze KI kaum oder nur gelegentlich, wenn ich zufällig daran denke", "scores": { "SV": 1 } },
-          { "text": "Ich nutze ChatGPT oder ähnliche Tools für einzelne Aufgaben, aber ohne festen Plan", "scores": { "SV": 2 } },
-          { "text": "Ich habe definierte KI-Workflows für bestimmte Marketing-Bereiche", "scores": { "SV": 4 } },
-          { "text": "KI ist fester Bestandteil meiner Gesamtstrategie mit dokumentierten Prozessen und Prompts", "scores": { "SV": 6 } }
+          {
+            "text": "Ich nutze KI kaum oder nur gelegentlich, wenn ich zufällig daran denke",
+            "scores": {
+              "SV": 1
+            }
+          },
+          {
+            "text": "Ich nutze ChatGPT oder ähnliche Tools für einzelne Aufgaben, aber ohne festen Plan",
+            "scores": {
+              "SV": 2
+            }
+          },
+          {
+            "text": "Ich habe definierte KI-Workflows für bestimmte Marketing-Bereiche",
+            "scores": {
+              "SV": 4
+            }
+          },
+          {
+            "text": "KI ist fester Bestandteil meiner Gesamtstrategie mit dokumentierten Prozessen und Prompts",
+            "scores": {
+              "SV": 6
+            }
+          }
         ]
       },
       {
@@ -190,10 +385,30 @@
         "type": "single",
         "question": "Wie nutzt du KI für deine Content-Erstellung?",
         "options": [
-          { "text": "Ich schreibe alles selbst, KI spielt beim Content keine Rolle", "scores": { "CK": 1 } },
-          { "text": "Ich nutze KI manchmal als Ideengeber oder für erste Entwürfe", "scores": { "CK": 2 } },
-          { "text": "KI erstellt regelmäßig Entwürfe, die ich überarbeite und in meiner Stimme veröffentliche", "scores": { "CK": 4 } },
-          { "text": "Ich habe ein KI-System mit Custom Instructions, das Content in meiner Markensprache auf Knopfdruck liefert", "scores": { "CK": 6 } }
+          {
+            "text": "Ich schreibe alles selbst, KI spielt beim Content keine Rolle",
+            "scores": {
+              "CK": 1
+            }
+          },
+          {
+            "text": "Ich nutze KI manchmal als Ideengeber oder für erste Entwürfe",
+            "scores": {
+              "CK": 2
+            }
+          },
+          {
+            "text": "KI erstellt regelmäßig Entwürfe, die ich überarbeite und in meiner Stimme veröffentliche",
+            "scores": {
+              "CK": 4
+            }
+          },
+          {
+            "text": "Ich habe ein KI-System mit Custom Instructions, das Content in meiner Markensprache auf Knopfdruck liefert",
+            "scores": {
+              "CK": 6
+            }
+          }
         ]
       },
       {
@@ -206,10 +421,34 @@
           "text": "<strong>Ein einziges 60-Minuten-Gespräch kann 10+ Content-Pieces liefern.</strong><br><br><strong>So funktioniert die Repurposing Engine:</strong><ul><li>Aufnahme transkribieren (z. B. mit Descript oder Whisper)</li><li>KI extrahiert automatisch: Kernaussagen, Zitate, Storytelling-Elemente</li><li>Daraus werden: Blog-Artikel, Newsletter, LinkedIn-Carousel, Reels-Skript, Twitter-Thread</li></ul><span class='fq-info-benchmark'>Benchmark: 5 bis 10 Stunden Zeitersparnis pro Woche durch automatisiertes Repurposing</span>"
         },
         "options": [
-          { "text": "Gar nicht — ich erstelle jedes Format einzeln von Null", "scores": { "CK": 1, "AW": 1 } },
-          { "text": "Ich nutze manchmal Copy-Paste und schreibe händisch um", "scores": { "CK": 2, "AW": 1 } },
-          { "text": "Ich nutze KI, um aus einem Stück Content 3 bis 5 Formate abzuleiten", "scores": { "CK": 4, "AW": 3 } },
-          { "text": "Automatisierter Workflow: Aufnahme → Transkript → KI erstellt 8 bis 12 Content-Pieces in meiner Stimme", "scores": { "CK": 6, "AW": 5 } }
+          {
+            "text": "Gar nicht — ich erstelle jedes Format einzeln von Null",
+            "scores": {
+              "CK": 1,
+              "AW": 1
+            }
+          },
+          {
+            "text": "Ich nutze manchmal Copy-Paste und schreibe händisch um",
+            "scores": {
+              "CK": 2,
+              "AW": 1
+            }
+          },
+          {
+            "text": "Ich nutze KI, um aus einem Stück Content 3 bis 5 Formate abzuleiten",
+            "scores": {
+              "CK": 4,
+              "AW": 3
+            }
+          },
+          {
+            "text": "Automatisierter Workflow: Aufnahme → Transkript → KI erstellt 8 bis 12 Content-Pieces in meiner Stimme",
+            "scores": {
+              "CK": 6,
+              "AW": 5
+            }
+          }
         ]
       },
       {
@@ -217,10 +456,30 @@
         "type": "single",
         "question": "Wie qualifizierst du Leads mithilfe von KI, bevor sie ins Erstgespräch kommen?",
         "options": [
-          { "text": "Gar nicht — jeder, der bucht, bekommt einen Termin", "scores": { "LQ": 1 } },
-          { "text": "Ich habe ein statisches Formular, das grundlegende Infos abfragt", "scores": { "LQ": 2 } },
-          { "text": "Ich nutze einen KI-Chatbot oder ein intelligentes Quiz, das Leads vorqualifiziert", "scores": { "LQ": 4 } },
-          { "text": "Mein KI-Agent führt diagnostische Gespräche, scored Leads automatisch und routet nur passende Kontakte in meinen Kalender", "scores": { "LQ": 6 } }
+          {
+            "text": "Gar nicht — jeder, der bucht, bekommt einen Termin",
+            "scores": {
+              "LQ": 1
+            }
+          },
+          {
+            "text": "Ich habe ein statisches Formular, das grundlegende Infos abfragt",
+            "scores": {
+              "LQ": 2
+            }
+          },
+          {
+            "text": "Ich nutze einen KI-Chatbot oder ein intelligentes Quiz, das Leads vorqualifiziert",
+            "scores": {
+              "LQ": 4
+            }
+          },
+          {
+            "text": "Mein KI-Agent führt diagnostische Gespräche, scored Leads automatisch und routet nur passende Kontakte in meinen Kalender",
+            "scores": {
+              "LQ": 6
+            }
+          }
         ]
       },
       {
@@ -229,10 +488,30 @@
         "question": "Wie automatisiert sind deine Marketing-Prozesse mit KI?",
         "hint": "Denk an E-Mail-Sequenzen, Social-Media-Planung, Terminbuchung, Onboarding.",
         "options": [
-          { "text": "Fast nichts ist automatisiert, ich mache das meiste manuell", "scores": { "AW": 1 } },
-          { "text": "Ich habe einfache Automationen (z. B. Autoresponder), aber ohne KI-Komponente", "scores": { "AW": 2 } },
-          { "text": "Ich nutze KI-gestützte Automationen in 2 bis 3 Bereichen (z. B. E-Mail + Posting-Planung)", "scores": { "AW": 4 } },
-          { "text": "Durchgängig automatisierte Kette: Lead-Eingang → KI-Qualifizierung → personalisiertes Nurturing → Buchung → Onboarding", "scores": { "AW": 6 } }
+          {
+            "text": "Fast nichts ist automatisiert, ich mache das meiste manuell",
+            "scores": {
+              "AW": 1
+            }
+          },
+          {
+            "text": "Ich habe einfache Automationen (z. B. Autoresponder), aber ohne KI-Komponente",
+            "scores": {
+              "AW": 2
+            }
+          },
+          {
+            "text": "Ich nutze KI-gestützte Automationen in 2 bis 3 Bereichen (z. B. E-Mail + Posting-Planung)",
+            "scores": {
+              "AW": 4
+            }
+          },
+          {
+            "text": "Durchgängig automatisierte Kette: Lead-Eingang → KI-Qualifizierung → personalisiertes Nurturing → Buchung → Onboarding",
+            "scores": {
+              "AW": 6
+            }
+          }
         ]
       },
       {
@@ -244,10 +523,30 @@
           "text": "<strong>Personalisierte E-Mails liefern 6x mehr Transaktionen als generische Nachrichten.</strong><br><br>KI-gestützte Personalisierung bedeutet nicht nur den Vornamen einzusetzen:<ul><li><strong>Verhaltensbasiert:</strong> Welche Seiten besucht? Welche Mails geöffnet?</li><li><strong>Kontextbasiert:</strong> Quiz-Antworten, Webinar-Fragen, DM-Interaktionen</li><li><strong>Phasenbasiert:</strong> Kalter Lead bekommt anderen Content als jemand kurz vor der Buchung</li></ul><span class='fq-info-benchmark'>Benchmark: KI-personalisierte Sequenzen steigern die Conversion um bis zu 30%</span>"
         },
         "options": [
-          { "text": "Alle bekommen die gleichen E-Mails und Inhalte", "scores": { "DP": 1 } },
-          { "text": "Ich segmentiere grob (z. B. nach Themeninteresse), aber manuell", "scores": { "DP": 2 } },
-          { "text": "KI passt Inhalte automatisch an Segmente an (z. B. basierend auf Quiz-Ergebnissen)", "scores": { "DP": 4 } },
-          { "text": "Hyper-Personalisierung: Jeder Lead bekommt KI-generierte Inhalte basierend auf Verhalten, Interessen und Phase in der Customer Journey", "scores": { "DP": 6 } }
+          {
+            "text": "Alle bekommen die gleichen E-Mails und Inhalte",
+            "scores": {
+              "DP": 1
+            }
+          },
+          {
+            "text": "Ich segmentiere grob (z. B. nach Themeninteresse), aber manuell",
+            "scores": {
+              "DP": 2
+            }
+          },
+          {
+            "text": "KI passt Inhalte automatisch an Segmente an (z. B. basierend auf Quiz-Ergebnissen)",
+            "scores": {
+              "DP": 4
+            }
+          },
+          {
+            "text": "Hyper-Personalisierung: Jeder Lead bekommt KI-generierte Inhalte basierend auf Verhalten, Interessen und Phase in der Customer Journey",
+            "scores": {
+              "DP": 6
+            }
+          }
         ]
       },
       {
@@ -259,10 +558,34 @@
           "text": "<strong>KI-gestützte Vorbereitung macht dein Erstgespräch 3x effektiver.</strong><br><br><strong>So funktioniert die 30-Minuten-Prep:</strong><ul><li>LinkedIn-Profil, Website und bisherige Interaktionen in KI pasten</li><li>KI identifiziert: Top-3-Probleme, gewünschtes Outcome, wahrscheinliche Einwände</li><li>Du bekommst: Gesprächsleitfaden, personalisierte Fragen, vorformulierte Einwandbehandlung</li></ul><span class='fq-info-benchmark'>Benchmark: Coaches mit KI-Prep berichten von 40 bis 60% höherer Abschlussrate</span>"
         },
         "options": [
-          { "text": "Ich gehe ohne besondere Vorbereitung ins Gespräch", "scores": { "LQ": 1, "SV": 1 } },
-          { "text": "Ich schaue mir vorher kurz das LinkedIn-Profil an", "scores": { "LQ": 2, "SV": 1 } },
-          { "text": "Ich recherchiere manuell und mache mir Notizen", "scores": { "LQ": 3, "SV": 2 } },
-          { "text": "Ich paste alle Prospect-Daten in KI und bekomme eine komplette Gesprächsvorbereitung mit Einwandbehandlung", "scores": { "LQ": 5, "SV": 4 } }
+          {
+            "text": "Ich gehe ohne besondere Vorbereitung ins Gespräch",
+            "scores": {
+              "LQ": 1,
+              "SV": 1
+            }
+          },
+          {
+            "text": "Ich schaue mir vorher kurz das LinkedIn-Profil an",
+            "scores": {
+              "LQ": 2,
+              "SV": 1
+            }
+          },
+          {
+            "text": "Ich recherchiere manuell und mache mir Notizen",
+            "scores": {
+              "LQ": 3,
+              "SV": 2
+            }
+          },
+          {
+            "text": "Ich paste alle Prospect-Daten in KI und bekomme eine komplette Gesprächsvorbereitung mit Einwandbehandlung",
+            "scores": {
+              "LQ": 5,
+              "SV": 4
+            }
+          }
         ]
       },
       {
@@ -270,10 +593,34 @@
         "type": "single",
         "question": "Wie gestaltest du das Onboarding neuer Klienten und erkennst Abwanderungsrisiken?",
         "options": [
-          { "text": "Onboarding ist bei mir manuell — ich schicke eine Willkommens-E-Mail und das war's", "scores": { "AW": 1, "DP": 1 } },
-          { "text": "Ich habe eine Standard-Willkommenssequenz, aber sie ist für alle gleich", "scores": { "AW": 2, "DP": 2 } },
-          { "text": "Automatisiertes Onboarding mit KI-generierten Cheat Sheets, angepasst an die Ziele des Klienten", "scores": { "AW": 4, "DP": 4 } },
-          { "text": "KI-gestütztes Onboarding plus Sentiment-Analyse, die Abwanderungsrisiken erkennt, bevor der Klient sich meldet", "scores": { "AW": 6, "DP": 6 } }
+          {
+            "text": "Onboarding ist bei mir manuell — ich schicke eine Willkommens-E-Mail und das war's",
+            "scores": {
+              "AW": 1,
+              "DP": 1
+            }
+          },
+          {
+            "text": "Ich habe eine Standard-Willkommenssequenz, aber sie ist für alle gleich",
+            "scores": {
+              "AW": 2,
+              "DP": 2
+            }
+          },
+          {
+            "text": "Automatisiertes Onboarding mit KI-generierten Cheat Sheets, angepasst an die Ziele des Klienten",
+            "scores": {
+              "AW": 4,
+              "DP": 4
+            }
+          },
+          {
+            "text": "KI-gestütztes Onboarding plus Sentiment-Analyse, die Abwanderungsrisiken erkennt, bevor der Klient sich meldet",
+            "scores": {
+              "AW": 6,
+              "DP": 6
+            }
+          }
         ]
       },
       {
@@ -282,11 +629,40 @@
         "question": "Welche dieser KI-gestützten Marketing-Aktivitäten nutzt du bereits?",
         "hint": "Wähle alle aus, die zutreffen.",
         "options": [
-          { "text": "KI-generierte Social-Media-Posts (Texte, Hooks, Carousels)", "scores": { "CK": 1 } },
-          { "text": "Automatische Transkription und Zusammenfassung von Calls", "scores": { "CK": 1, "AW": 1 } },
-          { "text": "KI-gestützte E-Mail-Sequenzen mit dynamischem Content", "scores": { "AW": 1, "DP": 1 } },
-          { "text": "KI-Chatbot auf der Website oder in DMs für Lead-Qualifizierung", "scores": { "LQ": 1, "AW": 1 } },
-          { "text": "Automatisierte Content-Planung und Veröffentlichung", "scores": { "AW": 1, "CK": 1 } }
+          {
+            "text": "KI-generierte Social-Media-Posts (Texte, Hooks, Carousels)",
+            "scores": {
+              "CK": 1
+            }
+          },
+          {
+            "text": "Automatische Transkription und Zusammenfassung von Calls",
+            "scores": {
+              "CK": 1,
+              "AW": 1
+            }
+          },
+          {
+            "text": "KI-gestützte E-Mail-Sequenzen mit dynamischem Content",
+            "scores": {
+              "AW": 1,
+              "DP": 1
+            }
+          },
+          {
+            "text": "KI-Chatbot auf der Website oder in DMs für Lead-Qualifizierung",
+            "scores": {
+              "LQ": 1,
+              "AW": 1
+            }
+          },
+          {
+            "text": "Automatisierte Content-Planung und Veröffentlichung",
+            "scores": {
+              "AW": 1,
+              "CK": 1
+            }
+          }
         ]
       },
       {
@@ -295,11 +671,39 @@
         "question": "Welche Daten nutzt du, um dein Marketing zu verbessern?",
         "hint": "Wähle alle aus, die du aktiv auswertest.",
         "options": [
-          { "text": "Quiz- oder Umfrage-Ergebnisse zur Segmentierung", "scores": { "DP": 1, "LQ": 1 } },
-          { "text": "E-Mail-Öffnungsraten und Klickverhalten", "scores": { "DP": 1 } },
-          { "text": "Verhaltensdaten auf der Website (Seitenaufrufe, Verweildauer)", "scores": { "DP": 1 } },
-          { "text": "KI-gestütztes Lead-Scoring basierend auf Engagement", "scores": { "LQ": 1, "DP": 1 } },
-          { "text": "Sentiment-Analyse aus Klienten-Feedback oder Session-Transkripten", "scores": { "DP": 1, "AW": 1 } }
+          {
+            "text": "Quiz- oder Umfrage-Ergebnisse zur Segmentierung",
+            "scores": {
+              "DP": 1,
+              "LQ": 1
+            }
+          },
+          {
+            "text": "E-Mail-Öffnungsraten und Klickverhalten",
+            "scores": {
+              "DP": 1
+            }
+          },
+          {
+            "text": "Verhaltensdaten auf der Website (Seitenaufrufe, Verweildauer)",
+            "scores": {
+              "DP": 1
+            }
+          },
+          {
+            "text": "KI-gestütztes Lead-Scoring basierend auf Engagement",
+            "scores": {
+              "LQ": 1,
+              "DP": 1
+            }
+          },
+          {
+            "text": "Sentiment-Analyse aus Klienten-Feedback oder Session-Transkripten",
+            "scores": {
+              "DP": 1,
+              "AW": 1
+            }
+          }
         ]
       },
       {
@@ -308,11 +712,41 @@
         "question": "Welche dieser KI-Strategien hast du für dein Coaching-Business umgesetzt?",
         "hint": "Wähle alle aus, die zutreffen.",
         "options": [
-          { "text": "Custom Instructions oder System-Prompts, die meinen Ton und Stil abbilden", "scores": { "SV": 1, "CK": 1 } },
-          { "text": "Eine Prompt-Bibliothek für wiederkehrende Marketing-Aufgaben", "scores": { "SV": 1, "CK": 1 } },
-          { "text": "KI-Agent oder GPT, der auf meinen eigenen Inhalten trainiert ist", "scores": { "SV": 1, "LQ": 1 } },
-          { "text": "Definierte KI-Workflows mit klaren Input-Output-Standards", "scores": { "SV": 1, "AW": 1 } },
-          { "text": "Regelmäßige Evaluation und Optimierung meiner KI-Ergebnisse", "scores": { "SV": 1, "DP": 1 } }
+          {
+            "text": "Custom Instructions oder System-Prompts, die meinen Ton und Stil abbilden",
+            "scores": {
+              "SV": 1,
+              "CK": 1
+            }
+          },
+          {
+            "text": "Eine Prompt-Bibliothek für wiederkehrende Marketing-Aufgaben",
+            "scores": {
+              "SV": 1,
+              "CK": 1
+            }
+          },
+          {
+            "text": "KI-Agent oder GPT, der auf meinen eigenen Inhalten trainiert ist",
+            "scores": {
+              "SV": 1,
+              "LQ": 1
+            }
+          },
+          {
+            "text": "Definierte KI-Workflows mit klaren Input-Output-Standards",
+            "scores": {
+              "SV": 1,
+              "AW": 1
+            }
+          },
+          {
+            "text": "Regelmäßige Evaluation und Optimierung meiner KI-Ergebnisse",
+            "scores": {
+              "SV": 1,
+              "DP": 1
+            }
+          }
         ]
       },
       {
@@ -321,10 +755,30 @@
         "question": "Was ist dein nächster großer KI-Schritt im Marketing?",
         "hint": "Was steht bei dir als Nächstes auf dem Plan?",
         "options": [
-          { "text": "Ich habe noch keinen Plan — ich will erst mal verstehen, was möglich ist", "scores": { "SV": 1 } },
-          { "text": "Ich will ein einzelnes Tool einführen (z. B. Chatbot oder Content-KI)", "scores": { "SV": 2 } },
-          { "text": "Ich will mehrere KI-Tools verknüpfen und einen durchgängigen Workflow bauen", "scores": { "SV": 4 } },
-          { "text": "Ich baue ein komplettes KI-Marketing-Ökosystem mit Datenkreislauf, das sich selbst optimiert", "scores": { "SV": 6 } }
+          {
+            "text": "Ich habe noch keinen Plan — ich will erst mal verstehen, was möglich ist",
+            "scores": {
+              "SV": 1
+            }
+          },
+          {
+            "text": "Ich will ein einzelnes Tool einführen (z. B. Chatbot oder Content-KI)",
+            "scores": {
+              "SV": 2
+            }
+          },
+          {
+            "text": "Ich will mehrere KI-Tools verknüpfen und einen durchgängigen Workflow bauen",
+            "scores": {
+              "SV": 4
+            }
+          },
+          {
+            "text": "Ich baue ein komplettes KI-Marketing-Ökosystem mit Datenkreislauf, das sich selbst optimiert",
+            "scores": {
+              "SV": 6
+            }
+          }
         ]
       }
     ],
@@ -339,10 +793,30 @@
           "text": "<strong>60% der Marketer nutzen KI mittlerweile täglich</strong>, die meisten jedoch ohne klaren Plan.<br><br><strong>Ad-hoc vs. strategisch:</strong><ul><li><strong>Ad-hoc:</strong> Einzelne Mitarbeiter nutzen ChatGPT für Texte. Kein einheitlicher Prozess, keine Qualitätskontrolle.</li><li><strong>Strategisch:</strong> Dokumentierte Use Cases, Prompt-Bibliotheken, definierte Workflows, ROI-Tracking pro KI-Einsatz.</li></ul><span class='fq-info-benchmark'>Agenturen mit KI-Strategie bringen Kampagnen bis zu 75% schneller auf den Markt</span>"
         },
         "options": [
-          { "text": "Ich nutze ChatGPT oder ähnliche Tools gelegentlich, wenn ich nicht weiterkomme", "scores": { "SV": 1 } },
-          { "text": "Einzelne im Team nutzen KI regelmäßig, aber jeder macht sein eigenes Ding", "scores": { "SV": 2 } },
-          { "text": "Wir haben definierte Use Cases und gemeinsame Prompt-Vorlagen für wiederkehrende Aufgaben", "scores": { "SV": 4 } },
-          { "text": "KI-Roadmap mit priorisierten Use Cases, ROI-Tracking und regelmäßiger Evaluation neuer Tools", "scores": { "SV": 6 } }
+          {
+            "text": "Ich nutze ChatGPT oder ähnliche Tools gelegentlich, wenn ich nicht weiterkomme",
+            "scores": {
+              "SV": 1
+            }
+          },
+          {
+            "text": "Einzelne im Team nutzen KI regelmäßig, aber jeder macht sein eigenes Ding",
+            "scores": {
+              "SV": 2
+            }
+          },
+          {
+            "text": "Wir haben definierte Use Cases und gemeinsame Prompt-Vorlagen für wiederkehrende Aufgaben",
+            "scores": {
+              "SV": 4
+            }
+          },
+          {
+            "text": "KI-Roadmap mit priorisierten Use Cases, ROI-Tracking und regelmäßiger Evaluation neuer Tools",
+            "scores": {
+              "SV": 6
+            }
+          }
         ]
       },
       {
@@ -351,10 +825,30 @@
         "question": "Wie nutzt du KI für die Content-Erstellung deiner Kunden?",
         "hint": "Von Ad Copy über Blogartikel bis Social Media Posts.",
         "options": [
-          { "text": "Ich schreibe alles selbst oder lasse es komplett von KI generieren und poste es 1:1", "scores": { "CK": 1 } },
-          { "text": "KI liefert erste Entwürfe, die ich manuell überarbeite, allerdings ohne festes System", "scores": { "CK": 2 } },
-          { "text": "Feste Prompt-Templates pro Content-Format (Ad Copy, Blog, Social) mit Brand-Voice-Vorgaben", "scores": { "CK": 4 } },
-          { "text": "KI-gestützter Content-Workflow: Briefing → Entwurf → Brand-Check → Varianten → Performance-Feedback-Loop", "scores": { "CK": 6 } }
+          {
+            "text": "Ich schreibe alles selbst oder lasse es komplett von KI generieren und poste es 1:1",
+            "scores": {
+              "CK": 1
+            }
+          },
+          {
+            "text": "KI liefert erste Entwürfe, die ich manuell überarbeite, allerdings ohne festes System",
+            "scores": {
+              "CK": 2
+            }
+          },
+          {
+            "text": "Feste Prompt-Templates pro Content-Format (Ad Copy, Blog, Social) mit Brand-Voice-Vorgaben",
+            "scores": {
+              "CK": 4
+            }
+          },
+          {
+            "text": "KI-gestützter Content-Workflow: Briefing → Entwurf → Brand-Check → Varianten → Performance-Feedback-Loop",
+            "scores": {
+              "CK": 6
+            }
+          }
         ]
       },
       {
@@ -366,10 +860,30 @@
           "text": "<strong>Ein Pillar-Content wird per KI in 8 bis 12 plattformspezifische Formate umgewandelt.</strong><br><br><strong>So sieht ein moderner Repurposing-Workflow aus:</strong><ul><li>LinkedIn-Karussell mit Datenpunkten</li><li>Twitter/X-Thread mit kontroversen Takes</li><li>E-Mail-Sequenz mit praktischen Tipps</li><li>Kurzvideo-Skript für Reels/TikTok</li></ul><span class='fq-info-benchmark'>Agenturen mit KI-Repurposing produzieren 5 bis 8x mehr Content-Pieces pro Pillar-Content</span>"
         },
         "options": [
-          { "text": "Jedes Content-Piece wird einzeln und manuell für jeden Kanal erstellt", "scores": { "CK": 1 } },
-          { "text": "Ich copy-paste Texte zwischen Kanälen und passe sie leicht an", "scores": { "CK": 2 } },
-          { "text": "KI hilft mir, aus einem Pillar-Content mehrere Formate abzuleiten", "scores": { "CK": 4 } },
-          { "text": "Automatisierter Repurposing-Workflow: Ein Content-Piece wird per KI in 5+ plattformspezifische Formate umgewandelt", "scores": { "CK": 6 } }
+          {
+            "text": "Jedes Content-Piece wird einzeln und manuell für jeden Kanal erstellt",
+            "scores": {
+              "CK": 1
+            }
+          },
+          {
+            "text": "Ich copy-paste Texte zwischen Kanälen und passe sie leicht an",
+            "scores": {
+              "CK": 2
+            }
+          },
+          {
+            "text": "KI hilft mir, aus einem Pillar-Content mehrere Formate abzuleiten",
+            "scores": {
+              "CK": 4
+            }
+          },
+          {
+            "text": "Automatisierter Repurposing-Workflow: Ein Content-Piece wird per KI in 5+ plattformspezifische Formate umgewandelt",
+            "scores": {
+              "CK": 6
+            }
+          }
         ]
       },
       {
@@ -378,10 +892,30 @@
         "question": "Wie setzt du KI bei der Leadgenerierung und -qualifizierung ein?",
         "hint": "Von Chatbots über Lead Scoring bis Intent-basierte Ansprache.",
         "options": [
-          { "text": "Gar nicht. Leads kommen über Formulare und werden manuell qualifiziert", "scores": { "LQ": 1 } },
-          { "text": "Ein einfacher Chatbot beantwortet FAQs auf der Website", "scores": { "LQ": 2 } },
-          { "text": "KI-gestütztes Lead Scoring auf Basis von Verhalten (Seitenbesuche, E-Mail-Engagement, Downloads)", "scores": { "LQ": 4 } },
-          { "text": "Predictive Lead Scoring mit Intent-Signalen, automatisierte Qualifizierung und dynamische Nurturing-Pfade", "scores": { "LQ": 6 } }
+          {
+            "text": "Gar nicht. Leads kommen über Formulare und werden manuell qualifiziert",
+            "scores": {
+              "LQ": 1
+            }
+          },
+          {
+            "text": "Ein einfacher Chatbot beantwortet FAQs auf der Website",
+            "scores": {
+              "LQ": 2
+            }
+          },
+          {
+            "text": "KI-gestütztes Lead Scoring auf Basis von Verhalten (Seitenbesuche, E-Mail-Engagement, Downloads)",
+            "scores": {
+              "LQ": 4
+            }
+          },
+          {
+            "text": "Predictive Lead Scoring mit Intent-Signalen, automatisierte Qualifizierung und dynamische Nurturing-Pfade",
+            "scores": {
+              "LQ": 6
+            }
+          }
         ]
       },
       {
@@ -389,10 +923,30 @@
         "type": "single",
         "question": "Wie automatisierst du wiederkehrende Marketing-Workflows mit KI?",
         "options": [
-          { "text": "Kaum Automatisierung, die meisten Aufgaben erledige ich manuell", "scores": { "AW": 1 } },
-          { "text": "Einzelne Automationen (z. B. Zapier-Flows), aber nicht KI-gesteuert", "scores": { "AW": 2 } },
-          { "text": "KI-gestützte Automationen für wiederkehrende Tasks: Reporting, Briefings, Status-Updates", "scores": { "AW": 4 } },
-          { "text": "Agentic Workflows: KI-Agenten überwachen Kampagnen autonom, erkennen Anomalien und passen Budgets an", "scores": { "AW": 6 } }
+          {
+            "text": "Kaum Automatisierung, die meisten Aufgaben erledige ich manuell",
+            "scores": {
+              "AW": 1
+            }
+          },
+          {
+            "text": "Einzelne Automationen (z. B. Zapier-Flows), aber nicht KI-gesteuert",
+            "scores": {
+              "AW": 2
+            }
+          },
+          {
+            "text": "KI-gestützte Automationen für wiederkehrende Tasks: Reporting, Briefings, Status-Updates",
+            "scores": {
+              "AW": 4
+            }
+          },
+          {
+            "text": "Agentic Workflows: KI-Agenten überwachen Kampagnen autonom, erkennen Anomalien und passen Budgets an",
+            "scores": {
+              "AW": 6
+            }
+          }
         ]
       },
       {
@@ -404,10 +958,30 @@
           "text": "<strong>KI-gestützte Analyse reduziert Report-Erstellungszeit um bis zu 80%.</strong><br><br><strong>Manuell vs. KI-gestützt:</strong><ul><li><strong>Manuell:</strong> Daten exportieren, aufbereiten, Anomalien suchen → 4 bis 8 Stunden pro Client</li><li><strong>KI-gestützt:</strong> Automatische Anomalie-Erkennung, Natural-Language-Insights → 30 bis 60 Minuten pro Client</li></ul><span class='fq-info-benchmark'>Agenturen mit KI-Analytics sparen durchschnittlich 38 Stunden/Woche pro Analyst</span>"
         },
         "options": [
-          { "text": "Ich schaue in die Plattform-Dashboards und entscheide nach Erfahrung", "scores": { "DP": 1 } },
-          { "text": "Ich erstelle regelmäßig Reports in Sheets, aber die Analyse ist manuell", "scores": { "DP": 2 } },
-          { "text": "KI fasst Kampagnendaten zusammen und liefert automatisierte Insights und Handlungsempfehlungen", "scores": { "DP": 4 } },
-          { "text": "KI-Agenten erkennen Anomalien in Echtzeit, liefern Prognosen und schlagen Budget-Umschichtungen vor", "scores": { "DP": 6 } }
+          {
+            "text": "Ich schaue in die Plattform-Dashboards und entscheide nach Erfahrung",
+            "scores": {
+              "DP": 1
+            }
+          },
+          {
+            "text": "Ich erstelle regelmäßig Reports in Sheets, aber die Analyse ist manuell",
+            "scores": {
+              "DP": 2
+            }
+          },
+          {
+            "text": "KI fasst Kampagnendaten zusammen und liefert automatisierte Insights und Handlungsempfehlungen",
+            "scores": {
+              "DP": 4
+            }
+          },
+          {
+            "text": "KI-Agenten erkennen Anomalien in Echtzeit, liefern Prognosen und schlagen Budget-Umschichtungen vor",
+            "scores": {
+              "DP": 6
+            }
+          }
         ]
       },
       {
@@ -415,10 +989,30 @@
         "type": "single",
         "question": "Wie personalisierst du Kampagnen und Landingpages für unterschiedliche Zielgruppen?",
         "options": [
-          { "text": "Alle sehen die gleiche Kampagne und die gleiche Landingpage", "scores": { "DP": 1 } },
-          { "text": "Ich erstelle manuell 2 bis 3 Varianten für verschiedene Audiences", "scores": { "DP": 2 } },
-          { "text": "KI generiert dynamische Ad-Varianten und passt Landingpage-Elemente an die Zielgruppe an", "scores": { "DP": 4 } },
-          { "text": "Hyper-Personalisierung: KI passt Headline, Bilder, Social Proof und CTA in Echtzeit an Nutzerverhalten an", "scores": { "DP": 6 } }
+          {
+            "text": "Alle sehen die gleiche Kampagne und die gleiche Landingpage",
+            "scores": {
+              "DP": 1
+            }
+          },
+          {
+            "text": "Ich erstelle manuell 2 bis 3 Varianten für verschiedene Audiences",
+            "scores": {
+              "DP": 2
+            }
+          },
+          {
+            "text": "KI generiert dynamische Ad-Varianten und passt Landingpage-Elemente an die Zielgruppe an",
+            "scores": {
+              "DP": 4
+            }
+          },
+          {
+            "text": "Hyper-Personalisierung: KI passt Headline, Bilder, Social Proof und CTA in Echtzeit an Nutzerverhalten an",
+            "scores": {
+              "DP": 6
+            }
+          }
         ]
       },
       {
@@ -426,10 +1020,34 @@
         "type": "single",
         "question": "Wie gehst du mit Client-Reporting und Ergebnis-Kommunikation um?",
         "options": [
-          { "text": "Ich schicke Screenshots aus den Plattformen oder ein einfaches PDF", "scores": { "AW": 1, "DP": 1 } },
-          { "text": "Monatliches Reporting in Slides oder Sheets, manuell zusammengestellt", "scores": { "AW": 2, "DP": 1 } },
-          { "text": "Automatisierte Dashboards, die Clients selbst einsehen können", "scores": { "AW": 4, "DP": 2 } },
-          { "text": "KI-generierte Insights im Dashboard: automatische Anomalie-Alerts, Prognosen und Handlungsempfehlungen", "scores": { "AW": 5, "DP": 3 } }
+          {
+            "text": "Ich schicke Screenshots aus den Plattformen oder ein einfaches PDF",
+            "scores": {
+              "AW": 1,
+              "DP": 1
+            }
+          },
+          {
+            "text": "Monatliches Reporting in Slides oder Sheets, manuell zusammengestellt",
+            "scores": {
+              "AW": 2,
+              "DP": 1
+            }
+          },
+          {
+            "text": "Automatisierte Dashboards, die Clients selbst einsehen können",
+            "scores": {
+              "AW": 4,
+              "DP": 2
+            }
+          },
+          {
+            "text": "KI-generierte Insights im Dashboard: automatische Anomalie-Alerts, Prognosen und Handlungsempfehlungen",
+            "scores": {
+              "AW": 5,
+              "DP": 3
+            }
+          }
         ]
       },
       {
@@ -438,12 +1056,42 @@
         "question": "Für welche Aufgaben nutzt du KI-Tools in deinem Agentur-Alltag?",
         "hint": "Wähle alle aus, die du regelmäßig einsetzt.",
         "options": [
-          { "text": "Ad Copy und Creative-Varianten erstellen (Headlines, Hooks, CTAs)", "scores": { "CK": 1 } },
-          { "text": "SEO-Content und Keyword-Recherche", "scores": { "CK": 1 } },
-          { "text": "Kampagnen-Analyse und Reporting-Zusammenfassungen", "scores": { "DP": 1 } },
-          { "text": "Kunden-Briefings und Strategiedokumente aufbereiten", "scores": { "SV": 1 } },
-          { "text": "Chatbots oder Conversational AI auf Kunden-Websites", "scores": { "LQ": 1 } },
-          { "text": "Automatische Budget-Optimierung und Bid-Management", "scores": { "AW": 1 } }
+          {
+            "text": "Ad Copy und Creative-Varianten erstellen (Headlines, Hooks, CTAs)",
+            "scores": {
+              "CK": 1
+            }
+          },
+          {
+            "text": "SEO-Content und Keyword-Recherche",
+            "scores": {
+              "CK": 1
+            }
+          },
+          {
+            "text": "Kampagnen-Analyse und Reporting-Zusammenfassungen",
+            "scores": {
+              "DP": 1
+            }
+          },
+          {
+            "text": "Kunden-Briefings und Strategiedokumente aufbereiten",
+            "scores": {
+              "SV": 1
+            }
+          },
+          {
+            "text": "Chatbots oder Conversational AI auf Kunden-Websites",
+            "scores": {
+              "LQ": 1
+            }
+          },
+          {
+            "text": "Automatische Budget-Optimierung und Bid-Management",
+            "scores": {
+              "AW": 1
+            }
+          }
         ]
       },
       {
@@ -452,11 +1100,36 @@
         "question": "Welche KI-gestützten Prozesse hast du standardisiert (SOPs)?",
         "hint": "Wähle alle aus, für die du dokumentierte Abläufe mit KI hast.",
         "options": [
-          { "text": "Prompt-Bibliothek mit getesteten Templates für verschiedene Content-Formate", "scores": { "CK": 1 } },
-          { "text": "Onboarding-Workflow für neue Kunden mit KI-gestützter Briefing-Analyse", "scores": { "SV": 1 } },
-          { "text": "Automatisierte Kampagnen-Alerts bei Performance-Abweichungen", "scores": { "AW": 1 } },
-          { "text": "KI-gestützter QA-Prozess für Texte und Ads vor Go-Live", "scores": { "CK": 1 } },
-          { "text": "Lead-Scoring-Modell, das automatisch qualifizierte Leads priorisiert", "scores": { "LQ": 1 } }
+          {
+            "text": "Prompt-Bibliothek mit getesteten Templates für verschiedene Content-Formate",
+            "scores": {
+              "CK": 1
+            }
+          },
+          {
+            "text": "Onboarding-Workflow für neue Kunden mit KI-gestützter Briefing-Analyse",
+            "scores": {
+              "SV": 1
+            }
+          },
+          {
+            "text": "Automatisierte Kampagnen-Alerts bei Performance-Abweichungen",
+            "scores": {
+              "AW": 1
+            }
+          },
+          {
+            "text": "KI-gestützter QA-Prozess für Texte und Ads vor Go-Live",
+            "scores": {
+              "CK": 1
+            }
+          },
+          {
+            "text": "Lead-Scoring-Modell, das automatisch qualifizierte Leads priorisiert",
+            "scores": {
+              "LQ": 1
+            }
+          }
         ]
       },
       {
@@ -465,11 +1138,36 @@
         "question": "Welche dieser fortgeschrittenen KI-Strategien setzt du bereits ein?",
         "hint": "Wähle alle aus, die du aktiv nutzt.",
         "options": [
-          { "text": "Multi-Armed-Bandit-Testing statt klassischer A/B-Tests", "scores": { "DP": 1 } },
-          { "text": "KI-gestützte Konkurrenzanalyse (automatisches Monitoring von Wettbewerber-Ads)", "scores": { "SV": 1 } },
-          { "text": "Predictive Analytics für Kampagnen-Forecasting (CPA, ROAS-Prognosen)", "scores": { "DP": 1 } },
-          { "text": "Autonomous Campaign Management (KI-Agenten passen Gebote und Budgets eigenständig an)", "scores": { "AW": 1 } },
-          { "text": "KI-generierte Landingpage-Varianten mit automatischer Message-Match-Optimierung", "scores": { "LQ": 1 } }
+          {
+            "text": "Multi-Armed-Bandit-Testing statt klassischer A/B-Tests",
+            "scores": {
+              "DP": 1
+            }
+          },
+          {
+            "text": "KI-gestützte Konkurrenzanalyse (automatisches Monitoring von Wettbewerber-Ads)",
+            "scores": {
+              "SV": 1
+            }
+          },
+          {
+            "text": "Predictive Analytics für Kampagnen-Forecasting (CPA, ROAS-Prognosen)",
+            "scores": {
+              "DP": 1
+            }
+          },
+          {
+            "text": "Autonomous Campaign Management (KI-Agenten passen Gebote und Budgets eigenständig an)",
+            "scores": {
+              "AW": 1
+            }
+          },
+          {
+            "text": "KI-generierte Landingpage-Varianten mit automatischer Message-Match-Optimierung",
+            "scores": {
+              "LQ": 1
+            }
+          }
         ]
       },
       {
@@ -478,10 +1176,30 @@
         "question": "Wie hat KI dein Pricing- oder Geschäftsmodell verändert?",
         "hint": "Wenn KI deine Arbeit um 50% beschleunigt: Rechnest du dann weniger ab oder lieferst du mehr?",
         "options": [
-          { "text": "Gar nicht. Ich rechne weiterhin nach Stunden oder Pauschalpreisen ab", "scores": { "SV": 1 } },
-          { "text": "Ich arbeite schneller, gebe den Zeitvorteil aber nicht strategisch weiter", "scores": { "SV": 2 } },
-          { "text": "Ich nutze die gewonnene Zeit für bessere Ergebnisse und höhere Qualität", "scores": { "SV": 4 } },
-          { "text": "Outcome-basiertes Pricing: Ich verkaufe Ergebnisse (Leads, ROAS) statt Stunden, KI ist mein Hebel", "scores": { "SV": 6 } }
+          {
+            "text": "Gar nicht. Ich rechne weiterhin nach Stunden oder Pauschalpreisen ab",
+            "scores": {
+              "SV": 1
+            }
+          },
+          {
+            "text": "Ich arbeite schneller, gebe den Zeitvorteil aber nicht strategisch weiter",
+            "scores": {
+              "SV": 2
+            }
+          },
+          {
+            "text": "Ich nutze die gewonnene Zeit für bessere Ergebnisse und höhere Qualität",
+            "scores": {
+              "SV": 4
+            }
+          },
+          {
+            "text": "Outcome-basiertes Pricing: Ich verkaufe Ergebnisse (Leads, ROAS) statt Stunden, KI ist mein Hebel",
+            "scores": {
+              "SV": 6
+            }
+          }
         ]
       }
     ],
@@ -495,10 +1213,30 @@
           "text": "<strong>86% der KMU erkennen die Relevanz von KI, aber nur 23% haben konkrete Projekte umgesetzt.</strong><br><br><strong>Die 4 Reifegrade:</strong><ul><li><strong>Stufe 1:</strong> Kein systematischer KI-Einsatz, einzelne Mitarbeiter experimentieren</li><li><strong>Stufe 2:</strong> Erste Use Cases definiert, aber isolierte Tool-Nutzung</li><li><strong>Stufe 3:</strong> KI-Strategie mit priorisierten Use Cases und ROI-Messung</li><li><strong>Stufe 4:</strong> KI als fester Bestandteil der Wertschöpfungskette</li></ul><span class='fq-info-benchmark'>Deutsche Mittelständler mit KI-Strategie wachsen 2,3x schneller als der Branchendurchschnitt</span>"
         },
         "options": [
-          { "text": "Einzelne Mitarbeiter experimentieren mit ChatGPT, aber es gibt keinen Plan", "scores": { "SV": 1 } },
-          { "text": "Wir haben erste Use Cases identifiziert, aber die Umsetzung stockt", "scores": { "SV": 2 } },
-          { "text": "Definierte KI-Use-Cases für Marketing und Vertrieb mit klaren Verantwortlichkeiten", "scores": { "SV": 4 } },
-          { "text": "KI-Roadmap mit priorisierten Projekten, Budget und regelmäßiger Evaluation", "scores": { "SV": 6 } }
+          {
+            "text": "Einzelne Mitarbeiter experimentieren mit ChatGPT, aber es gibt keinen Plan",
+            "scores": {
+              "SV": 1
+            }
+          },
+          {
+            "text": "Wir haben erste Use Cases identifiziert, aber die Umsetzung stockt",
+            "scores": {
+              "SV": 2
+            }
+          },
+          {
+            "text": "Definierte KI-Use-Cases für Marketing und Vertrieb mit klaren Verantwortlichkeiten",
+            "scores": {
+              "SV": 4
+            }
+          },
+          {
+            "text": "KI-Roadmap mit priorisierten Projekten, Budget und regelmäßiger Evaluation",
+            "scores": {
+              "SV": 6
+            }
+          }
         ]
       },
       {
@@ -506,10 +1244,30 @@
         "type": "single",
         "question": "Wie nutzt ihr KI für eure Content-Erstellung und Fachkommunikation?",
         "options": [
-          { "text": "Gar nicht — Content wird komplett manuell erstellt oder extern beauftragt", "scores": { "CK": 1 } },
-          { "text": "Einzelne nutzen KI für Texte, aber ohne einheitliche Qualitätsstandards", "scores": { "CK": 2 } },
-          { "text": "KI-gestützte Content-Produktion mit Tonalitäts-Vorgaben und Review-Prozess", "scores": { "CK": 4 } },
-          { "text": "Systematischer KI-Content-Workflow: Aus jedem Kundenprojekt entstehen automatisch Case Study, Blog, Social Posts", "scores": { "CK": 6 } }
+          {
+            "text": "Gar nicht — Content wird komplett manuell erstellt oder extern beauftragt",
+            "scores": {
+              "CK": 1
+            }
+          },
+          {
+            "text": "Einzelne nutzen KI für Texte, aber ohne einheitliche Qualitätsstandards",
+            "scores": {
+              "CK": 2
+            }
+          },
+          {
+            "text": "KI-gestützte Content-Produktion mit Tonalitäts-Vorgaben und Review-Prozess",
+            "scores": {
+              "CK": 4
+            }
+          },
+          {
+            "text": "Systematischer KI-Content-Workflow: Aus jedem Kundenprojekt entstehen automatisch Case Study, Blog, Social Posts",
+            "scores": {
+              "CK": 6
+            }
+          }
         ]
       },
       {
@@ -521,10 +1279,30 @@
           "text": "<strong>Im B2B werden bis zu 50% der Vertriebszeit mit unqualifizierten Leads verschwendet.</strong><br><br><strong>KI-gestützte Qualifizierung löst das Problem:</strong><ul><li>Chatbot erfasst Branche, Unternehmensgröße, Bedarf und Budget</li><li>KI scored den Lead automatisch als MQL oder SQL</li><li>Qualifizierte Leads werden direkt im CRM angelegt und dem richtigen Vertriebler zugewiesen</li></ul><span class='fq-info-benchmark'>B2B-Unternehmen mit KI-Lead-Scoring steigern die Conversion um bis zu 45% (Forrester)</span>"
         },
         "options": [
-          { "text": "Anfragen landen im Postfach und werden manuell gesichtet — ohne Scoring", "scores": { "LQ": 1 } },
-          { "text": "Wir haben ein Kontaktformular mit Pflichtfeldern, aber keine automatische Bewertung", "scores": { "LQ": 2 } },
-          { "text": "KI-gestützter Chatbot oder Quiz qualifiziert Anfragen vor und erstellt ein Lead-Profil", "scores": { "LQ": 4 } },
-          { "text": "Automatisches Lead-Scoring mit Intent-Signalen, CRM-Integration und automatischer Zuweisung an den Vertrieb", "scores": { "LQ": 6 } }
+          {
+            "text": "Anfragen landen im Postfach und werden manuell gesichtet — ohne Scoring",
+            "scores": {
+              "LQ": 1
+            }
+          },
+          {
+            "text": "Wir haben ein Kontaktformular mit Pflichtfeldern, aber keine automatische Bewertung",
+            "scores": {
+              "LQ": 2
+            }
+          },
+          {
+            "text": "KI-gestützter Chatbot oder Quiz qualifiziert Anfragen vor und erstellt ein Lead-Profil",
+            "scores": {
+              "LQ": 4
+            }
+          },
+          {
+            "text": "Automatisches Lead-Scoring mit Intent-Signalen, CRM-Integration und automatischer Zuweisung an den Vertrieb",
+            "scores": {
+              "LQ": 6
+            }
+          }
         ]
       },
       {
@@ -532,10 +1310,30 @@
         "type": "single",
         "question": "Wie automatisiert sind eure Marketing- und Vertriebsprozesse mit KI?",
         "options": [
-          { "text": "Fast alles ist manuell: E-Mails schreiben, Termine koordinieren, Angebote erstellen", "scores": { "AW": 1 } },
-          { "text": "Einfache Automationen (Autoresponder, CRM-Reminder), aber ohne KI-Komponente", "scores": { "AW": 2 } },
-          { "text": "KI-gestützte Automationen in 2 bis 3 Bereichen (z. B. E-Mail-Nurturing, Angebotserstellung)", "scores": { "AW": 4 } },
-          { "text": "Durchgängig automatisierte Kette: Anfrage → KI-Qualifizierung → personalisiertes Nurturing → Vertriebsbrief → Follow-up", "scores": { "AW": 6 } }
+          {
+            "text": "Fast alles ist manuell: E-Mails schreiben, Termine koordinieren, Angebote erstellen",
+            "scores": {
+              "AW": 1
+            }
+          },
+          {
+            "text": "Einfache Automationen (Autoresponder, CRM-Reminder), aber ohne KI-Komponente",
+            "scores": {
+              "AW": 2
+            }
+          },
+          {
+            "text": "KI-gestützte Automationen in 2 bis 3 Bereichen (z. B. E-Mail-Nurturing, Angebotserstellung)",
+            "scores": {
+              "AW": 4
+            }
+          },
+          {
+            "text": "Durchgängig automatisierte Kette: Anfrage → KI-Qualifizierung → personalisiertes Nurturing → Vertriebsbrief → Follow-up",
+            "scores": {
+              "AW": 6
+            }
+          }
         ]
       },
       {
@@ -543,10 +1341,30 @@
         "type": "single",
         "question": "Wie nutzt ihr Daten und KI, um Marketing-Inhalte zu personalisieren?",
         "options": [
-          { "text": "Alle Interessenten bekommen die gleichen Broschüren, E-Mails und Website-Inhalte", "scores": { "DP": 1 } },
-          { "text": "Grobe Segmentierung nach Branche oder Unternehmensgröße, aber manuell gepflegt", "scores": { "DP": 2 } },
-          { "text": "KI-basierte Segmentierung mit automatisch angepassten Inhalten pro Zielgruppe", "scores": { "DP": 4 } },
-          { "text": "Rollenspezifische Personalisierung: CFO sieht ROI-Daten, IT-Leiter sieht Integrations-Specs, Einkäufer sieht Vergleiche", "scores": { "DP": 6 } }
+          {
+            "text": "Alle Interessenten bekommen die gleichen Broschüren, E-Mails und Website-Inhalte",
+            "scores": {
+              "DP": 1
+            }
+          },
+          {
+            "text": "Grobe Segmentierung nach Branche oder Unternehmensgröße, aber manuell gepflegt",
+            "scores": {
+              "DP": 2
+            }
+          },
+          {
+            "text": "KI-basierte Segmentierung mit automatisch angepassten Inhalten pro Zielgruppe",
+            "scores": {
+              "DP": 4
+            }
+          },
+          {
+            "text": "Rollenspezifische Personalisierung: CFO sieht ROI-Daten, IT-Leiter sieht Integrations-Specs, Einkäufer sieht Vergleiche",
+            "scores": {
+              "DP": 6
+            }
+          }
         ]
       },
       {
@@ -554,10 +1372,34 @@
         "type": "single",
         "question": "Wie bereitet ihr euch mit KI auf Vertriebsgespräche und Angebote vor?",
         "options": [
-          { "text": "Jeder Vertriebler bereitet sich individuell vor — kein standardisierter Prozess", "scores": { "LQ": 1, "SV": 1 } },
-          { "text": "Wir recherchieren den Prospect manuell und erstellen Angebote von Hand", "scores": { "LQ": 2, "SV": 1 } },
-          { "text": "KI erstellt Prospect-Briefings aus LinkedIn, Website und CRM-Daten als Gesprächsvorbereitung", "scores": { "LQ": 4, "SV": 3 } },
-          { "text": "KI-generierte Gesamtanalyse: Firmenprofil, Entscheider-Map, wahrscheinliche Einwände und personalisiertes Angebotskonzept", "scores": { "LQ": 6, "SV": 5 } }
+          {
+            "text": "Jeder Vertriebler bereitet sich individuell vor — kein standardisierter Prozess",
+            "scores": {
+              "LQ": 1,
+              "SV": 1
+            }
+          },
+          {
+            "text": "Wir recherchieren den Prospect manuell und erstellen Angebote von Hand",
+            "scores": {
+              "LQ": 2,
+              "SV": 1
+            }
+          },
+          {
+            "text": "KI erstellt Prospect-Briefings aus LinkedIn, Website und CRM-Daten als Gesprächsvorbereitung",
+            "scores": {
+              "LQ": 4,
+              "SV": 3
+            }
+          },
+          {
+            "text": "KI-generierte Gesamtanalyse: Firmenprofil, Entscheider-Map, wahrscheinliche Einwände und personalisiertes Angebotskonzept",
+            "scores": {
+              "LQ": 6,
+              "SV": 5
+            }
+          }
         ]
       },
       {
@@ -565,10 +1407,34 @@
         "type": "single",
         "question": "Wie messt ihr den ROI eures KI-Einsatzes?",
         "options": [
-          { "text": "Gar nicht — wir haben kein Gefühl dafür, ob sich KI-Investitionen lohnen", "scores": { "SV": 1, "DP": 1 } },
-          { "text": "Grobe Schätzung der Zeitersparnis, aber kein systematisches Tracking", "scores": { "SV": 2, "DP": 1 } },
-          { "text": "Wir messen Zeitersparnis und Output-Steigerung pro KI-Workflow", "scores": { "SV": 4, "DP": 2 } },
-          { "text": "KI-ROI-Dashboard: Zeitersparnis, Qualitätsvergleich, Cost-per-Lead-Reduktion und Pipeline-Impact", "scores": { "SV": 6, "DP": 3 } }
+          {
+            "text": "Gar nicht — wir haben kein Gefühl dafür, ob sich KI-Investitionen lohnen",
+            "scores": {
+              "SV": 1,
+              "DP": 1
+            }
+          },
+          {
+            "text": "Grobe Schätzung der Zeitersparnis, aber kein systematisches Tracking",
+            "scores": {
+              "SV": 2,
+              "DP": 1
+            }
+          },
+          {
+            "text": "Wir messen Zeitersparnis und Output-Steigerung pro KI-Workflow",
+            "scores": {
+              "SV": 4,
+              "DP": 2
+            }
+          },
+          {
+            "text": "KI-ROI-Dashboard: Zeitersparnis, Qualitätsvergleich, Cost-per-Lead-Reduktion und Pipeline-Impact",
+            "scores": {
+              "SV": 6,
+              "DP": 3
+            }
+          }
         ]
       },
       {
@@ -576,10 +1442,34 @@
         "type": "single",
         "question": "Wie nutzt ihr KI für euer Reporting und eure Kampagnen-Analyse?",
         "options": [
-          { "text": "Wir schauen gelegentlich in Google Analytics oder die Plattform-Dashboards", "scores": { "DP": 1, "AW": 1 } },
-          { "text": "Monatliche Reports in Excel oder Slides, manuell zusammengestellt", "scores": { "DP": 2, "AW": 1 } },
-          { "text": "KI fasst Kampagnendaten zusammen und liefert automatisierte Handlungsempfehlungen", "scores": { "DP": 4, "AW": 3 } },
-          { "text": "KI-Agenten überwachen Kampagnen in Echtzeit, erkennen Anomalien und schlagen Budget-Anpassungen vor", "scores": { "DP": 6, "AW": 5 } }
+          {
+            "text": "Wir schauen gelegentlich in Google Analytics oder die Plattform-Dashboards",
+            "scores": {
+              "DP": 1,
+              "AW": 1
+            }
+          },
+          {
+            "text": "Monatliche Reports in Excel oder Slides, manuell zusammengestellt",
+            "scores": {
+              "DP": 2,
+              "AW": 1
+            }
+          },
+          {
+            "text": "KI fasst Kampagnendaten zusammen und liefert automatisierte Handlungsempfehlungen",
+            "scores": {
+              "DP": 4,
+              "AW": 3
+            }
+          },
+          {
+            "text": "KI-Agenten überwachen Kampagnen in Echtzeit, erkennen Anomalien und schlagen Budget-Anpassungen vor",
+            "scores": {
+              "DP": 6,
+              "AW": 5
+            }
+          }
         ]
       },
       {
@@ -588,12 +1478,44 @@
         "question": "In welchen Bereichen setzt ihr bereits KI-Tools ein?",
         "hint": "Wähle alle aus, die bei euch im Einsatz sind.",
         "options": [
-          { "text": "Content-Erstellung (Texte, Präsentationen, Social Media)", "scores": { "CK": 1 } },
-          { "text": "E-Mail-Marketing und Newsletter-Personalisierung", "scores": { "AW": 1, "DP": 1 } },
-          { "text": "Chatbot oder KI-Assistent für Website-Besucher", "scores": { "LQ": 1 } },
-          { "text": "Vertriebsunterstützung (Prospect-Research, Angebotserstellung)", "scores": { "LQ": 1, "SV": 1 } },
-          { "text": "Datenanalyse und Business Intelligence", "scores": { "DP": 1 } },
-          { "text": "Interne Prozessautomatisierung (Workflows, Dokumentation)", "scores": { "AW": 1 } }
+          {
+            "text": "Content-Erstellung (Texte, Präsentationen, Social Media)",
+            "scores": {
+              "CK": 1
+            }
+          },
+          {
+            "text": "E-Mail-Marketing und Newsletter-Personalisierung",
+            "scores": {
+              "AW": 1,
+              "DP": 1
+            }
+          },
+          {
+            "text": "Chatbot oder KI-Assistent für Website-Besucher",
+            "scores": {
+              "LQ": 1
+            }
+          },
+          {
+            "text": "Vertriebsunterstützung (Prospect-Research, Angebotserstellung)",
+            "scores": {
+              "LQ": 1,
+              "SV": 1
+            }
+          },
+          {
+            "text": "Datenanalyse und Business Intelligence",
+            "scores": {
+              "DP": 1
+            }
+          },
+          {
+            "text": "Interne Prozessautomatisierung (Workflows, Dokumentation)",
+            "scores": {
+              "AW": 1
+            }
+          }
         ]
       },
       {
@@ -602,11 +1524,38 @@
         "question": "Welche KI-bezogenen Strukturen habt ihr bereits aufgebaut?",
         "hint": "Wähle alle aus, die zutreffen.",
         "options": [
-          { "text": "KI-Verantwortlicher oder -Champion im Unternehmen benannt", "scores": { "SV": 1 } },
-          { "text": "Richtlinien für den Umgang mit KI-Tools (Datenschutz, Qualität)", "scores": { "SV": 1 } },
-          { "text": "Schulungen oder Workshops für Mitarbeiter zu KI-Tools", "scores": { "SV": 1, "CK": 1 } },
-          { "text": "Dokumentierte KI-Workflows mit klaren SOPs", "scores": { "AW": 1, "SV": 1 } },
-          { "text": "Budget für KI-Tools und -Projekte im Marketing eingeplant", "scores": { "SV": 1 } }
+          {
+            "text": "KI-Verantwortlicher oder -Champion im Unternehmen benannt",
+            "scores": {
+              "SV": 1
+            }
+          },
+          {
+            "text": "Richtlinien für den Umgang mit KI-Tools (Datenschutz, Qualität)",
+            "scores": {
+              "SV": 1
+            }
+          },
+          {
+            "text": "Schulungen oder Workshops für Mitarbeiter zu KI-Tools",
+            "scores": {
+              "SV": 1,
+              "CK": 1
+            }
+          },
+          {
+            "text": "Dokumentierte KI-Workflows mit klaren SOPs",
+            "scores": {
+              "AW": 1,
+              "SV": 1
+            }
+          },
+          {
+            "text": "Budget für KI-Tools und -Projekte im Marketing eingeplant",
+            "scores": {
+              "SV": 1
+            }
+          }
         ]
       },
       {
@@ -615,11 +1564,39 @@
         "question": "Welche Datenquellen nutzt ihr für KI-gestütztes Marketing?",
         "hint": "Wähle alle aus, die ihr aktiv für KI-Analysen verwendet.",
         "options": [
-          { "text": "CRM-Daten (Kontakthistorie, Deal-Status, Interaktionen)", "scores": { "DP": 1, "LQ": 1 } },
-          { "text": "Website-Analytics (Seitenaufrufe, Verweildauer, Conversion-Pfade)", "scores": { "DP": 1 } },
-          { "text": "E-Mail-Engagement-Daten (Öffnungsraten, Klicks, Abmeldungen)", "scores": { "DP": 1 } },
-          { "text": "Vertriebsdaten (Win/Loss-Raten, Zykluslänge, Deal-Größen)", "scores": { "DP": 1, "SV": 1 } },
-          { "text": "Kundenfeedback und Zufriedenheitsdaten (NPS, Bewertungen)", "scores": { "DP": 1, "CK": 1 } }
+          {
+            "text": "CRM-Daten (Kontakthistorie, Deal-Status, Interaktionen)",
+            "scores": {
+              "DP": 1,
+              "LQ": 1
+            }
+          },
+          {
+            "text": "Website-Analytics (Seitenaufrufe, Verweildauer, Conversion-Pfade)",
+            "scores": {
+              "DP": 1
+            }
+          },
+          {
+            "text": "E-Mail-Engagement-Daten (Öffnungsraten, Klicks, Abmeldungen)",
+            "scores": {
+              "DP": 1
+            }
+          },
+          {
+            "text": "Vertriebsdaten (Win/Loss-Raten, Zykluslänge, Deal-Größen)",
+            "scores": {
+              "DP": 1,
+              "SV": 1
+            }
+          },
+          {
+            "text": "Kundenfeedback und Zufriedenheitsdaten (NPS, Bewertungen)",
+            "scores": {
+              "DP": 1,
+              "CK": 1
+            }
+          }
         ]
       },
       {
@@ -628,10 +1605,30 @@
         "question": "Was ist euer nächster großer KI-Schritt im Marketing und Vertrieb?",
         "hint": "Was steht bei euch als Nächstes auf dem Plan?",
         "options": [
-          { "text": "Wir müssen erst mal verstehen, was für uns möglich und sinnvoll ist", "scores": { "SV": 1 } },
-          { "text": "Ein konkretes KI-Pilotprojekt starten (z. B. Chatbot oder Content-Automatisierung)", "scores": { "SV": 2 } },
-          { "text": "Mehrere KI-Tools integrieren und einen durchgängigen Marketing-Vertrieb-Workflow bauen", "scores": { "SV": 4 } },
-          { "text": "KI-natives Marketing-System mit Datenkreislauf aufbauen, das sich kontinuierlich selbst optimiert", "scores": { "SV": 6 } }
+          {
+            "text": "Wir müssen erst mal verstehen, was für uns möglich und sinnvoll ist",
+            "scores": {
+              "SV": 1
+            }
+          },
+          {
+            "text": "Ein konkretes KI-Pilotprojekt starten (z. B. Chatbot oder Content-Automatisierung)",
+            "scores": {
+              "SV": 2
+            }
+          },
+          {
+            "text": "Mehrere KI-Tools integrieren und einen durchgängigen Marketing-Vertrieb-Workflow bauen",
+            "scores": {
+              "SV": 4
+            }
+          },
+          {
+            "text": "KI-natives Marketing-System mit Datenkreislauf aufbauen, das sich kontinuierlich selbst optimiert",
+            "scores": {
+              "SV": 6
+            }
+          }
         ]
       }
     ]
@@ -758,7 +1755,7 @@
     "B": {
       "headline": "Du nutzt KI bereits — aber lässt noch viel Potenzial liegen.",
       "p1": "Du hast bereits erste KI-Workflows etabliert. Aber dein System hat Lücken, die dich jeden Monat Zeit und Ergebnisse kosten.",
-      "p2": "Der Unterschied zwischen \u201eKI nutzen\u201c und \u201eKI strategisch einsetzen\u201c liegt oft in 2 bis 3 Stellschrauben, die den gesamten Workflow transformieren.",
+      "p2": "Der Unterschied zwischen „KI nutzen“ und „KI strategisch einsetzen“ liegt oft in 2 bis 3 Stellschrauben, die den gesamten Workflow transformieren.",
       "leverTitle": "Deine größten KI-Hebel:",
       "ctaP": "Du brauchst keine komplett neue Strategie. Du brauchst jemanden, der mit dir drüberschaut und die Stellschrauben findet, die den größten Unterschied machen.",
       "ctaBtn": "Erstgespräch vereinbaren →",
@@ -796,5 +1793,12 @@
     "headline": "Dein <em>persönlicher</em> KI-Marketing-Fahrplan"
   },
   "nextLevelTitle": "Nächstes Level: Fortgeschrittene KI-Strategien",
-  "waDebugIntro": "Hier ist deine KI-Marketing-Analyse auf einen Blick:"
+  "waDebugIntro": "Hier ist deine KI-Marketing-Analyse auf einen Blick:",
+  "resume": {
+    "title": "Weitermachen?",
+    "subtitle": "Du hast das Quiz schon angefangen. Möchtest du dort weitermachen, wo du aufgehört hast?",
+    "continueButton": "Weitermachen",
+    "restartButton": "Neu starten"
+  },
+  "shareText": "Ich habe gerade mein KI-Marketing analysiert und einen Score von {score}/{max} bekommen ({segment}). Probier es auch: {url}"
 }
