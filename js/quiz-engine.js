@@ -1534,6 +1534,7 @@ function initQuiz(quizData) {
       var encoded = btoa(JSON.stringify(resultData));
       var newUrl = window.location.pathname + '?type=' + quizData.meta.slug + '&result=' + encoded;
       history.replaceState(null, '', newUrl);
+      try { sessionStorage.setItem('fq-own-result', encoded); } catch(e) {}
       // Update share button hrefs to use the result URL
       var shareUrl = window.location.href;
       var liBtn = resultRoot.querySelector('.fq-share-btn[href*="linkedin"]');
@@ -1943,16 +1944,20 @@ function initQuiz(quizData) {
     var resultRoot = document.getElementById('fq-result-inner');
     while (resultRoot.firstChild) resultRoot.removeChild(resultRoot.firstChild);
 
-    // "Take the quiz yourself" banner — placed outside result-inner, at top of screen
+    // "Take the quiz yourself" banner — only show if it's not the user's own result
     var resultScreen = document.querySelector('#quiz-root .fq-screen--result');
     var existingBanner = resultScreen.querySelector('.fq-shared-banner');
     if (existingBanner) existingBanner.remove();
-    var takeBanner = document.createElement('a');
-    takeBanner.className = 'fq-shared-banner';
-    takeBanner.href = window.location.pathname + '?type=' + quizData.meta.slug;
-    takeBanner.style.cssText = 'display:block;text-align:center;padding:14px 20px;margin:-64px -20px 32px;background:var(--fq-accent);color:#fff;font-size:14px;font-weight:500;text-decoration:none;font-family:var(--fq-font);letter-spacing:0.01em;';
-    takeBanner.textContent = 'Du siehst ein geteiltes Ergebnis. Mach das Quiz selbst \u2192';
-    resultScreen.insertBefore(takeBanner, resultRoot);
+    var isOwnResult = false;
+    try { isOwnResult = sessionStorage.getItem('fq-own-result') === btoa(JSON.stringify(data)); } catch(e) {}
+    if (!isOwnResult) {
+      var takeBanner = document.createElement('a');
+      takeBanner.className = 'fq-shared-banner';
+      takeBanner.href = window.location.pathname + '?type=' + quizData.meta.slug;
+      takeBanner.style.cssText = 'display:block;text-align:center;padding:14px 20px;margin:0 0 24px;background:var(--fq-accent);color:#fff;font-size:14px;font-weight:500;text-decoration:none;font-family:var(--fq-font);letter-spacing:0.01em;border-radius:10px;';
+      takeBanner.textContent = 'Du siehst ein geteiltes Ergebnis. Mach das Quiz selbst \u2192';
+      resultScreen.insertBefore(takeBanner, resultRoot);
+    }
 
     // Ring
     var ringWrap = document.createElement('div'); ringWrap.className = 'fq-ring-wrap';
