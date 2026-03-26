@@ -765,10 +765,15 @@ function initQuiz(quizData) {
       }
     }
     var totalInterim = Object.values(interimScores).reduce(function(a, b) { return a + b; }, 0);
-    var stats = [
-      { value: answeredCount, label: 'Fragen' },
-      { value: totalInterim, label: 'Punkte' }
-    ];
+    var stats = quizData.meta.mode === 'sales'
+      ? [
+          { value: answeredCount, label: 'Fragen beantwortet' },
+          { value: quizData.dimOrder.length, label: 'Bereiche im Blick' }
+        ]
+      : [
+          { value: answeredCount, label: 'Fragen' },
+          { value: totalInterim, label: 'Punkte' }
+        ];
     stats.forEach(function(s, idx) {
       var card = document.createElement('div'); card.className = 'fq-milestone-stat';
       var val = document.createElement('div'); val.className = 'fq-milestone-stat-value'; val.textContent = s.value;
@@ -969,8 +974,8 @@ function initQuiz(quizData) {
         }, 100 * i + (direction === 'init' ? 0 : 180));
       });
 
-      // Progress — use Math.max(TOTAL_QUESTIONS, 20) as divisor
-      var progressDivisor = Math.max(TOTAL_QUESTIONS, 20);
+      // Progress — sales mode fills to 100% by last question; others use min 20 divisor
+      var progressDivisor = quizData.meta.mode === 'sales' ? TOTAL_QUESTIONS : Math.max(TOTAL_QUESTIONS, 20);
       document.getElementById('fq-progress-fill').style.width = (((qi + 1) / progressDivisor) * 100) + '%';
       var progressTrackEl = document.querySelector('#quiz-root .fq-progress-track');
       if (progressTrackEl) {
@@ -1833,11 +1838,14 @@ function initQuiz(quizData) {
       fgC.setAttribute('stroke-dashoffset', offset.toFixed(2));
       fgC.setAttribute('transform','rotate(-90 60 60)'); fgC.setAttribute('stroke-linecap','round');
       ringSvg.appendChild(fgC);
-      ringWrap.appendChild(ringSvg);
+      var ringSvgWrap = document.createElement('div');
+      ringSvgWrap.className = 'fq-ty-ring-svg-wrap';
+      ringSvgWrap.appendChild(ringSvg);
       var ringScore = document.createElement('div');
       ringScore.className = 'fq-ty-ring-score fq-ty-blurred';
       ringScore.textContent = quizResults.totalScore;
-      ringWrap.appendChild(ringScore);
+      ringSvgWrap.appendChild(ringScore);
+      ringWrap.appendChild(ringSvgWrap);
       var segBadge = document.createElement('div');
       segBadge.className = 'fq-ty-seg-badge';
       segBadge.textContent = quizResults.segmentLabel;

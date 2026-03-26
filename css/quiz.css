@@ -894,11 +894,14 @@ body { background: #FBFAF2; margin: 0; }
 
 /* Score ring in preview */
 #quiz-root .fq-ty-ring-wrap {
-  position: relative; display: flex; flex-direction: column;
-  align-items: center; margin: 0 auto 20px; width: 120px;
+  display: flex; flex-direction: column;
+  align-items: center; margin: 0 auto 20px;
+}
+#quiz-root .fq-ty-ring-svg-wrap {
+  position: relative; width: 120px; height: 120px;
 }
 #quiz-root .fq-ty-ring-score {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -65%);
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
   font-size: 28px; font-weight: 700; color: var(--fq-text-primary);
   font-family: var(--fq-font); line-height: 1;
 }

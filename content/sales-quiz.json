@@ -19,15 +19,15 @@
     "statusText": "Analyse abgeschlossen",
     "headline": "Fast geschafft.",
     "subtitle": "Trag deine Kontaktdaten ein. Deine Ergebnisse besprechen wir gemeinsam in einem kostenlosen Strategiegespräch.",
-    "submitButton": "Gespräch vereinbaren →",
+    "submitButton": "Analyse absenden →",
     "submitLoadingText": "Wird gespeichert…",
     "finePrint": "Kein Spam. Keine versteckten Kosten. Nur echte Einblicke."
   },
   "thankyou": {
-    "headline": "Danke — wir melden uns!",
-    "subtitle": "Deine Antworten helfen uns, das Gespräch optimal vorzubereiten. Du erhältst in Kürze eine Nachricht mit einem Terminvorschlag.",
-    "ctaText": "Termin direkt buchen →",
-    "finePrint": "Kein Verkaufsdruck. Nur ehrliche Analyse."
+    "headline": "Perfekt — wir sehen uns bald!",
+    "subtitle": "Deine Antworten helfen uns, das Gespräch optimal vorzubereiten. Dein Berater hat alle Informationen rechtzeitig vorliegen.",
+    "ctaText": "",
+    "finePrint": "Deine Daten werden vertraulich behandelt."
   },
   "resume": {
     "title": "Weitermachen?",
