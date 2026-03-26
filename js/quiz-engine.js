@@ -54,6 +54,7 @@ var UTM_PARAMS = {};
     if (val) UTM_PARAMS[key] = val;
   });
 })();
+var APPOINTMENT_PARAM = (new URLSearchParams(window.location.search)).get('appointment') || '';
 
 // Fetch JSON and boot
 var jsonUrl = 'content/' + QUIZ_TYPE + '-quiz.json';
@@ -266,13 +267,20 @@ function initQuiz(quizData) {
     progressFill.id = 'fq-progress-fill';
     progressTrack.appendChild(progressFill);
     progressWrap.appendChild(progressTrack);
-    var marker1 = document.createElement('div');
-    marker1.className = 'fq-progress-marker';
-    progressWrap.appendChild(marker1);
-    var marker2 = document.createElement('div');
-    marker2.className = 'fq-progress-marker';
-    marker2.style.left = '70%';
-    progressWrap.appendChild(marker2);
+    if (quizData.meta.mode === 'sales') {
+      var mSales = document.createElement('div');
+      mSales.className = 'fq-progress-marker';
+      mSales.style.left = '50%';
+      progressWrap.appendChild(mSales);
+    } else {
+      var marker1 = document.createElement('div');
+      marker1.className = 'fq-progress-marker';
+      progressWrap.appendChild(marker1);
+      var marker2 = document.createElement('div');
+      marker2.className = 'fq-progress-marker';
+      marker2.style.left = '70%';
+      progressWrap.appendChild(marker2);
+    }
     quizInner.appendChild(progressWrap);
 
     var questionContent = document.createElement('div');
@@ -454,6 +462,11 @@ function initQuiz(quizData) {
     // -- Thankyou screen (sales mode) --
     var thankyouScreen = document.createElement('div');
     thankyouScreen.className = 'fq-screen fq-screen--thankyou';
+    var tyConfetti = document.createElement('canvas');
+    tyConfetti.className = 'fq-confetti';
+    tyConfetti.id = 'fq-confetti-ty';
+    tyConfetti.setAttribute('aria-hidden', 'true');
+    thankyouScreen.appendChild(tyConfetti);
     var thankyouInner = document.createElement('div');
     thankyouInner.className = 'fq-thankyou-inner';
     thankyouInner.id = 'fq-thankyou-inner';
@@ -1029,8 +1042,9 @@ function initQuiz(quizData) {
   // ============================================
   // 3k. CONFETTI
   // ============================================
-  function launchConfetti() {
-    var canvas = document.getElementById('fq-confetti');
+  function launchConfetti(canvasId) {
+    var canvas = document.getElementById(canvasId || 'fq-confetti');
+    if (!canvas) return;
     var resultScreenEl = canvas.parentElement;
     var W = resultScreenEl.offsetWidth;
     var H = Math.min(resultScreenEl.offsetHeight, 800);
@@ -1766,6 +1780,11 @@ function initQuiz(quizData) {
   // ============================================
   // 3p-2. THANK-YOU SCREEN (sales mode)
   // ============================================
+  function hexToRgb(hex) {
+    var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+    return r+','+g+','+b;
+  }
+
   function renderThankyou() {
     var ty = quizData.thankyou || {};
     var inner = document.getElementById('fq-thankyou-inner');
@@ -1784,7 +1803,7 @@ function initQuiz(quizData) {
     h2.textContent = ty.headline;
     inner.appendChild(h2);
 
-    // Blurred results preview card — shows segment + dim bars with blurred scores
+    // Blurred results preview card — score ring + colored dim cards
     if (quizResults) {
       var previewCard = document.createElement('div');
       previewCard.className = 'fq-ty-preview fq-stagger-item';
@@ -1794,47 +1813,72 @@ function initQuiz(quizData) {
       previewHdr.textContent = 'Vorschau deiner Analyse';
       previewCard.appendChild(previewHdr);
 
-      // Segment row — label revealed to create curiosity
-      var segRow = document.createElement('div');
-      segRow.className = 'fq-ty-segment-row';
-      var segKey = document.createElement('span');
-      segKey.className = 'fq-ty-seg-key';
-      segKey.textContent = 'Ergebnis:';
-      var segVal = document.createElement('span');
-      segVal.className = 'fq-ty-seg-val';
-      segVal.textContent = quizResults.segmentLabel;
-      segRow.appendChild(segKey);
-      segRow.appendChild(segVal);
-      previewCard.appendChild(segRow);
+      // Blurred score ring
+      var ringWrap = document.createElement('div');
+      ringWrap.className = 'fq-ty-ring-wrap';
+      var svgNS = 'http://www.w3.org/2000/svg';
+      var ringSvg = document.createElementNS(svgNS, 'svg');
+      ringSvg.setAttribute('width', '120'); ringSvg.setAttribute('height', '120');
+      ringSvg.setAttribute('viewBox', '0 0 120 120');
+      var circ = 2 * Math.PI * 50;
+      var offset = circ * (1 - quizResults.totalScore / quizResults.maxScore);
+      var bgC = document.createElementNS(svgNS, 'circle');
+      bgC.setAttribute('cx','60'); bgC.setAttribute('cy','60'); bgC.setAttribute('r','50');
+      bgC.setAttribute('fill','none'); bgC.setAttribute('stroke','rgba(25,63,59,0.1)'); bgC.setAttribute('stroke-width','8');
+      ringSvg.appendChild(bgC);
+      var fgC = document.createElementNS(svgNS, 'circle');
+      fgC.setAttribute('cx','60'); fgC.setAttribute('cy','60'); fgC.setAttribute('r','50');
+      fgC.setAttribute('fill','none'); fgC.setAttribute('stroke','var(--fq-accent)'); fgC.setAttribute('stroke-width','8');
+      fgC.setAttribute('stroke-dasharray', circ.toFixed(2));
+      fgC.setAttribute('stroke-dashoffset', offset.toFixed(2));
+      fgC.setAttribute('transform','rotate(-90 60 60)'); fgC.setAttribute('stroke-linecap','round');
+      ringSvg.appendChild(fgC);
+      ringWrap.appendChild(ringSvg);
+      var ringScore = document.createElement('div');
+      ringScore.className = 'fq-ty-ring-score fq-ty-blurred';
+      ringScore.textContent = quizResults.totalScore;
+      ringWrap.appendChild(ringScore);
+      var segBadge = document.createElement('div');
+      segBadge.className = 'fq-ty-seg-badge';
+      segBadge.textContent = quizResults.segmentLabel;
+      ringWrap.appendChild(segBadge);
+      previewCard.appendChild(ringWrap);
 
-      // Dimension bars — labels visible, scores blurred
-      var dimsWrap = document.createElement('div');
-      dimsWrap.className = 'fq-ty-dims';
+      // 4 colored dimension cards in 2x2 grid
+      var dimColors = ['#3b82f6', '#22c55e', '#f97316', '#ef4444'];
+      var dimsGrid = document.createElement('div');
+      dimsGrid.className = 'fq-ty-dims-grid';
       var dimMap = {};
       (quizResults.dimPercentages || []).forEach(function(d) { dimMap[d.key] = d; });
-      (quizData.dimOrder || []).forEach(function(key) {
+      (quizData.dimOrder || []).forEach(function(key, ci) {
         var dim = dimMap[key];
         if (!dim) return;
-        var row = document.createElement('div');
-        row.className = 'fq-ty-dim-row';
-        var lbl = document.createElement('span');
-        lbl.className = 'fq-ty-dim-label';
-        lbl.textContent = dim.label;
-        row.appendChild(lbl);
-        var barWrap = document.createElement('div');
-        barWrap.className = 'fq-ty-dim-bar-wrap';
-        var barFill = document.createElement('div');
-        barFill.className = 'fq-ty-dim-bar-fill';
-        barFill.style.width = Math.round(dim.percentage * 100) + '%';
-        barWrap.appendChild(barFill);
-        row.appendChild(barWrap);
-        var pct = document.createElement('span');
-        pct.className = 'fq-ty-dim-pct fq-ty-blurred';
-        pct.textContent = Math.round(dim.percentage * 100) + '%';
-        row.appendChild(pct);
-        dimsWrap.appendChild(row);
+        var color = dimColors[ci % dimColors.length];
+        var rgb = hexToRgb(color);
+        var card = document.createElement('div');
+        card.className = 'fq-ty-dim-card';
+        card.style.background = 'rgba('+rgb+',0.12)';
+        card.style.borderColor = 'rgba('+rgb+',0.28)';
+        var cardLabel = document.createElement('div');
+        cardLabel.className = 'fq-ty-dim-card-label';
+        cardLabel.textContent = dim.label;
+        card.appendChild(cardLabel);
+        var cardBar = document.createElement('div');
+        cardBar.className = 'fq-ty-dim-card-bar-wrap';
+        var cardFill = document.createElement('div');
+        cardFill.className = 'fq-ty-dim-card-bar-fill';
+        cardFill.style.width = Math.round(dim.percentage * 100) + '%';
+        cardFill.style.background = color;
+        cardBar.appendChild(cardFill);
+        card.appendChild(cardBar);
+        var cardScore = document.createElement('div');
+        cardScore.className = 'fq-ty-dim-card-score fq-ty-blurred';
+        cardScore.style.color = color;
+        cardScore.textContent = Math.round(dim.percentage * 100) + '%';
+        card.appendChild(cardScore);
+        dimsGrid.appendChild(card);
       });
-      previewCard.appendChild(dimsWrap);
+      previewCard.appendChild(dimsGrid);
 
       // Locked footer
       var previewFtr = document.createElement('div');
@@ -1843,6 +1887,23 @@ function initQuiz(quizData) {
       previewCard.appendChild(previewFtr);
 
       inner.appendChild(previewCard);
+    }
+
+    // Appointment box (if ?appointment= param present)
+    if (APPOINTMENT_PARAM) {
+      var apptBox = document.createElement('div');
+      apptBox.className = 'fq-ty-appt fq-stagger-item';
+      var apptIconEl = document.createElement('span');
+      apptIconEl.className = 'fq-ty-appt-icon';
+      apptIconEl.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:6px;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+      var apptText = document.createElement('span');
+      var apptStrong = document.createElement('strong');
+      apptStrong.textContent = APPOINTMENT_PARAM;
+      apptText.textContent = 'Dein Termin: ';
+      apptText.appendChild(apptStrong);
+      apptBox.appendChild(apptIconEl);
+      apptBox.appendChild(apptText);
+      inner.appendChild(apptBox);
     }
 
     // Subtitle
@@ -1874,6 +1935,9 @@ function initQuiz(quizData) {
     staggerItems.forEach(function(el, i) {
       setTimeout(function() { el.classList.add('fq-entered'); }, 120 * i + 350);
     });
+
+    // Confetti
+    setTimeout(function() { launchConfetti('fq-confetti-ty'); playConfettiPop(); }, 600);
   }
 
   // ============================================
@@ -1882,6 +1946,22 @@ function initQuiz(quizData) {
   buildHTML();
   populateText();
   buildQuestions();
+
+  // Sales mode: add mode class + pre-fill form from URL params
+  if (quizData.meta.mode === 'sales') {
+    var _root = document.getElementById('quiz-root');
+    if (_root) _root.classList.add('fq-mode-sales');
+    (function() {
+      var _params = new URLSearchParams(window.location.search);
+      ['name', 'lastname', 'email', 'phone'].forEach(function(key) {
+        var val = _params.get(key);
+        if (val) {
+          var el = document.getElementById('fq-input-' + key);
+          if (el) el.value = val;
+        }
+      });
+    })();
+  }
 
   // If a ?result= param was decoded, skip straight to the result screen
   if (pendingResult) {
