@@ -65,7 +65,7 @@
   "segments": {
     "A": { "label": "Optimierungsbedarf", "threshold": 0.40 },
     "B": { "label": "Solide Basis", "threshold": 0.70 },
-    "C": { "label": "Starke Performance" }
+    "C": { "label": "Auf dem richtigen Weg" }
   },
   "icpQuestion": {
     "id": "icp",

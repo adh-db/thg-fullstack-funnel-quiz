@@ -55,6 +55,8 @@ var UTM_PARAMS = {};
   });
 })();
 var APPOINTMENT_PARAM = (new URLSearchParams(window.location.search)).get('appointment') || '';
+var HOST_PARAM = (new URLSearchParams(window.location.search)).get('host') || '';
+var ROLE_PARAM = (new URLSearchParams(window.location.search)).get('role') || '';
 
 // Fetch JSON and boot
 var jsonUrl = 'content/' + QUIZ_TYPE + '-quiz.json';
@@ -270,7 +272,11 @@ function initQuiz(quizData) {
     if (quizData.meta.mode === 'sales') {
       var mSales = document.createElement('div');
       mSales.className = 'fq-progress-marker';
-      mSales.style.left = '50%';
+      var genEndIdx = 1 + quizData.generalQuestions.length;
+      var icpKeys = Object.keys(quizData.icpQuestions || {});
+      var icpQLen = icpKeys.length > 0 ? (quizData.icpQuestions[icpKeys[0]] || []).length : 0;
+      var salesTotalQ = genEndIdx + icpQLen;
+      mSales.style.left = (salesTotalQ > 0 ? (genEndIdx / salesTotalQ * 100).toFixed(1) : 55.6) + '%';
       progressWrap.appendChild(mSales);
     } else {
       var marker1 = document.createElement('div');
@@ -767,8 +773,8 @@ function initQuiz(quizData) {
     var totalInterim = Object.values(interimScores).reduce(function(a, b) { return a + b; }, 0);
     var stats = quizData.meta.mode === 'sales'
       ? [
-          { value: answeredCount, label: 'Fragen beantwortet' },
-          { value: quizData.dimOrder.length, label: 'Bereiche im Blick' }
+          { value: Math.round(answeredCount / TOTAL_QUESTIONS * 100) + '%', label: 'bereits geschafft' },
+          { value: TOTAL_QUESTIONS - answeredCount, label: 'Fragen noch' }
         ]
       : [
           { value: answeredCount, label: 'Fragen' },
@@ -1897,21 +1903,61 @@ function initQuiz(quizData) {
       inner.appendChild(previewCard);
     }
 
-    // Appointment box (if ?appointment= param present)
+    // Appointment card (if ?appointment= param present)
     if (APPOINTMENT_PARAM) {
-      var apptBox = document.createElement('div');
-      apptBox.className = 'fq-ty-appt fq-stagger-item';
-      var apptIconEl = document.createElement('span');
-      apptIconEl.className = 'fq-ty-appt-icon';
-      apptIconEl.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:6px;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
-      var apptText = document.createElement('span');
-      var apptStrong = document.createElement('strong');
-      apptStrong.textContent = APPOINTMENT_PARAM;
-      apptText.textContent = 'Dein Termin: ';
-      apptText.appendChild(apptStrong);
-      apptBox.appendChild(apptIconEl);
-      apptBox.appendChild(apptText);
-      inner.appendChild(apptBox);
+      var apptCard = document.createElement('div');
+      apptCard.className = 'fq-ty-appt-card fq-stagger-item';
+
+      // Host section (show if ?host= is present, else show placeholder)
+      var hostName = HOST_PARAM || 'Dein Berater';
+      var hostRole = ROLE_PARAM || 'Marketing-Strategie';
+      var hostSection = document.createElement('div');
+      hostSection.className = 'fq-ty-appt-host';
+      // Avatar — initials from host name
+      var initials = hostName.split(' ').filter(function(w) { return w.length > 0; }).map(function(w) { return w[0].toUpperCase(); }).slice(0, 2).join('');
+      var avatar = document.createElement('div');
+      avatar.className = 'fq-ty-appt-avatar';
+      avatar.textContent = initials;
+      hostSection.appendChild(avatar);
+      var hostInfo = document.createElement('div');
+      hostInfo.className = 'fq-ty-appt-host-info';
+      var hostNameEl = document.createElement('div');
+      hostNameEl.className = 'fq-ty-appt-host-name';
+      hostNameEl.textContent = hostName;
+      hostInfo.appendChild(hostNameEl);
+      var hostRoleEl = document.createElement('div');
+      hostRoleEl.className = 'fq-ty-appt-host-role';
+      hostRoleEl.textContent = hostRole;
+      hostInfo.appendChild(hostRoleEl);
+      hostSection.appendChild(hostInfo);
+      apptCard.appendChild(hostSection);
+
+      // Divider
+      var apptDivider = document.createElement('div');
+      apptDivider.className = 'fq-ty-appt-divider';
+      apptCard.appendChild(apptDivider);
+
+      // Time row
+      var timeRow = document.createElement('div');
+      timeRow.className = 'fq-ty-appt-time';
+      var calIcon = document.createElement('span');
+      calIcon.className = 'fq-ty-appt-cal-icon';
+      calIcon.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+      timeRow.appendChild(calIcon);
+      var timeLabel = document.createElement('div');
+      timeLabel.className = 'fq-ty-appt-time-label';
+      var timeLabelTop = document.createElement('div');
+      timeLabelTop.className = 'fq-ty-appt-time-heading';
+      timeLabelTop.textContent = 'Dein Termin';
+      var timeLabelVal = document.createElement('div');
+      timeLabelVal.className = 'fq-ty-appt-time-val';
+      timeLabelVal.textContent = APPOINTMENT_PARAM;
+      timeLabel.appendChild(timeLabelTop);
+      timeLabel.appendChild(timeLabelVal);
+      timeRow.appendChild(timeLabel);
+      apptCard.appendChild(timeRow);
+
+      inner.appendChild(apptCard);
     }
 
     // Subtitle
