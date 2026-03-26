@@ -57,6 +57,10 @@ var UTM_PARAMS = {};
 var APPOINTMENT_PARAM = (new URLSearchParams(window.location.search)).get('appointment') || '';
 var HOST_PARAM = (new URLSearchParams(window.location.search)).get('host') || '';
 var ROLE_PARAM = (new URLSearchParams(window.location.search)).get('role') || '';
+var PHOTO_PARAM = (new URLSearchParams(window.location.search)).get('photo') || '';
+var DATETIME_PARAM = (new URLSearchParams(window.location.search)).get('datetime') || '';
+var DURATION_PARAM = parseInt((new URLSearchParams(window.location.search)).get('duration') || '60', 10);
+var TITLE_PARAM = (new URLSearchParams(window.location.search)).get('title') || 'Strategiegespräch';
 
 // Fetch JSON and boot
 var jsonUrl = 'content/' + QUIZ_TYPE + '-quiz.json';
@@ -1881,7 +1885,8 @@ function initQuiz(quizData) {
         cardBar.className = 'fq-ty-dim-card-bar-wrap';
         var cardFill = document.createElement('div');
         cardFill.className = 'fq-ty-dim-card-bar-fill';
-        cardFill.style.width = Math.round(dim.percentage * 100) + '%';
+        cardFill.setAttribute('data-w', Math.round(dim.percentage * 100) + '%');
+        cardFill.style.width = '0%';
         cardFill.style.background = color;
         cardBar.appendChild(cardFill);
         card.appendChild(cardBar);
@@ -1893,6 +1898,28 @@ function initQuiz(quizData) {
         dimsGrid.appendChild(card);
       });
       previewCard.appendChild(dimsGrid);
+
+      // Animate bars after card enters (stagger delay ~1.2s)
+      setTimeout(function() {
+        dimsGrid.querySelectorAll('.fq-ty-dim-card-bar-fill').forEach(function(fill) {
+          fill.style.transition = 'width 0.9s cubic-bezier(0.34, 1.56, 0.64, 1)';
+          fill.style.width = fill.getAttribute('data-w') || '0%';
+        });
+      }, 1200);
+
+      // Weakest dimension — name revealed, creates curiosity
+      if (quizResults.weakest) {
+        var potRow = document.createElement('div');
+        potRow.className = 'fq-ty-potential';
+        var potLabel = document.createElement('span');
+        potLabel.className = 'fq-ty-potential-label';
+        potLabel.textContent = 'Gr\u00f6\u00dftes Potenzial: ';
+        var potDim = document.createElement('strong');
+        potDim.textContent = quizResults.weakest.label;
+        potRow.appendChild(potLabel);
+        potRow.appendChild(potDim);
+        previewCard.appendChild(potRow);
+      }
 
       // Locked footer
       var previewFtr = document.createElement('div');
@@ -1913,11 +1940,19 @@ function initQuiz(quizData) {
       var hostRole = ROLE_PARAM || 'Marketing-Strategie';
       var hostSection = document.createElement('div');
       hostSection.className = 'fq-ty-appt-host';
-      // Avatar — initials from host name
+      // Avatar — photo if ?photo= present, else initials
       var initials = hostName.split(' ').filter(function(w) { return w.length > 0; }).map(function(w) { return w[0].toUpperCase(); }).slice(0, 2).join('');
       var avatar = document.createElement('div');
       avatar.className = 'fq-ty-appt-avatar';
-      avatar.textContent = initials;
+      if (PHOTO_PARAM) {
+        var photoImg = document.createElement('img');
+        photoImg.src = PHOTO_PARAM;
+        photoImg.alt = hostName;
+        photoImg.className = 'fq-ty-appt-photo';
+        avatar.appendChild(photoImg);
+      } else {
+        avatar.textContent = initials;
+      }
       hostSection.appendChild(avatar);
       var hostInfo = document.createElement('div');
       hostInfo.className = 'fq-ty-appt-host-info';
@@ -1958,6 +1993,72 @@ function initQuiz(quizData) {
       apptCard.appendChild(timeRow);
 
       inner.appendChild(apptCard);
+
+      // Calendar import buttons (shown if ?datetime= is present)
+      if (DATETIME_PARAM) {
+        var calWrap = document.createElement('div');
+        calWrap.className = 'fq-ty-cal-wrap fq-stagger-item';
+        var calLbl = document.createElement('div');
+        calLbl.className = 'fq-ty-cal-label';
+        calLbl.textContent = 'Zum Kalender hinzuf\u00fcgen:';
+        calWrap.appendChild(calLbl);
+        var calRow = document.createElement('div');
+        calRow.className = 'fq-ty-cal-row';
+
+        // Helper: format ISO to compact (20250429T100000)
+        function fmtCal(iso) { return iso.replace(/-/g,'').replace(/:/g,'') + '00'; }
+        var startFmt = fmtCal(DATETIME_PARAM);
+        var endDate = new Date(DATETIME_PARAM);
+        endDate.setMinutes(endDate.getMinutes() + DURATION_PARAM);
+        var endFmt = fmtCal(endDate.toISOString().slice(0, 16));
+        var hostNameCal = HOST_PARAM || '';
+        var titleCal = TITLE_PARAM + (hostNameCal ? ' mit ' + hostNameCal : '');
+        var descCal = 'Vorbereitung Marketing-Analyse';
+
+        // Google Calendar
+        var gcalUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+          '&text=' + encodeURIComponent(titleCal) +
+          '&dates=' + startFmt + '/' + endFmt +
+          '&details=' + encodeURIComponent(descCal);
+        var gcalBtn = document.createElement('a');
+        gcalBtn.className = 'fq-ty-cal-btn';
+        gcalBtn.href = gcalUrl; gcalBtn.target = '_blank'; gcalBtn.rel = 'noopener';
+        gcalBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px;vertical-align:-2px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" opacity="0"/><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>Google';
+        calRow.appendChild(gcalBtn);
+
+        // Outlook
+        var outlookUrl = 'https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent' +
+          '&subject=' + encodeURIComponent(titleCal) +
+          '&startdt=' + encodeURIComponent(DATETIME_PARAM + ':00') +
+          '&enddt=' + encodeURIComponent(endDate.toISOString().slice(0, 19)) +
+          '&body=' + encodeURIComponent(descCal);
+        var outlookBtn = document.createElement('a');
+        outlookBtn.className = 'fq-ty-cal-btn';
+        outlookBtn.href = outlookUrl; outlookBtn.target = '_blank'; outlookBtn.rel = 'noopener';
+        outlookBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px;vertical-align:-2px;"><path d="M19.5 4h-15A1.5 1.5 0 003 5.5v13A1.5 1.5 0 004.5 20h15a1.5 1.5 0 001.5-1.5v-13A1.5 1.5 0 0019.5 4zM4.5 5.5h15V8H4.5V5.5zM4.5 18.5V9.5h15v9H4.5z"/></svg>Outlook';
+        calRow.appendChild(outlookBtn);
+
+        // iCal download
+        var icsBtn = document.createElement('button');
+        icsBtn.className = 'fq-ty-cal-btn';
+        icsBtn.type = 'button';
+        icsBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;vertical-align:-2px;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>iCal';
+        icsBtn.addEventListener('click', function() {
+          var ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Marketing Check//DE',
+            'BEGIN:VEVENT','DTSTART:'+startFmt,'DTEND:'+endFmt,
+            'SUMMARY:'+titleCal,'DESCRIPTION:'+descCal,
+            'END:VEVENT','END:VCALENDAR'].join('\r\n');
+          var blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+          var url = URL.createObjectURL(blob);
+          var dlA = document.createElement('a');
+          dlA.href = url; dlA.download = 'termin.ics'; dlA.click();
+          URL.revokeObjectURL(url);
+        });
+        calRow.appendChild(icsBtn);
+
+        calWrap.appendChild(calRow);
+        inner.appendChild(calWrap);
+      }
     }
 
     // Subtitle

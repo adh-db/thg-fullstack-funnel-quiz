@@ -979,6 +979,39 @@ body { background: #FBFAF2; margin: 0; }
 #quiz-root .fq-ty-appt-time-val {
   font-size: 15px; font-weight: 600; color: var(--fq-text-primary);
 }
+#quiz-root .fq-ty-appt-photo {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;
+}
+
+/* Weakest potential hint */
+#quiz-root .fq-ty-potential {
+  font-size: 12px; color: var(--fq-text-secondary); margin-bottom: 14px;
+  padding: 8px 12px; background: rgba(28,185,158,0.07); border-radius: 8px;
+}
+#quiz-root .fq-ty-potential strong { color: var(--fq-accent); font-weight: 600; }
+
+/* Calendar import buttons */
+#quiz-root .fq-ty-cal-wrap { margin: 0 auto 24px; max-width: 360px; }
+#quiz-root .fq-ty-cal-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--fq-text-tertiary); margin-bottom: 10px; text-align: center;
+}
+#quiz-root .fq-ty-cal-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+#quiz-root .fq-ty-cal-btn {
+  display: inline-flex; align-items: center;
+  font-size: 13px; font-weight: 500; font-family: var(--fq-font);
+  color: var(--fq-text-secondary);
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 20px; padding: 7px 16px;
+  cursor: pointer; text-decoration: none;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+#quiz-root .fq-ty-cal-btn:hover {
+  background: rgba(255,255,255,0.9); color: var(--fq-accent);
+  border-color: rgba(28,185,158,0.3);
+}
 
 @media (max-width: 600px) {
   #quiz-root .fq-screen--thankyou { padding: 60px 16px 32px; }
