@@ -2,6 +2,7 @@
   "rewrites": [
     { "source": "/quiz", "destination": "/index.html" },
     { "source": "/funnel-quiz", "destination": "/index.html" },
-    { "source": "/ai-quiz", "destination": "/index.html" }
+    { "source": "/ai-quiz", "destination": "/index.html" },
+    { "source": "/sales-quiz", "destination": "/index.html?type=sales" }
   ]
 }

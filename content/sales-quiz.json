@@ -1,0 +1,286 @@
+{
+  "meta": {
+    "title": "Marketing-Check",
+    "slug": "sales",
+    "source": "sales-quiz",
+    "storageKey": "sq-progress",
+    "mode": "sales",
+    "webhookUrl": "https://DEIN-WEBHOOK-ENDPOINT.com",
+    "bookingUrl": "https://DEIN-CALENDLY-LINK.com"
+  },
+  "landing": {
+    "badge": "Kostenloser Marketing-Check",
+    "headline": "Wie gut performt dein Marketing wirklich?",
+    "subtitle": "9 Fragen. 4 Minuten. Wir besprechen deine Ergebnisse gemeinsam im Gespräch.",
+    "cta": "Jetzt starten →",
+    "socialProof": "Bereits von 200+ Unternehmern genutzt."
+  },
+  "gate": {
+    "statusText": "Analyse abgeschlossen",
+    "headline": "Fast geschafft.",
+    "subtitle": "Trag deine Kontaktdaten ein. Deine Ergebnisse besprechen wir gemeinsam in einem kostenlosen Strategiegespräch.",
+    "submitButton": "Gespräch vereinbaren →",
+    "submitLoadingText": "Wird gespeichert…",
+    "finePrint": "Kein Spam. Keine versteckten Kosten. Nur echte Einblicke."
+  },
+  "thankyou": {
+    "headline": "Danke — wir melden uns!",
+    "subtitle": "Deine Antworten helfen uns, das Gespräch optimal vorzubereiten. Du erhältst in Kürze eine Nachricht mit einem Terminvorschlag.",
+    "ctaText": "Termin direkt buchen →",
+    "finePrint": "Kein Verkaufsdruck. Nur ehrliche Analyse."
+  },
+  "resume": {
+    "title": "Weitermachen?",
+    "subtitle": "Du hast den Check schon angefangen. Möchtest du dort weitermachen, wo du aufgehört hast?",
+    "continueButton": "Weitermachen",
+    "restartButton": "Neu starten"
+  },
+  "milestones": {
+    "m1": {
+      "headline": "Gut gemacht!",
+      "subtitle": "Noch ein paar Fragen zum Abschluss."
+    },
+    "m2": {
+      "headline": "Fast fertig!",
+      "subtitle": "Nur noch wenige Schritte."
+    }
+  },
+  "partLabels": {
+    "part1": "Teil 1: Deine Situation",
+    "part2Prefix": "Teil 2: ",
+    "part3": "Teil 3: Vertiefung",
+    "icpNames": {
+      "coach": "Coach & Berater",
+      "marketer": "Marketing & Agentur",
+      "mittelstand": "KMU & Mittelstand"
+    }
+  },
+  "dimOrder": ["ST", "IN", "KO", "WA"],
+  "dimensions": {
+    "ST": "Strategie",
+    "IN": "Inhalte & Ads",
+    "KO": "Konversion",
+    "WA": "Wachstum & Skalierung"
+  },
+  "segments": {
+    "A": { "label": "Optimierungsbedarf", "threshold": 0.40 },
+    "B": { "label": "Solide Basis", "threshold": 0.70 },
+    "C": { "label": "Starke Performance" }
+  },
+  "icpQuestion": {
+    "id": "icp",
+    "type": "icp-select",
+    "question": "Was beschreibt dich am besten?",
+    "options": [
+      {
+        "text": "Coach / Berater",
+        "desc": "Ich verkaufe Wissen, Beratung oder Dienstleistungen",
+        "value": "coach"
+      },
+      {
+        "text": "Marketing / Agentur",
+        "desc": "Ich manage Marketing für Kunden oder ein Team",
+        "value": "marketer"
+      },
+      {
+        "text": "KMU / Mittelstand",
+        "desc": "Ich führe ein Unternehmen mit physischen Produkten oder Dienstleistungen",
+        "value": "mittelstand"
+      }
+    ]
+  },
+  "generalQuestions": [
+    {
+      "id": "g1",
+      "type": "single",
+      "question": "Wie würdest du deine aktuelle Marketing-Strategie beschreiben?",
+      "options": [
+        { "text": "Wir machen Marketing ad-hoc, ohne klaren Plan", "scores": { "ST": 1, "WA": 1 } },
+        { "text": "Wir haben einen groben Plan, aber er wird selten konsequent umgesetzt", "scores": { "ST": 2, "WA": 2 } },
+        { "text": "Wir haben eine klare Strategie, die regelmäßig überprüft wird", "scores": { "ST": 3, "WA": 3 } },
+        { "text": "Wir haben eine dokumentierte Strategie mit KPIs und Anpassungszyklen", "scores": { "ST": 4, "WA": 4 } }
+      ]
+    },
+    {
+      "id": "g2",
+      "type": "single",
+      "question": "Wie gut kennst du deinen idealen Kunden (ICP)?",
+      "options": [
+        { "text": "Kaum — wir sprechen alle möglichen Zielgruppen an", "scores": { "ST": 1, "IN": 1 } },
+        { "text": "Wir haben eine grobe Vorstellung, aber keine klare Definition", "scores": { "ST": 2, "IN": 2 } },
+        { "text": "Wir haben einen definierten ICP und richten unsere Inhalte danach aus", "scores": { "ST": 3, "IN": 3 } },
+        { "text": "Wir haben mehrere klar definierte ICPs mit spezifischen Messaging-Ansätzen", "scores": { "ST": 4, "IN": 4 } }
+      ]
+    },
+    {
+      "id": "g3",
+      "type": "single",
+      "question": "Wie generierst du aktuell neue Leads?",
+      "options": [
+        { "text": "Hauptsächlich durch Empfehlungen und Mundpropaganda", "scores": { "IN": 1, "WA": 1 } },
+        { "text": "Gelegentlich durch Content oder Werbung, ohne System", "scores": { "IN": 2, "WA": 2 } },
+        { "text": "Durch einen Mix aus Kanälen mit messbaren Ergebnissen", "scores": { "IN": 3, "WA": 3 } },
+        { "text": "Durch einen skalierbaren, datengetriebenen Lead-Generierungsprozess", "scores": { "IN": 4, "WA": 4 } }
+      ]
+    },
+    {
+      "id": "g4",
+      "type": "single",
+      "question": "Wie hoch ist deine typische Lead-zu-Kunde-Konversionsrate?",
+      "options": [
+        { "text": "Ich messe das nicht aktiv", "scores": { "KO": 1, "ST": 1 } },
+        { "text": "Unter 10% — viele Leads kaufen nicht", "scores": { "KO": 2, "ST": 2 } },
+        { "text": "10–30% — solide, aber Luft nach oben", "scores": { "KO": 3, "ST": 3 } },
+        { "text": "Über 30% durch optimierte Prozesse und Nurturing", "scores": { "KO": 4, "ST": 4 } }
+      ]
+    }
+  ],
+  "icpQuestions": {
+    "coach": [
+      {
+        "id": "c1",
+        "type": "single",
+        "question": "Wie vermarktest du dein Angebot aktuell hauptsächlich?",
+        "options": [
+          { "text": "Durch persönliche Netzwerke und Weiterempfehlungen", "scores": { "IN": 1, "WA": 1 } },
+          { "text": "Durch organischen Content (Social Media, Blog)", "scores": { "IN": 2, "WA": 2 } },
+          { "text": "Durch bezahlte Werbung und Content kombiniert", "scores": { "IN": 3, "WA": 3 } },
+          { "text": "Durch einen vollständigen Marketing-Funnel mit Automation", "scores": { "IN": 4, "WA": 4 } }
+        ]
+      },
+      {
+        "id": "c2",
+        "type": "single",
+        "question": "Wie lange dauert es von Erstkontakt bis zur Buchung bei neuen Kunden?",
+        "options": [
+          { "text": "Wochen bis Monate — der Prozess ist unklar", "scores": { "KO": 1, "ST": 1 } },
+          { "text": "1–4 Wochen durch mehrere Follow-ups", "scores": { "KO": 2, "ST": 2 } },
+          { "text": "Unter einer Woche dank klarer Verkaufsprozesse", "scores": { "KO": 3, "ST": 3 } },
+          { "text": "Oft noch am selben Tag durch optimierte Funnels und Automatisierung", "scores": { "KO": 4, "ST": 4 } }
+        ]
+      },
+      {
+        "id": "c3",
+        "type": "single",
+        "question": "Nutzt du bereits KI-Tools in deinem Marketing oder Content-Prozess?",
+        "options": [
+          { "text": "Nein, noch gar nicht", "scores": { "WA": 1, "IN": 1 } },
+          { "text": "Gelegentlich, aber ohne festen Workflow", "scores": { "WA": 2, "IN": 2 } },
+          { "text": "Ja, für bestimmte Aufgaben wie Texte oder Bilder", "scores": { "WA": 3, "IN": 3 } },
+          { "text": "Ja, KI ist fest in meinen Marketing-Workflow integriert", "scores": { "WA": 4, "IN": 4 } }
+        ]
+      },
+      {
+        "id": "c4",
+        "type": "single",
+        "question": "Was ist aktuell deine größte Herausforderung im Marketing?",
+        "options": [
+          { "text": "Konsistent neue Leads generieren", "scores": { "IN": 1, "WA": 1 } },
+          { "text": "Interessenten in zahlende Kunden verwandeln", "scores": { "KO": 1, "ST": 1 } },
+          { "text": "Marketing skalieren ohne mehr Zeit zu investieren", "scores": { "WA": 1, "ST": 1 } },
+          { "text": "Den ROI meiner Marketing-Maßnahmen messen", "scores": { "ST": 1, "KO": 1 } }
+        ]
+      }
+    ],
+    "marketer": [
+      {
+        "id": "m1",
+        "type": "single",
+        "question": "Wie misst du den Erfolg deiner Marketing-Kampagnen?",
+        "options": [
+          { "text": "Hauptsächlich durch Gefühl und Feedback", "scores": { "ST": 1, "KO": 1 } },
+          { "text": "Durch Basis-KPIs wie Klicks und Impressionen", "scores": { "ST": 2, "KO": 2 } },
+          { "text": "Durch ROI und Conversion-Tracking", "scores": { "ST": 3, "KO": 3 } },
+          { "text": "Durch ein vollständiges Attribution-Modell über alle Kanäle", "scores": { "ST": 4, "KO": 4 } }
+        ]
+      },
+      {
+        "id": "m2",
+        "type": "single",
+        "question": "Wie setzt du Automatisierung in deinen Marketing-Prozessen ein?",
+        "options": [
+          { "text": "Kaum — die meisten Prozesse laufen manuell", "scores": { "WA": 1, "IN": 1 } },
+          { "text": "Grundlegende Automatisierungen wie E-Mail-Sequenzen", "scores": { "WA": 2, "IN": 2 } },
+          { "text": "Mehrstufige Workflows mit Segmentierung und Triggers", "scores": { "WA": 3, "IN": 3 } },
+          { "text": "Vollständige Marketing-Automation mit KI-Unterstützung", "scores": { "WA": 4, "IN": 4 } }
+        ]
+      },
+      {
+        "id": "m3",
+        "type": "single",
+        "question": "Wie gut ist dein Content-Prozess skaliert?",
+        "options": [
+          { "text": "Wir erstellen Content ad-hoc, wenn Zeit ist", "scores": { "IN": 1, "WA": 1 } },
+          { "text": "Wir haben einen Redaktionsplan, halten ihn aber nicht immer ein", "scores": { "IN": 2, "WA": 2 } },
+          { "text": "Regelmäßiger Output durch strukturierten Prozess", "scores": { "IN": 3, "WA": 3 } },
+          { "text": "Content-Maschine mit Templates, Batching und KI-Unterstützung", "scores": { "IN": 4, "WA": 4 } }
+        ]
+      },
+      {
+        "id": "m4",
+        "type": "single",
+        "question": "Was ist aktuell deine größte Herausforderung?",
+        "options": [
+          { "text": "Mehr qualifizierte Leads für unsere Kunden generieren", "scores": { "IN": 1, "KO": 1 } },
+          { "text": "Marketing-Budgets effizienter einsetzen", "scores": { "ST": 1, "WA": 1 } },
+          { "text": "Ergebnisse besser messen und kommunizieren", "scores": { "ST": 1, "KO": 1 } },
+          { "text": "Neue Kanäle und Technologien schneller adaptieren", "scores": { "WA": 1, "IN": 1 } }
+        ]
+      }
+    ],
+    "mittelstand": [
+      {
+        "id": "ms1",
+        "type": "single",
+        "question": "Wie generiert dein Unternehmen aktuell Neukunden?",
+        "options": [
+          { "text": "Fast ausschließlich durch Bestandskunden und Empfehlungen", "scores": { "IN": 1, "WA": 1 } },
+          { "text": "Durch Messen, Events und klassische Werbung", "scores": { "IN": 2, "WA": 2 } },
+          { "text": "Durch einen Mix aus Online und Offline-Kanälen", "scores": { "IN": 3, "WA": 3 } },
+          { "text": "Durch einen systematischen digitalen Marketing-Funnel", "scores": { "IN": 4, "WA": 4 } }
+        ]
+      },
+      {
+        "id": "ms2",
+        "type": "single",
+        "question": "Wie stark ist Marketing in deinem Unternehmen digitalisiert?",
+        "options": [
+          { "text": "Kaum — wir nutzen kaum digitale Tools", "scores": { "WA": 1, "ST": 1 } },
+          { "text": "Basis-Tools wie Website und gelegentlich Social Media", "scores": { "WA": 2, "ST": 2 } },
+          { "text": "Mehrere digitale Kanäle mit messbaren Ergebnissen", "scores": { "WA": 3, "ST": 3 } },
+          { "text": "Vollständig digitalisierter Marketing-Stack mit Analytics", "scores": { "WA": 4, "ST": 4 } }
+        ]
+      },
+      {
+        "id": "ms3",
+        "type": "single",
+        "question": "Wie gut ist dein Vertrieb und Marketing aufeinander abgestimmt?",
+        "options": [
+          { "text": "Kaum Abstimmung — beide arbeiten unabhängig", "scores": { "KO": 1, "ST": 1 } },
+          { "text": "Grundlegende Abstimmung, aber kein strukturierter Prozess", "scores": { "KO": 2, "ST": 2 } },
+          { "text": "Regelmäßige Abstimmung mit gemeinsamen Zielen", "scores": { "KO": 3, "ST": 3 } },
+          { "text": "Vollständige Alignment mit geteiltem CRM und Lead-Scoring", "scores": { "KO": 4, "ST": 4 } }
+        ]
+      },
+      {
+        "id": "ms4",
+        "type": "single",
+        "question": "Was ist aktuell deine größte Marketing-Herausforderung?",
+        "options": [
+          { "text": "Jüngere Zielgruppen online erreichen", "scores": { "IN": 1, "WA": 1 } },
+          { "text": "Marketing-Maßnahmen mit echtem ROI verknüpfen", "scores": { "ST": 1, "KO": 1 } },
+          { "text": "Interne Ressourcen für Marketing freiräumen", "scores": { "WA": 1, "ST": 1 } },
+          { "text": "Digitale Wettbewerber aufholen oder überholen", "scores": { "WA": 1, "IN": 1 } }
+        ]
+      }
+    ]
+  },
+  "leverDetails": {},
+  "icpLeverTips": {},
+  "icpNextLevel": {},
+  "resultContent": {},
+  "icpStats": {},
+  "ctaCard": {},
+  "shareText": "",
+  "waDebugIntro": ""
+}

@@ -842,3 +842,19 @@ body { background: #FBFAF2; margin: 0; }
     transition: none !important;
   }
 }
+
+/* =============================================
+   THANKYOU SCREEN (sales mode)
+   ============================================= */
+#quiz-root .fq-screen--thankyou { padding: 100px 20px 48px; }
+#quiz-root .fq-thankyou-inner { max-width: 480px; margin: 0 auto; text-align: center; }
+#quiz-root .fq-thankyou-icon {
+  width: 64px; height: 64px; border-radius: 50%; background: var(--fq-btn-gradient);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;
+}
+#quiz-root .fq-thankyou-h2 { font-size: 36px; font-weight: 500; color: var(--fq-text-primary); letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 16px; }
+#quiz-root .fq-thankyou-sub { font-size: 18px; color: var(--fq-text-secondary); line-height: 1.6; margin-bottom: 40px; }
+@media (max-width: 600px) {
+  #quiz-root .fq-screen--thankyou { padding: 60px 16px 32px; }
+  #quiz-root .fq-thankyou-h2 { font-size: 28px; }
+}

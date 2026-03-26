@@ -152,6 +152,13 @@ function normalizeQuizData(d) {
   meta.storageKey = meta.storageKey || 'fq-progress';
   meta.slug = meta.slug || QUIZ_TYPE;
   meta.source = meta.source || '';
+  meta.mode = meta.mode || '';
+
+  var thankyou = d.thankyou || {};
+  thankyou.headline = thankyou.headline || 'Danke für deine Antworten!';
+  thankyou.subtitle = thankyou.subtitle || 'Wir melden uns in Kürze bei dir.';
+  thankyou.ctaText = thankyou.ctaText || '';
+  thankyou.finePrint = thankyou.finePrint || '';
 
   // Share text & WA debug
   d.shareText = d.shareText || 'Ich habe gerade mein Ergebnis bekommen: {score}/{max} ({segment}). Probier es auch: {url}';
@@ -176,6 +183,7 @@ function normalizeQuizData(d) {
     resultContent: d.resultContent || {},
     icpStats: d.icpStats || {},
     ctaCard: ctaCard,
+    thankyou: thankyou,
     shareText: d.shareText,
     waDebugIntro: d.waDebugIntro
   };
@@ -441,6 +449,15 @@ function initQuiz(quizData) {
     resultInner.id = 'fq-result-inner';
     resultScreen.appendChild(resultInner);
     root.appendChild(resultScreen);
+
+    // -- Thankyou screen (sales mode) --
+    var thankyouScreen = document.createElement('div');
+    thankyouScreen.className = 'fq-screen fq-screen--thankyou';
+    var thankyouInner = document.createElement('div');
+    thankyouInner.className = 'fq-thankyou-inner';
+    thankyouInner.id = 'fq-thankyou-inner';
+    thankyouScreen.appendChild(thankyouInner);
+    root.appendChild(thankyouScreen);
 
     // -- Milestone 1 --
     var ms1 = document.createElement('div');
@@ -1746,6 +1763,53 @@ function initQuiz(quizData) {
   }
 
   // ============================================
+  // 3p-2. THANK-YOU SCREEN (sales mode)
+  // ============================================
+  function renderThankyou() {
+    var ty = quizData.thankyou || {};
+    var inner = document.getElementById('fq-thankyou-inner');
+    if (!inner) return;
+    while (inner.firstChild) inner.removeChild(inner.firstChild);
+
+    var iconWrap = document.createElement('div');
+    iconWrap.className = 'fq-thankyou-icon fq-stagger-item';
+    iconWrap.innerHTML = '<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M4 16L12 24L28 8" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    inner.appendChild(iconWrap);
+
+    var h2 = document.createElement('h2');
+    h2.className = 'fq-thankyou-h2 fq-stagger-item';
+    h2.textContent = ty.headline;
+    inner.appendChild(h2);
+
+    var sub = document.createElement('p');
+    sub.className = 'fq-thankyou-sub fq-stagger-item';
+    sub.textContent = ty.subtitle;
+    inner.appendChild(sub);
+
+    if (quizData.meta.bookingUrl && ty.ctaText) {
+      var ctaBtn = document.createElement('a');
+      ctaBtn.className = 'fq-btn-cta fq-stagger-item';
+      ctaBtn.href = quizData.meta.bookingUrl;
+      ctaBtn.target = '_blank';
+      ctaBtn.rel = 'noopener';
+      ctaBtn.textContent = ty.ctaText;
+      inner.appendChild(ctaBtn);
+    }
+
+    if (ty.finePrint) {
+      var fine = document.createElement('p');
+      fine.className = 'fq-fine-print fq-stagger-item';
+      fine.textContent = ty.finePrint;
+      inner.appendChild(fine);
+    }
+
+    var staggerItems = inner.querySelectorAll('.fq-stagger-item');
+    staggerItems.forEach(function(el, i) {
+      setTimeout(function() { el.classList.add('fq-entered'); }, 120 * i + 350);
+    });
+  }
+
+  // ============================================
   // 3q. BOOT — build DOM, populate, wire events
   // ============================================
   buildHTML();
@@ -1791,7 +1855,11 @@ function initQuiz(quizData) {
       }
     } else {
       quizResults = calculateResults(userAnswers);
-      showGateWithPreview();
+      if (quizData.meta.mode === 'sales') {
+        showScreen('gate');
+      } else {
+        showGateWithPreview();
+      }
     }
   });
 
@@ -1822,8 +1890,13 @@ function initQuiz(quizData) {
     sendWebhook({ firstName: nameEl.value.trim(), lastName: lastnameEl.value.trim(), email: emailEl.value.trim(), phone: phoneEl.value.trim() });
     var previewEl = document.querySelector('.fq-gate-preview');
     if (previewEl) previewEl.remove();
-    renderResult(quizResults);
-    showScreen('result');
+    if (quizData.meta.mode === 'sales') {
+      renderThankyou();
+      showScreen('thankyou');
+    } else {
+      renderResult(quizResults);
+      showScreen('result');
+    }
     clearProgress();
   });
 
