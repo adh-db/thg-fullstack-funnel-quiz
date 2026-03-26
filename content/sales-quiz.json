@@ -46,9 +46,9 @@
     }
   },
   "partLabels": {
-    "part1": "Teil 1: Deine Situation",
-    "part2Prefix": "Teil 2: ",
-    "part3": "Teil 3: Vertiefung",
+    "part1": "Teil 1 von 2: Deine Situation",
+    "part2Prefix": "Teil 2 von 2: ",
+    "part3": "Teil 2 von 2: Vertiefung",
     "icpNames": {
       "coach": "Coach & Berater",
       "marketer": "Marketing & Agentur",

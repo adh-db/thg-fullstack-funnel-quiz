@@ -219,6 +219,7 @@ function initQuiz(quizData) {
 
     var landingBadge = document.createElement('div');
     landingBadge.className = 'fq-badge fq-stagger-item';
+    if (quizData.meta.mode === 'sales') { landingBadge.classList.add('fq-badge--live'); }
     landingBadge.id = 'fq-landing-badge';
     landingInner.appendChild(landingBadge);
 
@@ -1771,21 +1772,86 @@ function initQuiz(quizData) {
     if (!inner) return;
     while (inner.firstChild) inner.removeChild(inner.firstChild);
 
+    // Check icon
     var iconWrap = document.createElement('div');
     iconWrap.className = 'fq-thankyou-icon fq-stagger-item';
     iconWrap.innerHTML = '<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M4 16L12 24L28 8" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     inner.appendChild(iconWrap);
 
+    // Headline
     var h2 = document.createElement('h2');
     h2.className = 'fq-thankyou-h2 fq-stagger-item';
     h2.textContent = ty.headline;
     inner.appendChild(h2);
 
+    // Blurred results preview card — shows segment + dim bars with blurred scores
+    if (quizResults) {
+      var previewCard = document.createElement('div');
+      previewCard.className = 'fq-ty-preview fq-stagger-item';
+
+      var previewHdr = document.createElement('div');
+      previewHdr.className = 'fq-ty-preview-header';
+      previewHdr.textContent = 'Vorschau deiner Analyse';
+      previewCard.appendChild(previewHdr);
+
+      // Segment row — label revealed to create curiosity
+      var segRow = document.createElement('div');
+      segRow.className = 'fq-ty-segment-row';
+      var segKey = document.createElement('span');
+      segKey.className = 'fq-ty-seg-key';
+      segKey.textContent = 'Ergebnis:';
+      var segVal = document.createElement('span');
+      segVal.className = 'fq-ty-seg-val';
+      segVal.textContent = quizResults.segmentLabel;
+      segRow.appendChild(segKey);
+      segRow.appendChild(segVal);
+      previewCard.appendChild(segRow);
+
+      // Dimension bars — labels visible, scores blurred
+      var dimsWrap = document.createElement('div');
+      dimsWrap.className = 'fq-ty-dims';
+      var dimMap = {};
+      (quizResults.dimPercentages || []).forEach(function(d) { dimMap[d.key] = d; });
+      (quizData.dimOrder || []).forEach(function(key) {
+        var dim = dimMap[key];
+        if (!dim) return;
+        var row = document.createElement('div');
+        row.className = 'fq-ty-dim-row';
+        var lbl = document.createElement('span');
+        lbl.className = 'fq-ty-dim-label';
+        lbl.textContent = dim.label;
+        row.appendChild(lbl);
+        var barWrap = document.createElement('div');
+        barWrap.className = 'fq-ty-dim-bar-wrap';
+        var barFill = document.createElement('div');
+        barFill.className = 'fq-ty-dim-bar-fill';
+        barFill.style.width = Math.round(dim.percentage * 100) + '%';
+        barWrap.appendChild(barFill);
+        row.appendChild(barWrap);
+        var pct = document.createElement('span');
+        pct.className = 'fq-ty-dim-pct fq-ty-blurred';
+        pct.textContent = Math.round(dim.percentage * 100) + '%';
+        row.appendChild(pct);
+        dimsWrap.appendChild(row);
+      });
+      previewCard.appendChild(dimsWrap);
+
+      // Locked footer
+      var previewFtr = document.createElement('div');
+      previewFtr.className = 'fq-ty-preview-footer';
+      previewFtr.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-2px;margin-right:5px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Vollst\u00e4ndige Auswertung im Gespr\u00e4ch';
+      previewCard.appendChild(previewFtr);
+
+      inner.appendChild(previewCard);
+    }
+
+    // Subtitle
     var sub = document.createElement('p');
     sub.className = 'fq-thankyou-sub fq-stagger-item';
     sub.textContent = ty.subtitle;
     inner.appendChild(sub);
 
+    // CTA button
     if (quizData.meta.bookingUrl && ty.ctaText) {
       var ctaBtn = document.createElement('a');
       ctaBtn.className = 'fq-btn-cta fq-stagger-item';
@@ -1796,6 +1862,7 @@ function initQuiz(quizData) {
       inner.appendChild(ctaBtn);
     }
 
+    // Fine print
     if (ty.finePrint) {
       var fine = document.createElement('p');
       fine.className = 'fq-fine-print fq-stagger-item';
@@ -1855,11 +1922,7 @@ function initQuiz(quizData) {
       }
     } else {
       quizResults = calculateResults(userAnswers);
-      if (quizData.meta.mode === 'sales') {
-        showScreen('gate');
-      } else {
-        showGateWithPreview();
-      }
+      showGateWithPreview();
     }
   });
 
