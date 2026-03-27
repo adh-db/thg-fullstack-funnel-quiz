@@ -775,23 +775,35 @@ function initQuiz(quizData) {
       }
     }
     var totalInterim = Object.values(interimScores).reduce(function(a, b) { return a + b; }, 0);
-    var stats = quizData.meta.mode === 'sales'
-      ? [
-          { value: Math.round(answeredCount / TOTAL_QUESTIONS * 100) + '%', label: 'bereits geschafft' },
-          { value: TOTAL_QUESTIONS - answeredCount, label: 'Fragen noch' }
-        ]
-      : [
-          { value: answeredCount, label: 'Fragen' },
-          { value: totalInterim, label: 'Punkte' }
-        ];
-    stats.forEach(function(s, idx) {
-      var card = document.createElement('div'); card.className = 'fq-milestone-stat';
-      var val = document.createElement('div'); val.className = 'fq-milestone-stat-value'; val.textContent = s.value;
-      var label = document.createElement('div'); label.className = 'fq-milestone-stat-label'; label.textContent = s.label;
-      card.appendChild(val); card.appendChild(label);
-      statsContainer.appendChild(card);
-      setTimeout(function() { card.classList.add('fq-visible'); }, 300 + idx * 150);
-    });
+    if (quizData.meta.mode === 'sales') {
+      var pct = Math.round(answeredCount / TOTAL_QUESTIONS * 100);
+      var remaining = TOTAL_QUESTIONS - answeredCount;
+      var bigNum = document.createElement('div'); bigNum.className = 'fq-ms-big-num'; bigNum.textContent = pct + '%';
+      var bigLbl = document.createElement('div'); bigLbl.className = 'fq-ms-big-label'; bigLbl.textContent = 'bereits geschafft';
+      var barWrap = document.createElement('div'); barWrap.className = 'fq-ms-progress-wrap';
+      var barFill = document.createElement('div'); barFill.className = 'fq-ms-progress-fill'; barFill.style.width = '0%';
+      barWrap.appendChild(barFill);
+      var remNote = document.createElement('div'); remNote.className = 'fq-ms-remaining';
+      remNote.textContent = 'Noch ' + remaining + (remaining === 1 ? ' Frage' : ' Fragen') + ' bis zum Abschluss.';
+      statsContainer.appendChild(bigNum);
+      statsContainer.appendChild(bigLbl);
+      statsContainer.appendChild(barWrap);
+      statsContainer.appendChild(remNote);
+      setTimeout(function() { barFill.style.width = pct + '%'; }, 400);
+    } else {
+      var stats = [
+        { value: answeredCount, label: 'Fragen' },
+        { value: totalInterim, label: 'Punkte' }
+      ];
+      stats.forEach(function(s, idx) {
+        var card = document.createElement('div'); card.className = 'fq-milestone-stat';
+        var val = document.createElement('div'); val.className = 'fq-milestone-stat-value'; val.textContent = s.value;
+        var label = document.createElement('div'); label.className = 'fq-milestone-stat-label'; label.textContent = s.label;
+        card.appendChild(val); card.appendChild(label);
+        statsContainer.appendChild(card);
+        setTimeout(function() { card.classList.add('fq-visible'); }, 300 + idx * 150);
+      });
+    }
 
     el.classList.add('fq-visible');
     playSuccess();
@@ -1914,7 +1926,8 @@ function initQuiz(quizData) {
         var potLabel = document.createElement('span');
         potLabel.className = 'fq-ty-potential-label';
         potLabel.textContent = 'Gr\u00f6\u00dftes Potenzial: ';
-        var potDim = document.createElement('strong');
+        var potDim = document.createElement('span');
+        potDim.className = 'fq-ty-blurred';
         potDim.textContent = quizResults.weakest.label;
         potRow.appendChild(potLabel);
         potRow.appendChild(potDim);
@@ -1992,18 +2005,14 @@ function initQuiz(quizData) {
       timeRow.appendChild(timeLabel);
       apptCard.appendChild(timeRow);
 
-      inner.appendChild(apptCard);
-
-      // Calendar import buttons (shown if ?datetime= is present)
+      // Calendar import buttons inside card (shown if ?datetime= is present)
       if (DATETIME_PARAM) {
-        var calWrap = document.createElement('div');
-        calWrap.className = 'fq-ty-cal-wrap fq-stagger-item';
-        var calLbl = document.createElement('div');
-        calLbl.className = 'fq-ty-cal-label';
-        calLbl.textContent = 'Zum Kalender hinzuf\u00fcgen:';
-        calWrap.appendChild(calLbl);
+        var calDivider = document.createElement('div');
+        calDivider.className = 'fq-ty-appt-divider';
+        apptCard.appendChild(calDivider);
+
         var calRow = document.createElement('div');
-        calRow.className = 'fq-ty-cal-row';
+        calRow.className = 'fq-ty-cal-row fq-ty-cal-row--incard';
 
         // Helper: format ISO to compact (20250429T100000)
         function fmtCal(iso) { return iso.replace(/-/g,'').replace(/:/g,'') + '00'; }
@@ -2023,7 +2032,7 @@ function initQuiz(quizData) {
         var gcalBtn = document.createElement('a');
         gcalBtn.className = 'fq-ty-cal-btn';
         gcalBtn.href = gcalUrl; gcalBtn.target = '_blank'; gcalBtn.rel = 'noopener';
-        gcalBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px;vertical-align:-2px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" opacity="0"/><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>Google';
+        gcalBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px;vertical-align:-2px;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>Google';
         calRow.appendChild(gcalBtn);
 
         // Outlook
@@ -2055,15 +2064,15 @@ function initQuiz(quizData) {
           URL.revokeObjectURL(url);
         });
         calRow.appendChild(icsBtn);
-
-        calWrap.appendChild(calRow);
-        inner.appendChild(calWrap);
+        apptCard.appendChild(calRow);
       }
+
+      inner.appendChild(apptCard);
     }
 
-    // Subtitle
+    // Subtitle — compact note style
     var sub = document.createElement('p');
-    sub.className = 'fq-thankyou-sub fq-stagger-item';
+    sub.className = 'fq-thankyou-sub fq-ty-note fq-stagger-item';
     sub.textContent = ty.subtitle;
     inner.appendChild(sub);
 
@@ -2102,7 +2111,7 @@ function initQuiz(quizData) {
   populateText();
   buildQuestions();
 
-  // Sales mode: add mode class + pre-fill form from URL params
+  // Sales mode: add mode class + pre-fill form + personalize headline
   if (quizData.meta.mode === 'sales') {
     var _root = document.getElementById('quiz-root');
     if (_root) _root.classList.add('fq-mode-sales');
@@ -2115,6 +2124,12 @@ function initQuiz(quizData) {
           if (el) el.value = val;
         }
       });
+      // Personalize landing headline with first name
+      var _firstName = _params.get('name');
+      if (_firstName) {
+        var _h1 = document.getElementById('fq-landing-h1');
+        if (_h1) _h1.textContent = _firstName + ', wie gut performt dein Marketing wirklich?';
+      }
     })();
   }
 
