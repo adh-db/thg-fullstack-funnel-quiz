@@ -2176,6 +2176,15 @@ function initQuiz(quizData) {
     }
   });
 
+  // Enter key → trigger next button (all quizzes)
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Enter') return;
+    var quizScreen = document.querySelector('#quiz-root .fq-screen--quiz.fq-active');
+    if (!quizScreen) return;
+    var nBtn = document.getElementById('fq-next-btn');
+    if (nBtn && !nBtn.disabled) nBtn.click();
+  });
+
   // Back button
   document.getElementById('fq-back-btn').addEventListener('click', function() {
     if (currentQuestion > 0) { currentQuestion--; renderQuestion(currentQuestion, 'backward'); saveProgress(); }
