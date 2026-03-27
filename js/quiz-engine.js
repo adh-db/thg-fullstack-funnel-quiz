@@ -2083,15 +2083,40 @@ function initQuiz(quizData) {
         apptCard.appendChild(calRow);
       }
 
-      inner.appendChild(apptCard);
-    }
+      // ── Footer section inside card: subtitle + fine print ──
+      if (ty.subtitle || ty.finePrint) {
+        var cardFooter = document.createElement('div');
+        cardFooter.className = 'fq-ty-appt-footer';
+        if (ty.subtitle) {
+          var footSub = document.createElement('p');
+          footSub.className = 'fq-ty-appt-footer-text';
+          footSub.textContent = ty.subtitle;
+          cardFooter.appendChild(footSub);
+        }
+        if (ty.finePrint) {
+          var footFine = document.createElement('p');
+          footFine.className = 'fq-ty-appt-footer-fine';
+          footFine.textContent = ty.finePrint;
+          cardFooter.appendChild(footFine);
+        }
+        apptCard.appendChild(cardFooter);
+      }
 
-    // Subtitle — compact note
-    if (ty.subtitle) {
-      var sub = document.createElement('p');
-      sub.className = 'fq-ty-note fq-stagger-item';
-      sub.textContent = ty.subtitle;
-      inner.appendChild(sub);
+      inner.appendChild(apptCard);
+    } else {
+      // Fallback when no appointment param — show subtitle + fine print standalone
+      if (ty.subtitle) {
+        var sub = document.createElement('p');
+        sub.className = 'fq-ty-note fq-stagger-item';
+        sub.textContent = ty.subtitle;
+        inner.appendChild(sub);
+      }
+      if (ty.finePrint) {
+        var fine = document.createElement('p');
+        fine.className = 'fq-fine-print fq-stagger-item';
+        fine.textContent = ty.finePrint;
+        inner.appendChild(fine);
+      }
     }
 
     // CTA button
@@ -2103,14 +2128,6 @@ function initQuiz(quizData) {
       ctaBtn.rel = 'noopener';
       ctaBtn.textContent = ty.ctaText;
       inner.appendChild(ctaBtn);
-    }
-
-    // Fine print
-    if (ty.finePrint) {
-      var fine = document.createElement('p');
-      fine.className = 'fq-fine-print fq-stagger-item';
-      fine.textContent = ty.finePrint;
-      inner.appendChild(fine);
     }
 
     var staggerItems = inner.querySelectorAll('.fq-stagger-item');
