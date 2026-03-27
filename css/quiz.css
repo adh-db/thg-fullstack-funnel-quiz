@@ -947,21 +947,31 @@ body { background: #FBFAF2; margin: 0; }
 
 /* Appointment card */
 #quiz-root .fq-ty-appt-card {
-  background: rgba(255,255,255,0.75);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.5);
-  border-radius: var(--fq-radius-lg); padding: 20px 24px;
-  margin: 0 auto 28px; max-width: 360px; text-align: left;
-  box-shadow: 0 8px 24px -8px rgba(25,63,59,0.1);
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: var(--fq-radius-lg); padding: 0;
+  margin: 0 auto 24px; max-width: 380px; text-align: left;
+  box-shadow: 0 8px 32px -8px rgba(25,63,59,0.1), 0 1px 3px rgba(25,63,59,0.04);
+  overflow: hidden;
 }
+/* Date strip at top */
+#quiz-root .fq-ty-appt-date-strip {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 24px;
+  background: rgba(25,63,59,0.04);
+  color: var(--fq-accent); font-size: 14px; font-weight: 600;
+}
+#quiz-root .fq-ty-appt-date-val { letter-spacing: -0.01em; }
+/* Host */
 #quiz-root .fq-ty-appt-host {
-  display: flex; align-items: center; gap: 14px; margin-bottom: 0;
+  display: flex; align-items: center; gap: 14px; padding: 18px 24px 0;
 }
 #quiz-root .fq-ty-appt-avatar {
-  width: 48px; height: 48px; border-radius: 50%;
+  width: 44px; height: 44px; border-radius: 50%;
   background: linear-gradient(135deg, #193F3B, #1CB99E);
   display: flex; align-items: center; justify-content: center;
-  font-size: 16px; font-weight: 700; color: #fff; flex-shrink: 0;
+  font-size: 15px; font-weight: 700; color: #fff; flex-shrink: 0;
   font-family: var(--fq-font);
 }
 #quiz-root .fq-ty-appt-host-info { flex: 1; min-width: 0; }
@@ -972,23 +982,32 @@ body { background: #FBFAF2; margin: 0; }
   font-size: 12px; color: var(--fq-text-secondary); margin-top: 2px;
 }
 #quiz-root .fq-ty-appt-divider {
-  height: 1px; background: rgba(25,63,59,0.08); margin: 14px 0;
-}
-#quiz-root .fq-ty-appt-time {
-  display: flex; align-items: flex-start; gap: 10px;
-}
-#quiz-root .fq-ty-appt-cal-icon {
-  color: var(--fq-accent); flex-shrink: 0; margin-top: 2px;
-}
-#quiz-root .fq-ty-appt-time-heading {
-  font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--fq-text-tertiary); margin-bottom: 3px;
-}
-#quiz-root .fq-ty-appt-time-val {
-  font-size: 15px; font-weight: 600; color: var(--fq-text-primary);
+  height: 1px; background: rgba(25,63,59,0.07); margin: 0 24px;
 }
 #quiz-root .fq-ty-appt-photo {
   width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;
+}
+/* Checklist */
+#quiz-root .fq-ty-appt-check-heading {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--fq-text-tertiary); padding: 16px 24px 8px;
+}
+#quiz-root .fq-ty-appt-checks {
+  list-style: none; margin: 0; padding: 0 24px 4px;
+}
+#quiz-root .fq-ty-appt-check-item {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; color: var(--fq-text-secondary); line-height: 1.3;
+  padding: 6px 0;
+  opacity: 0; transform: translateX(-6px);
+  transition: opacity 350ms ease, transform 350ms ease;
+}
+#quiz-root .fq-ty-appt-check-item.fq-entered { opacity: 1; transform: translateX(0); }
+#quiz-root .fq-ty-appt-check-item svg { flex-shrink: 0; }
+/* Calendar section inside card */
+#quiz-root .fq-ty-appt-cal-heading {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--fq-text-tertiary); padding: 14px 24px 8px; text-align: center;
 }
 
 /* Weakest potential hint */
@@ -1022,7 +1041,7 @@ body { background: #FBFAF2; margin: 0; }
   border-color: rgba(28,185,158,0.3);
 }
 /* Calendar buttons inside appointment card */
-#quiz-root .fq-ty-cal-row--incard { margin-top: 0; padding-top: 0; }
+#quiz-root .fq-ty-cal-row--incard { margin-top: 0; padding: 0 24px 18px; }
 /* Subtitle as compact note */
 #quiz-root .fq-ty-note {
   font-size: 13px; line-height: 1.55; color: var(--fq-text-secondary);

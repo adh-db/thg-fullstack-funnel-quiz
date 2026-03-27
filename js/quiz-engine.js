@@ -1948,12 +1948,21 @@ function initQuiz(quizData) {
       var apptCard = document.createElement('div');
       apptCard.className = 'fq-ty-appt-card fq-stagger-item';
 
-      // Host section (show if ?host= is present, else show placeholder)
+      // ── Date strip at top ──
+      var dateStrip = document.createElement('div');
+      dateStrip.className = 'fq-ty-appt-date-strip';
+      dateStrip.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+      var dateVal = document.createElement('span');
+      dateVal.className = 'fq-ty-appt-date-val';
+      dateVal.textContent = APPOINTMENT_PARAM;
+      dateStrip.appendChild(dateVal);
+      apptCard.appendChild(dateStrip);
+
+      // ── Host row ──
       var hostName = HOST_PARAM || 'Dein Berater';
       var hostRole = ROLE_PARAM || 'Marketing-Strategie';
       var hostSection = document.createElement('div');
       hostSection.className = 'fq-ty-appt-host';
-      // Avatar — photo if ?photo= present, else initials
       var initials = hostName.split(' ').filter(function(w) { return w.length > 0; }).map(function(w) { return w[0].toUpperCase(); }).slice(0, 2).join('');
       var avatar = document.createElement('div');
       avatar.className = 'fq-ty-appt-avatar';
@@ -1980,41 +1989,51 @@ function initQuiz(quizData) {
       hostSection.appendChild(hostInfo);
       apptCard.appendChild(hostSection);
 
-      // Divider
-      var apptDivider = document.createElement('div');
-      apptDivider.className = 'fq-ty-appt-divider';
-      apptCard.appendChild(apptDivider);
+      // ── Divider ──
+      var div1 = document.createElement('div');
+      div1.className = 'fq-ty-appt-divider';
+      apptCard.appendChild(div1);
 
-      // Time row
-      var timeRow = document.createElement('div');
-      timeRow.className = 'fq-ty-appt-time';
-      var calIcon = document.createElement('span');
-      calIcon.className = 'fq-ty-appt-cal-icon';
-      calIcon.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
-      timeRow.appendChild(calIcon);
-      var timeLabel = document.createElement('div');
-      timeLabel.className = 'fq-ty-appt-time-label';
-      var timeLabelTop = document.createElement('div');
-      timeLabelTop.className = 'fq-ty-appt-time-heading';
-      timeLabelTop.textContent = 'Dein Termin';
-      var timeLabelVal = document.createElement('div');
-      timeLabelVal.className = 'fq-ty-appt-time-val';
-      timeLabelVal.textContent = APPOINTMENT_PARAM;
-      timeLabel.appendChild(timeLabelTop);
-      timeLabel.appendChild(timeLabelVal);
-      timeRow.appendChild(timeLabel);
-      apptCard.appendChild(timeRow);
+      // ── Checklist: what we'll cover ──
+      var checkHeading = document.createElement('div');
+      checkHeading.className = 'fq-ty-appt-check-heading';
+      checkHeading.textContent = 'Das erwartet dich';
+      apptCard.appendChild(checkHeading);
+      var checkItems = [
+        'Deine Ergebnisse im Detail besprochen',
+        'Individuelle Strategie-Empfehlungen',
+        'Konkrete n\u00e4chste Schritte',
+        'Raum f\u00fcr deine Fragen'
+      ];
+      var checkList = document.createElement('ul');
+      checkList.className = 'fq-ty-appt-checks';
+      checkItems.forEach(function(txt, idx) {
+        var li = document.createElement('li');
+        li.className = 'fq-ty-appt-check-item';
+        li.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1CB99E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+        var span = document.createElement('span');
+        span.textContent = txt;
+        li.appendChild(span);
+        checkList.appendChild(li);
+        // stagger animate
+        setTimeout(function() { li.classList.add('fq-entered'); }, 1400 + idx * 120);
+      });
+      apptCard.appendChild(checkList);
 
-      // Calendar import buttons inside card (shown if ?datetime= is present)
+      // ── Calendar import (if ?datetime= present) ──
       if (DATETIME_PARAM) {
-        var calDivider = document.createElement('div');
-        calDivider.className = 'fq-ty-appt-divider';
-        apptCard.appendChild(calDivider);
+        var div2 = document.createElement('div');
+        div2.className = 'fq-ty-appt-divider';
+        apptCard.appendChild(div2);
+
+        var calLabel = document.createElement('div');
+        calLabel.className = 'fq-ty-appt-cal-heading';
+        calLabel.textContent = 'Zum Kalender hinzuf\u00fcgen';
+        apptCard.appendChild(calLabel);
 
         var calRow = document.createElement('div');
         calRow.className = 'fq-ty-cal-row fq-ty-cal-row--incard';
 
-        // Helper: format ISO to compact (20250429T100000)
         function fmtCal(iso) { return iso.replace(/-/g,'').replace(/:/g,'') + '00'; }
         var startFmt = fmtCal(DATETIME_PARAM);
         var endDate = new Date(DATETIME_PARAM);
@@ -2024,7 +2043,6 @@ function initQuiz(quizData) {
         var titleCal = TITLE_PARAM + (hostNameCal ? ' mit ' + hostNameCal : '');
         var descCal = 'Vorbereitung Marketing-Analyse';
 
-        // Google Calendar
         var gcalUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
           '&text=' + encodeURIComponent(titleCal) +
           '&dates=' + startFmt + '/' + endFmt +
@@ -2035,7 +2053,6 @@ function initQuiz(quizData) {
         gcalBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px;vertical-align:-2px;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>Google';
         calRow.appendChild(gcalBtn);
 
-        // Outlook
         var outlookUrl = 'https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent' +
           '&subject=' + encodeURIComponent(titleCal) +
           '&startdt=' + encodeURIComponent(DATETIME_PARAM + ':00') +
@@ -2047,7 +2064,6 @@ function initQuiz(quizData) {
         outlookBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px;vertical-align:-2px;"><path d="M19.5 4h-15A1.5 1.5 0 003 5.5v13A1.5 1.5 0 004.5 20h15a1.5 1.5 0 001.5-1.5v-13A1.5 1.5 0 0019.5 4zM4.5 5.5h15V8H4.5V5.5zM4.5 18.5V9.5h15v9H4.5z"/></svg>Outlook';
         calRow.appendChild(outlookBtn);
 
-        // iCal download
         var icsBtn = document.createElement('button');
         icsBtn.className = 'fq-ty-cal-btn';
         icsBtn.type = 'button';
@@ -2070,11 +2086,13 @@ function initQuiz(quizData) {
       inner.appendChild(apptCard);
     }
 
-    // Subtitle — compact note style
-    var sub = document.createElement('p');
-    sub.className = 'fq-thankyou-sub fq-ty-note fq-stagger-item';
-    sub.textContent = ty.subtitle;
-    inner.appendChild(sub);
+    // Subtitle — compact note
+    if (ty.subtitle) {
+      var sub = document.createElement('p');
+      sub.className = 'fq-ty-note fq-stagger-item';
+      sub.textContent = ty.subtitle;
+      inner.appendChild(sub);
+    }
 
     // CTA button
     if (quizData.meta.bookingUrl && ty.ctaText) {
